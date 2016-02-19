@@ -1,0 +1,17 @@
+#toc { position: fixed; top:4px; right:6px; font-size:80%; line-height:125%; z-index:1;
+  max-height:90%; overflow-y: auto; overflow-x: hidden; word-wrap: break-word; padding: 2px 6px; background: rgba(242, 242, 242, 0.92); 
+ -moz-box-shadow: 0px 0px 6px #222; -webkit-box-shadow: 0px 0px 6px #222; -ms-box-shadow: 0px 0px 6px #222;-o-box-shadow: 0px 0px 6px #222; box-shadow: 0px 0px 6px #222; 
+}
+#toc:after { content: "Table of Contents"; display: block;  }
+#toc a { display: none; padding: 0px; text-decoration: none; padding: 3px 0; }
+#toc a.H1 { padding-left: 0; text-decoration: underline; }
+#toc a.H2 { padding-left: 0; }
+#toc a.H3 { padding-left: 0.5em; }
+#toc a.H4 { padding-left: 1em; }
+#toc a.H5 { padding-left: 1.5em; }
+#toc a.H6 { padding-left: 2em; }
+#toc:focus:after, #toc:hover:after { content: ""; }
+#toc:focus > a, #toc:hover > a { display: block; }
+@media print {
+	#toc { display:none; }
+}

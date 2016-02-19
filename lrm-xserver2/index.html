@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>xServer internet routing demo</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="lib/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="lib/leaflet.iconlabel.css" />
+    <link rel="stylesheet" href="lib/forkme.css" />
+    <link rel="stylesheet" href="lib/leaflet-sidebar.min.css" />
+    <link rel="stylesheet" href="lib/leaflet.contextmenu.css">
+    <link rel="stylesheet" href="index.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .leaflet-top-pane {
+            pointer-events: none;
+        }
+
+        div.inputForm {
+            display: table;
+        }
+
+            div.inputForm p {
+                display: table-row;
+            }
+
+            div.inputForm label {
+                display: table-cell;
+            }
+
+            div.inputForm select {
+                margin: 4px;
+                display: table-cell;
+            }
+    </style>
+</head>
+<body>
+    <div class="github-fork-ribbon-wrapper right-bottom">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/ptv-logistics/leaflet-routing-machine/">Fork me on GitHub</a>
+        </div>
+    </div>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <ul class="sidebar-tabs" role="tablist">
+            <li><a href="#home" role="tab"><i class="fa fa-flag"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="sidebar-content active">
+            <div class="sidebar-pane" id="home">
+                <h2>
+                    xServer internet routing demo
+                </h2>
+                <p>
+                    Drag and drop the blue waypoint markers, or grab the orange route line and drag
+                    a new via waypoint. You can also enter an address in the address text fields on
+                    the right side.
+                </p>
+                <div class="inputForm">
+                    <p>
+                        <label for="clusterSelect">Sample Route</label>
+                        <select id="clusterSelect" onchange="updateCluster()">
+                            <option>eu</option>
+                            <option>na</option>
+                            <option>au</option>
+                        </select>
+                    </p>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="map">
+    </div>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="./lib/leaflet-routing-machine.js"></script>
+    <script src="./lib/Control.Geocoder.js"></script>
+    <script src="./lib/leaflet.iconlabel.js"></script>
+    <script src="./lib/leaflet-sidebar.min.js"></script>
+    <script src="./lib/leaflet.contextmenu.js"></script>
+    <script src="./Control.Geocoder.ptv.js"></script>
+    <script src="./routing-machine-ptv.js"></script>
+    <script src="./token.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
