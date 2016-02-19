@@ -1,0 +1,112 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Quick Start Guide Example</title>
+    <meta charset="utf-8" />
+
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.2.1/css/ol.css" />
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="http://openlayers.org/en/v3.2.1/build/ol.js"></script>
+    <script>
+        var raster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                urls: [
+            'http://api1-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}',
+			'http://api2-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}',
+			'http://api3-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}',
+			'http://api4-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}'], layer: 'xmap', maxZoom: 19
+            })
+        });
+
+        // ka
+        var center = ol.proj.transform([8.4, 49], 'EPSG:4326', 'EPSG:3857');
+
+		var map = new ol.Map({
+            layers: [raster],
+            renderer: 'canvas',
+            target: 'map',
+            view: new ol.View({
+                center: center,
+                zoom: 10
+            })
+        });
+		
+		var addstuff = function ()
+		{
+        var count = 20000;
+        var features = new Array(count);
+        var e = 45000;
+        for (var i = 0; i < count; ++i) {
+            var coordinates = [center[0] + 2 * e * Math.random() - e, center[1] + 2 * e * Math.random() - e];
+            features[i] = new ol.Feature(new ol.geom.Point(coordinates));
+        }
+
+        var source = new ol.source.Vector({
+            features: features
+        });
+
+        var clusterSource = new ol.source.Cluster({
+            distance: 40,
+            source: source
+        });
+
+        var styleCache = {};
+        var clusters = new ol.layer.Vector({
+            source: clusterSource,
+            style: function (feature, resolution) {
+                var size = feature.get('features').length;
+                var style = styleCache[size];
+                if (!style) {
+                    style = [new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 10,
+                            stroke: new ol.style.Stroke({
+                                color: '#fff'
+                            }),
+                            fill: new ol.style.Fill({
+                                color: '#3399CC'
+                            })
+                        }),
+                        text: new ol.style.Text({
+                            text: size.toString(),
+                            fill: new ol.style.Fill({
+                                color: '#fff'
+                            })
+                        })
+                    })];
+                    styleCache[size] = style;
+                }
+                return style;
+            }
+        });
+
+        var raw = new ol.layer.Vector({
+            source: source
+        });
+		
+		map.addLayer(clusters);
+		};
+		
+//		addstuff();
+    </script>
+</body>
+</html>

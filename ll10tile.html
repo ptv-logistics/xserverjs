@@ -1,0 +1,74 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Quick Start Guide Example</title>
+    <meta charset="utf-8" />
+
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.css" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
+    <script>
+
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+		var getLayer = function(profile) {
+		    return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}/' + profile, {
+				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+				maxZoom: 19,
+				subdomains: '1234'
+			});
+		}
+		
+		var baseLayers = {
+			"PTV classic": getLayer("classic"),
+			"PTV sandbox": getLayer("sandbox"),
+			"PTV silkysand": getLayer("silkysand").addTo(map),
+			"PTV gravelpit": getLayer("gravelpit")
+		};
+		
+
+
+		var debug = new L.GridLayer();
+		debug.createTile = function(coords) {
+			var tile = document.createElement('canvas'),
+			    ctx = tile.getContext('2d');
+			tile.width = tile.height = 256;
+			ctx.fillStyle = 'white';
+//			ctx.fillRect(0, 0, 255, 255);
+			ctx.fillStyle = 'black';
+			ctx.fillText('x: ' + coords.x + ', y: ' + coords.y + ', zoom: ' + coords.z, 20, 20);
+			ctx.strokeStyle = 'red';
+			ctx.beginPath();
+			ctx.moveTo(0, 0);
+			ctx.lineTo(255, 0);
+			ctx.lineTo(255, 255);
+			ctx.lineTo(0, 255);
+			ctx.closePath();
+			ctx.stroke();
+			return tile;
+		}
+			
+		L.control.layers(baseLayers, { "Debug": debug}).addTo(map);
+
+    </script>
+</body>
+</html>
