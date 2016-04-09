@@ -23,8 +23,8 @@
 
         for (var i = container._layers.length - 1; i >= 0 ; i--) {
             var layer = container._layers[i];
-            if ((layer.x - 8 <= mp.x) && (layer.x + 8 >= mp.x) &&
-                (layer.y - 8 <= mp.y) && (layer.y + 8 >= mp.y)) {
+            if ((layer.pixelReferencePoint.x - 8 <= mp.x) && (layer.pixelReferencePoint.x + 8 >= mp.x) &&
+                (layer.pixelReferencePoint.y - 8 <= mp.y) && (layer.pixelReferencePoint.y + 8 >= mp.y)) {
                 return layer;
             }
         }
@@ -49,7 +49,11 @@
 
             L.popup()
                 .setLatLng(found.latLng)
-                .setContent(found.descr)
+                .setContent(found.description
+				   .replace(/\|/g, "<br>") // Insert line breaks instead of pipe symbols
+                   .replace(/=/g, ": ") // Use colon instead of mathematical looking equal signs
+                   .replace(/[A-Z]/g, " $&") // Camel case notation eliminated by insertion of a blank
+                   .toLowerCase())
                 .openOn(map);
 
             e.stopPropagation();
@@ -106,13 +110,13 @@
                var rawImage = resp.image;
                tile.src = prefixMap[rawImage.substr(0, 5)] + rawImage;
 
-               if (!resp || !resp.objectInfos)
+               if (!resp.drawnObjects)
                    return;
 
-               var objectInfos = resp.objectInfos;
+               var objectInfos = resp.drawnObjects;
                for (var i = 0; i < objectInfos.length; i++) {
                    var oi = objectInfos[i];
-                   oi.latLng = this.pixToLatLng(coords, oi);
+                   oi.latLng = this.pixToLatLng(coords, oi.pixelReferencePoint);
                    tile._layers.push(oi);
                }
 

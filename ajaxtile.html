@@ -9,6 +9,7 @@
     <script type="text/javascript" src="http://80.146.239.180/xajax/webcomponent/script/qooxdoo/script/qx-transport.js"></script>
     <script type="text/javascript" src="http://80.146.239.180/xajax/.qxrpc"></script>
     <script type="text/javascript" src="http://80.146.239.180/xajax/webcomponent/script/map.js"></script>
+    <script type="text/javascript" src="./token.js"></script>
     <script type="text/javascript">
       var tileLayer;
       function init() {
@@ -42,7 +43,7 @@
         var tileBuildRequest = tileBuilder.buildRequest;
         tileBuilder.buildRequest = function(left, top, right, bottom, width, height, loggingInfo, version, angle) {
           var req = tileBuildRequest(left, top, right, bottom, width, height, loggingInfo, version, angle);
-          req.url = "http://api-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/" + getTileKey(left, top, right, bottom);
+          req.url = "http://api-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/" + getTileKey(left, top, right, bottom) + '?xtok=' + token;
 		  return req;
 	    }
         tileLayer = new com.ptvag.webcomponent.map.layer.TileMapLayer(tileBuilder);

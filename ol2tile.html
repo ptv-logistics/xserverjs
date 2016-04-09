@@ -25,6 +25,7 @@
     <div id="map"></div>
 
     <script src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>
+    <script src="token.js"></script>
     <script>
 		
         // define control options
@@ -49,10 +50,10 @@
 		// add tile layer
 		var raster = new OpenLayers.Layer.XYZ(
 			'BaseMap' ,
-            ['http://api1-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/${z}/${x}/${y}',
-			'http://api2-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/${z}/${x}/${y}',
-			'http://api3-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/${z}/${x}/${y}',
-			'http://api4-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/${z}/${x}/${y}'],
+            ['http://api1-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
+			'http://api2-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
+			'http://api3-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
+			'http://api4-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token],
 			{
 				sphericalMercator: true}
 			);
