@@ -80,9 +80,10 @@ function getGeocodingCountry() {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(baseUrl, style, xparam, labelPane) {
-			return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}/' + style, {
+			return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' + style +
+				'?xtok=' + token, {
 				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-				maxZoom: 19,
+				maxZoom: 22,
 				subdomains: '1234'
 			});
 }
@@ -141,7 +142,7 @@ var setCluster = function () {
 			]
 		},
 		router: L.Routing.ptv({
-		    serviceUrl: 'http://api-xstwo.cloud.ptvgroup.com/services/rs/XRoute/2.0/',
+		    serviceUrl: 'https://api-xstwo.cloud.ptvgroup.com/services/rs/XRoute/2.0/',
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
@@ -174,9 +175,9 @@ sidebar.open('home');
 L.control.scale().addTo(map);
 
 var baseLayers = {
-    "PTV gravelpit": getXMapBaseLayers("http://xserver-2.ptvag.ptv.de:50000/services/rs/XMap/2.0/map", 'gravelpit', null, map._panes.labelPane),
-    "PTV sandbox": getXMapBaseLayers("http://xserver-2.ptvag.ptv.de:50000/services/rs/XMap/2.0/map", 'sandbox', null, map._panes.labelPane),
-    "PTV silkysand": getXMapBaseLayers("http://xserver-2.ptvag.ptv.de:50000/services/rs/XMap/2.0/map", 'silkysand', null, map._panes.labelPane).addTo(map),
+    "PTV gravelpit": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'gravelpit', null, map._panes.labelPane),
+    "PTV sandbox": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'sandbox', null, map._panes.labelPane),
+    "PTV silkysand": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'silkysand', null, map._panes.labelPane).addTo(map),
 };
 
 L.control.layers(baseLayers, null, { position: 'bottomleft' }).addTo(map);

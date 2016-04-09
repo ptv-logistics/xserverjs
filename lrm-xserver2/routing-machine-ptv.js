@@ -23,7 +23,7 @@ L.Routing.Ptv = L.Class.extend({
 			data: JSON.stringify(request),
 
 			headers: {
-//				'Authorization': 'Basic ' + btoa('xtok:' + token),
+				'Authorization': 'Basic ' + btoa('xtok:' + token),
 				'Content-Type': 'application/json'
 			},
 

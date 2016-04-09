@@ -26,12 +26,14 @@
     <div id="map"></div>
 
     <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
+    <script src="token.js"></script>
     <script>
 
         var map = L.map('map').setView([51.505, -0.09], 13);
 
 		var getLayer = function(profile) {
-		    return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rs/XMap/2.0/map/{z}/{x}/{y}/' + profile, {
+		    return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' + profile +
+				'?xtok=' + token, {
 				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 				maxZoom: 19,
 				subdomains: '1234'
