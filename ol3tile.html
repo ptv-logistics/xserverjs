@@ -31,10 +31,10 @@
         var raster = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 urls: [
-            'http://api1-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
-			'http://api2-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
-			'http://api3-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
-			'http://api4-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token], layer: 'xmap', maxZoom: 19
+            'https://api1-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
+			'https://api2-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
+			'https://api3-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token,
+			'https://api4-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}?xtok=' + token], layer: 'xmap', maxZoom: 19
             })
         });
 
@@ -107,7 +107,7 @@
 		map.addLayer(clusters);
 		};
 		
-//		addstuff();
+		addstuff();
     </script>
 </body>
 </html>

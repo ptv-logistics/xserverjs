@@ -80,7 +80,7 @@ function getGeocodingCountry() {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(baseUrl, style, xparam, labelPane) {
-			return L.tileLayer('http://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' + style +
+			return L.tileLayer('https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' + style +
 				'?xtok=' + token, {
 				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 				maxZoom: 22,
