@@ -43,7 +43,7 @@
         var tileBuildRequest = tileBuilder.buildRequest;
         tileBuilder.buildRequest = function(left, top, right, bottom, width, height, loggingInfo, version, angle) {
           var req = tileBuildRequest(left, top, right, bottom, width, height, loggingInfo, version, angle);
-          req.url = "http://api-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/" + getTileKey(left, top, right, bottom) + '?xtok=' + token;
+          req.url = "https://api-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/" + getTileKey(left, top, right, bottom) + '?xtok=' + token;
 		  return req;
 	    }
         tileLayer = new com.ptvag.webcomponent.map.layer.TileMapLayer(tileBuilder);
