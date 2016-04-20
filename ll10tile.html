@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -25,11 +25,16 @@
 <body>
     <div id="map"></div>
 
-    <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
     <script src="token.js"></script>
     <script>
 
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map', {
+//		            zoomSnap: 0.125,
+//            zoomDelta: 0.5,
+//			wheelPxPerZoomLevel: 100
+}
+			).setView([51.505, -0.09], 13);
 
 		var getLayer = function(profile) {
 		    return L.tileLayer('https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' + profile +
