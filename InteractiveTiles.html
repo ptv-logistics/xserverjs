@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -25,16 +25,17 @@
 <body>
     <div id="map"></div>
 
-    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
     <script src="./leaflet-x/TileLayer.MetaInfoTiles.js"></script>
     <script src="./token.js"></script>
     <script>
         var map = L.map('map').setView(new L.LatLng(49, 8.4), 14);
 
         var interactiveTileLayer = new L.TileLayer.MetaInfoTiles(
-		'https://api-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/mapanddrawnobjects/{z}/{x}/{y}/' +
+		'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/mapanddrawnobjects/{z}/{x}/{y}/' +
 		'silkysand-fl-truckattributes?xtok=' + token,
 		{
+			subdomains: '1234',
             maxZoom: 22
         }).addTo(map);
     </script>

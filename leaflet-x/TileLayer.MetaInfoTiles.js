@@ -1,4 +1,5 @@
 ﻿L.TileLayer.MetaInfoTiles = L.TileLayer.extend({
+    includes: L.Mixin.Events,
     runRequest: function (url, handleSuccess, handleError) {
         ajax = new XMLHttpRequest();
 
@@ -32,7 +33,7 @@
         return null;
     },
 
-    _onMouseMove: function (e) {		
+    _onMouseMove: function (e) {        
         if (!this._map || this._map.dragging._draggable._moving || this._map._animatingZoom) { return; }
 
         if (this._tileLayer.findElement(e, this))
@@ -50,7 +51,7 @@
             L.popup()
                 .setLatLng(found.latLng)
                 .setContent(found.description
-				   .replace(/\|/g, "<br>") // Insert line breaks instead of pipe symbols
+                   .replace(/\|/g, "<br>") // Insert line breaks instead of pipe symbols
                    .replace(/=/g, ": ") // Use colon instead of mathematical looking equal signs
                    .replace(/[A-Z]/g, " $&") // Camel case notation eliminated by insertion of a blank
                    .toLowerCase())
@@ -75,12 +76,13 @@
 
     createTile: function (coords, done) {
         var tile = document.createElement('img');
+        tile.style['pointer-events'] = 'auto';
         tile._map = map;
         tile._layers = [];
-        tile._tileLayer = this;
-
-        L.DomEvent.on(tile, 'load', L.bind(this._tileOnLoad, this, done, tile));
-        L.DomEvent.on(tile, 'error', L.bind(this._tileOnError, this, done, tile));
+        tile._tileLayer = this; 
+        
+         L.DomEvent.on(tile, 'load', L.bind(this._tileOnLoad, this, done, tile));
+         L.DomEvent.on(tile, 'error', L.bind(this._tileOnError, this, done, tile));
 
         if (this.options.crossOrigin) {
             tile.crossOrigin = '';
@@ -90,16 +92,12 @@
          Alt tag is set to empty string to keep screen readers from reading URL and for compliance reasons
          http://www.w3.org/TR/WCAG20-TECHS/H67
         */
-        tile.alt = '';
+        tile.alt = '';      
 
         var url = this.getTileUrl(coords);
-
+                
         this.runRequest(url,
            L.bind(function (resp) {
-               L.DomEvent
-                .on(tile, 'mousemove', L.Util.throttle(this._onMouseMove, 32, tile), tile)
-                .on(tile, 'click', this._onClick, tile);
-
                var prefixMap = {
                    "iVBOR": "data:image/png;base64,",
                    "R0lGO": "data:image/gif;base64,",
@@ -110,22 +108,26 @@
                var rawImage = resp.image;
                tile.src = prefixMap[rawImage.substr(0, 5)] + rawImage;
 
-               if (!resp.drawnObjects)
-                   return;
-
-               var objectInfos = resp.drawnObjects;
-               for (var i = 0; i < objectInfos.length; i++) {
-                   var oi = objectInfos[i];
-                   oi.latLng = this.pixToLatLng(coords, oi.pixelReferencePoint);
-                   tile._layers.push(oi);
-               }
-
+               if (resp.drawnObjects)
+               {
+                  L.DomEvent
+                   .on(tile, 'mousemove', L.Util.throttle(this._onMouseMove, 32, tile), tile)
+                   .on(tile, 'click', this._onClick, tile);
+                 
+                  var objectInfos = resp.drawnObjects;
+                  for (var i = 0; i < objectInfos.length; i++) {
+                     var oi = objectInfos[i];
+                     oi.latLng = this.pixToLatLng(coords, oi.pixelReferencePoint);
+                     tile._layers.push(oi);
+                  }
+                }
            }, this), 
            function (xhr) {
-               tile.src = L.Util.emptyImageUrl;
            });
 
         return tile;
     }
+    
+    
 });
 
