@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <!-- This single-page Cesium application demonstrates the ability to request CZML from the server. -->
+    <title>Example page for xMap2 @Cesium</title>
+
+    <!-- For debugging client-side code, use the "Unminified" Cesium.js.  -->
+    <script src="http://cesiumjs.org/releases/1.20/Cesium.js"></script>
+    <!--  <script src="http://cesiumjs.org/releases/1.20/Unminified/Cesium.js"></script> -->
+    <link rel="stylesheet" href="http://cesiumjs.org/releases/1.20/Widgets/widgets.css" />
+    <style>
+        body, #viewerContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: sans-serif;
+        }
+        #message {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 220px;
+            color: #ddd;
+            max-width: 480px;
+            padding: 4px 10px;
+            background: rgba(42, 42, 42, 0.8);
+            border-radius: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewerContainer"></div>
+    <div id="message">
+        xMap2 @Cesium 
+    </div>
+    <script>
+        // The following line creates the Cesium viewer with all the default widgets on it.
+        var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
+            baseLayerPicker: false,
+            imageryProvider: new Cesium.UrlTemplateImageryProvider({
+                url: 'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/gravelpit?xtok=11333604106012',
+                credit: 'PTV, TOMTOM',
+                subdomains: ['1', '2', '3', '4'],
+                maximumLevel: 18
+            })
+        });
+    </script>
+</body>
+</html>
