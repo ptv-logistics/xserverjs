@@ -1,54 +1,112 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Skeleton: Responsive CSS Boilerplate</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>PTV xMap2 Samples</title>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link type="text/css" rel="stylesheet" href="./css/xserver.css" />
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="../../dist/images/favicon.png">
 
 </head>
+<body>
 
-<body id="home">
-    <h1>xMap2 Tile API samples</h1>
-    See <a href="http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/">"Tiles à la Google Maps"</a>
-    and <a href="https://api-xstwo.cloud.ptvgroup.com/dashboard/Default.htm#TechnicalConcepts/DSC_Map_Tile_API.htm%3FTocPath%3DTechnical%2520Concepts%7C_____1">xMap 2 documentation</a>.
-    <h2>Tests for Common Map Widgets</h2>
-    <ul>
-        <li>
-            <a href="ll07tile.html">Leaflet (v0.7) using xMap2 tiles</a>
-        </li>
-        <li>
-            <a href="ll10tile.html">Leaflet (v1.0) using xMap2 tiles</a>
-        </li>
-        <li>
-            <a href="ol2tile.html">OpenLayers (v2) using xMap2 tiles</a>
-        </li>
-        <li>
-            <a href="ol3tile.html">OpenLayers (v3) using xMap2 tiles</a>
-        </li>
-	 <li>
-            <a href="cesium.html">Cesium using xMap2 tiles</a>
-        </li>
-        <li>
-            <a href="ajaxtile.html">PTV ajaxmaps using xMap2 tiles (experimental!)</a>
-        </li>
-    </ul>
-    <h2>Other Samples</h2>
-	<ul>
-        <li>
-            <a href="./lrm-xserver2/index.html">Leaflet-Routing-Machine @xserver-2</a>
-        </li>
-        <li>
-            <a href="./InteractiveTiles.html">MetaInfo Tiles in Leaflet</a>
-        </li>
-	    <li>
-	        <a href="widgets.html">Demonstration of the different client apis</a>
-	    </li>
-	</ul>	
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <div class="section values">
+    <div class="container">
+      <div class="row">
+        <div class="one-half column">
+          <h4 class="hero-heading">Stop coding non-responsive sites. Let users view sites from anywhere.</h4>
+          <a class="button button-primary" href="http://getskeleton.com">Try Skeleton</a>
+        </div>
+        <div class="one-half column phones">
+          <img class="phone" src="images/PTV_Group_Vision_EN_4C.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section hero">
+    <div class="container">
+      <div class="row">
+        <div class="one-half column value">
+			<h4 class="hero-heading">OpenLayers V2</h4>
+			<iframe height="300" width="100%" src="ol2tile.html" allowfullscreen></iframe>
+        </div>
+        <div class="one-half column value">
+			<h4 class="hero-heading">OpenLayers V3</h4>
+			<iframe height="300" width="100%" src="ol3tile.html" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section hero">
+    <div class="container">
+      <div class="row">
+        <div class="one-half column value">
+			<h4 class="hero-heading">Leaflet</h4>
+			<iframe height="300" width="100%" src="ll10tile.html" allowfullscreen></iframe>
+        </div>
+        <div class="one-half column value">
+			<h4 class="hero-heading">Cesium</h4>
+			<iframe height="300" width="100%" src="cesium.html" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section get-help">
+    <div class="container">
+      <h3 class="section-heading">Need help getting started?</h3>
+      <p class="section-description">Skeleton is an amazingly easy place to start with responsive development. If you want to learn more, just visit the documentation!</p>
+      <a class="button button-primary" href="http://getskeleton.com">View Skeleton Docs</a>
+    </div>
+  </div>
+
+  <div class="section categories">
+    <div class="container">
+      <h3 class="section-heading">Responsive Images</h3>
+      <p class="section-description">Skeleton images sit easily in grid with .u-max-full-width class. I suggest exploring solution to serving different images based on device size.</p>
+      <div class="row">
+        <div class="one-half column category">
+          <img class="u-max-full-width" src="images/placeholder.png">
+        </div>
+        <div class="one-half column category">
+          <img class="u-max-full-width" src="images/placeholder.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
