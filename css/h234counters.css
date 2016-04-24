@@ -1,6 +1,0 @@
-h1 			{ counter-reset: counterH2; }
-h2 			{ counter-reset: counterH3; }
-h2:before 	{ counter-increment: counterH2; content: counter(counterH2) " \00a0"; }
-h3 			{ counter-reset: counterH4; }
-h3:before 	{ counter-increment: counterH3; content: counter(counterH2) "." counter(counterH3) " \00a0"; }
-h4:before 	{ counter-increment: counterH4; content: counter(counterH2) "." counter(counterH3) "." counter(counterH4) " \00a0"; }
