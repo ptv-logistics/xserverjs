@@ -146,7 +146,7 @@ var setCluster = function () {
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
-		routeWhileDragging: true,
+		routeWhileDragging: false,
 		routeDragInterval: 500,
 		formatter: new L.Routing.Formatter({roundingSensitivity: 1000}),
 	}).addTo(map);
@@ -175,9 +175,9 @@ sidebar.open('home');
 L.control.scale().addTo(map);
 
 var baseLayers = {
-    "PTV gravelpit": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'gravelpit', null, map._panes.labelPane),
-    "PTV sandbox": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'sandbox', null, map._panes.labelPane),
-    "PTV silkysand": getXMapBaseLayers("https://xserver-2.ptvag.ptv.de:50000/services/rest/XMap/2.0/map", 'silkysand', null, map._panes.labelPane).addTo(map),
+    "PTV gravelpit": getXMapBaseLayers("", 'gravelpit', null, map._panes.labelPane),
+    "PTV sandbox": getXMapBaseLayers("", 'sandbox', null, map._panes.labelPane),
+    "PTV silkysand": getXMapBaseLayers("", 'silkysand', null, map._panes.labelPane).addTo(map),
 };
 
 L.control.layers(baseLayers, null, { position: 'bottomleft' }).addTo(map);

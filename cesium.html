@@ -27,25 +27,22 @@
             color: #fff;
             font-family: sans-serif;
         }
-        #message {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 220px;
-            color: #ddd;
-            max-width: 480px;
-            padding: 4px 10px;
-            background: rgba(42, 42, 42, 0.8);
-            border-radius: 7px;
-        }
     </style>
 </head>
 <body>
     <div id="viewerContainer"></div>
-    <div id="message">
-        xMap2 @Cesium 
-    </div>
     <script>
+		// set europe as default rectangle
+		var west = -20.0;
+		var south = 20.0;
+		var east = 50.0;
+		var north = 80.0;
+
+		var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
+
+		Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+		Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
+	
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
             baseLayerPicker: false,
