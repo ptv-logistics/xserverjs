@@ -5,7 +5,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Skeleton: Responsive CSS Boilerplate</title>
+  <title>xserver-js: JavaScript APIs for PTV xServer</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -15,7 +15,7 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -25,7 +25,7 @@
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -37,24 +37,27 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <div class="section values">
+  <div class="section hero">
     <div class="container">
       <div class="row">
-        <div class="one-half column">
-          <h4 class="hero-heading">Stop coding non-responsive sites. Let users view sites from anywhere.</h4>
-          <a class="button button-primary" href="http://getskeleton.com">Try Skeleton</a>
+        <div class="four columns">
+          <h4 class="hero-heading">xserver-js: JavaScript APIs for PTV xServer</h4>
+          <a class="button button-primary" href="https://github.com/ptv-logistics/xserver-js">Fork me on GitHub</a>
         </div>
-        <div class="one-half column phones">
+        <div class="eight columns phones">
           <img class="phone" src="images/PTV_Group_Vision_EN_4C.png">
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section hero">
+  <div class="section values">
     <div class="container">
+     <h3 class="section-heading">Use xServer with your favourite map widget</h3>
+     <p class="section-description">The xMapServer tile api lets you add the xServer map to virtually every existing map widget.
+	 Templates for the most common widgets show to initialize them with optimal performance on cloud and on-premise.</p>
       <div class="row">
-        <div class="one-half column value">
+        <div class="one-half column value-heading">
 			<h4 class="hero-heading">OpenLayers V2</h4>
 			<iframe height="300" width="100%" src="ol2tile.html" allowfullscreen></iframe>
         </div>
@@ -63,10 +66,6 @@
 			<iframe height="300" width="100%" src="ol3tile.html" allowfullscreen></iframe>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="section hero">
-    <div class="container">
       <div class="row">
         <div class="one-half column value">
 			<h4 class="hero-heading">Leaflet</h4>
@@ -80,30 +79,27 @@
     </div>
   </div>
 
-  <div class="section get-help">
+  <div class="section">
     <div class="container">
-      <h3 class="section-heading">Need help getting started?</h3>
-      <p class="section-description">Skeleton is an amazingly easy place to start with responsive development. If you want to learn more, just visit the documentation!</p>
-      <a class="button button-primary" href="http://getskeleton.com">View Skeleton Docs</a>
-    </div>
-  </div>
-
-  <div class="section categories">
-    <div class="container">
-      <h3 class="section-heading">Responsive Images</h3>
-      <p class="section-description">Skeleton images sit easily in grid with .u-max-full-width class. I suggest exploring solution to serving different images based on device size.</p>
+     <h3 class="section-heading">leaflet-xserver</h3>
+     <p class="section-description">leaflet-xserver is an extension for Leaflet to display extended Map content.
+	 Specific layer classes let you add styleable and clickable Feature-Layers. You can add the extension to
+	 your Leaflet project with <code>npm install leaflet-xserver</code>.</p>
       <div class="row">
-        <div class="one-half column category">
-          <img class="u-max-full-width" src="images/placeholder.png">
-        </div>
-        <div class="one-half column category">
-          <img class="u-max-full-width" src="images/placeholder.png">
-        </div>
+			<iframe height="450" width="100%" src="InteractiveTiles.html" allowfullscreen></iframe>
       </div>
     </div>
   </div>
 
-
+  <div class="section">
+    <div class="container">
+     <h3 class="section-heading">Premium code samples</h3>
+     <p class="section-description">Use our pre-fabricated reference implementations to jump-start your application.</p>
+      <div class="row">
+			<iframe height="450" width="100%" src="lrm-xserver2/index.html" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 
 
 <!-- End Document
