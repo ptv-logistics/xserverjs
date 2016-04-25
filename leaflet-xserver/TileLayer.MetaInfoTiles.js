@@ -1,21 +1,10 @@
 ﻿L.TileLayer.MetaInfoTiles = L.TileLayer.extend({
     includes: L.Mixin.Events,
     runRequest: function (url, handleSuccess, handleError) {
-        ajax = new XMLHttpRequest();
-
-        ajax.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    handleSuccess(JSON.parse(this.responseText));
-                }
-                else {
-                    handleError(this.status);
-                }
-            }
-        }
-
-        ajax.open("GET", url, true);
-        ajax.send(null);
+		corslite(url, function(err, resp) {
+			// resp is the XMLHttpRequest object
+			handleSuccess(JSON.parse(resp.responseText));
+		}, true); // cross origin?
     },
 
     findElement: function (e, container) {
