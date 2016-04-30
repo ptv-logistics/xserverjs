@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <!-- Tell IE to use the latest version. -->
@@ -13,9 +14,11 @@
     <!-- For debugging client-side code, use the "Unminified" Cesium.js.  -->
     <script src="http://cesiumjs.org/releases/1.20/Cesium.js"></script>
     <!--  <script src="http://cesiumjs.org/releases/1.20/Unminified/Cesium.js"></script> -->
+    <script src="./token.js"></script>
     <link rel="stylesheet" href="http://cesiumjs.org/releases/1.20/Widgets/widgets.css" />
     <style>
-        body, #viewerContainer {
+        body,
+        #viewerContainer {
             position: absolute;
             top: 0;
             left: 0;
@@ -29,29 +32,47 @@
         }
     </style>
 </head>
+
 <body>
     <div id="viewerContainer"></div>
     <script>
-		// set europe as default rectangle
-		var west = -20.0;
-		var south = 20.0;
-		var east = 50.0;
-		var north = 80.0;
+        // set europe as default rectangle
+        var west = -20.0;
+        var south = 20.0;
+        var east = 50.0;
+        var north = 80.0;
 
-		var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
+        var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
 
-		Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
-		Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
-	
+        Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+        Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
+
+        var getXMapViewModel = function(profile) {
+            return new Cesium.ProviderViewModel({
+                name: 'PTV_' + profile,
+                iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/openStreetMap.png'),
+                tooltip: 'PTV ' + profile + ' style',
+                creationFunction: function() {
+                    return new Cesium.UrlTemplateImageryProvider({
+                        url: 'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/' +
+                            profile + '?xtok=' + token,
+                        credit: 'PTV, TOMTOM',
+                        subdomains: ['1', '2', '3', '4'],
+                        maximumLevel: 20
+                    });
+                }
+            });
+        };
+
+        //Create the list of available providers we would like the user to select from.
+        var imageryViewModels = [];
+        imageryViewModels.push(getXMapViewModel('gravelpit'));
+        imageryViewModels.push(getXMapViewModel('silkysand'));
+        imageryViewModels.push(getXMapViewModel('sandbox'));
+
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
-            baseLayerPicker: false,
-            imageryProvider: new Cesium.UrlTemplateImageryProvider({
-                url: 'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/{z}/{x}/{y}/gravelpit?xtok=11333604106012',
-                credit: 'PTV, TOMTOM',
-                subdomains: ['1', '2', '3', '4'],
-                maximumLevel: 18
-            })
+            imageryProviderViewModels: imageryViewModels
         });
     </script>
 </body>
