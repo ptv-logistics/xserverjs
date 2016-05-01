@@ -147,7 +147,7 @@ var setCluster = function () {
 			numberOfAlternatives: 0
 		}),
 		routeWhileDragging: false,
-		routeDragInterval: 500,
+		routeDragInterval: 1000,
 		formatter: new L.Routing.Formatter({roundingSensitivity: 1000}),
 	}).addTo(map);
 
