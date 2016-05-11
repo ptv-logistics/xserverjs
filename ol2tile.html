@@ -50,10 +50,10 @@
 		// add tile layer
 		var raster = new OpenLayers.Layer.XYZ(
 			'BaseMap' ,
-            ['https://api1-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
-			'https://api2-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
-			'https://api3-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token,
-			'https://api4-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/map/${z}/${x}/${y}?xtok=' + token],
+            ['https://api1-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+			'https://api2-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+			'https://api3-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+			'https://api4-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token],
 			{
 				sphericalMercator: true}
 			);
