@@ -33,8 +33,8 @@
         var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
         var interactiveTileLayer = new L.TileLayer.MetaInfoTiles(
-		'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/2.0/mapanddrawnobjects/{z}/{x}/{y}/' +
-		'silkysand-fl-truckattributes?xtok=' + token,
+		'https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+		'silkysand-fl-truckattributes/256/256/json?xtok=' + token,
 		{
 			attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			subdomains: '1234',
