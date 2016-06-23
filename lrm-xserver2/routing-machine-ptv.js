@@ -175,8 +175,8 @@ L.Routing.Ptv = L.Class.extend({
 		var wpCoords = [];
 		for (i = 0; i < waypoints.length; i++) {
 			wpCoords.push({  
-				"$type":"CoordinateWaypoint",
-				"location":{  
+				"$type":"OffRoadWaypoint",
+				"offRoadLocation":{  
 				"x":waypoints[i].latLng.lng,
 				"y":waypoints[i].latLng.lat
 				}
