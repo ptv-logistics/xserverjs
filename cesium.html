@@ -12,10 +12,10 @@
     <title>Example page for xMap2 @Cesium</title>
 
     <!-- For debugging client-side code, use the "Unminified" Cesium.js.  -->
-    <script src="http://cesiumjs.org/releases/1.20/Cesium.js"></script>
-    <!--  <script src="http://cesiumjs.org/releases/1.20/Unminified/Cesium.js"></script> -->
+    <script src="http://cesiumjs.org/releases/1.22.1/Cesium.js"></script>
+    <!--  <script src="http://cesiumjs.org/releases/1.22.1/Unminified/Cesium.js"></script> -->
     <script src="./token.js"></script>
-    <link rel="stylesheet" href="http://cesiumjs.org/releases/1.20/Widgets/widgets.css" />
+    <link rel="stylesheet" href="http://cesiumjs.org/releases/1.22.1/Widgets/widgets.css" />
     <style>
         body,
         #viewerContainer {
@@ -58,7 +58,7 @@
                             profile + '?xtok=' + token,
                         credit: 'PTV, TOMTOM',
                         subdomains: ['1', '2', '3', '4'],
-                        maximumLevel: 20
+                        maximumLevel: 22
                     });
                 }
             });
@@ -66,14 +66,18 @@
 
         //Create the list of available providers we would like the user to select from.
         var imageryViewModels = [];
-        imageryViewModels.push(getXMapViewModel('gravelpit'));
         imageryViewModels.push(getXMapViewModel('silkysand'));
         imageryViewModels.push(getXMapViewModel('sandbox'));
+        imageryViewModels.push(getXMapViewModel('gravelpit'));
 
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
             imageryProviderViewModels: imageryViewModels
         });
+
+		viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[1];
+		viewer.terrainShadows = true;
+		viewer.shadows = true;
     </script>
 </body>
 </html>
