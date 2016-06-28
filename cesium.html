@@ -72,10 +72,11 @@
 
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
-            imageryProviderViewModels: imageryViewModels
+            imageryProviderViewModels: imageryViewModels,
+			geocoder: false
         });
 
-		viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[1];
+//		viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[1];
 		viewer.terrainShadows = true;
 		viewer.shadows = true;
     </script>
