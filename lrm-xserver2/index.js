@@ -126,7 +126,7 @@ var setCluster = function () {
 			},
 			geocoder: L.Control.Geocoder.ptv({
 				fixedCountry: getGeocodingCountry(),
-				serviceUrl: 'https://api-eu-test.cloud.ptvgroup.com/xlocate/rs/XLocate/',
+				serviceUrl: 'https://api-xstwo.cloud.ptvgroup.com/services/rest/XLocate/2.0/searchlocations/',
 				token: token
 			}),
 			reverseWaypoints: true
