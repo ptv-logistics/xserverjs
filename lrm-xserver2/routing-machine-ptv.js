@@ -77,7 +77,7 @@ L.Routing.Ptv = L.Class.extend({
 		for (var i = 0; i < responses.length; i++) {
 			var response = responses[i];
 
-			var coordinates = this._buildLinestring(response.polyline.plain.lineString);
+			var coordinates = this._buildLinestring(response.polyline.plain.polyline);
 			alts.push({
 				name: 'Route ' + (i + 1),
 				coordinates: coordinates,
@@ -176,10 +176,11 @@ L.Routing.Ptv = L.Class.extend({
 		for (i = 0; i < waypoints.length; i++) {
 			wpCoords.push({  
 				"$type":"OffRoadWaypoint",
-				"offRoadLocation":{  
+				"location": {
+				"offRoadCoordinate":{  
 				"x":waypoints[i].latLng.lng,
 				"y":waypoints[i].latLng.lat
-				}
+				}}
 			});
 		}
 
