@@ -52,7 +52,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 				var results = [];
 				for (var i = response.results.length - 1; i >= 0; i--) {
 					var resultAddress = response.results[i];
-					var loc = L.latLng(resultAddress.location.roofTop.y, resultAddress.location.roofTop.x);
+					var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);
 					results[i] = {
 						name: this._buildAddressString(resultAddress.location.address),
 						center: loc,
