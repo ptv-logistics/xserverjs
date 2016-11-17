@@ -126,7 +126,7 @@ var setCluster = function () {
 			},
 			geocoder: L.Control.Geocoder.ptv({
 				fixedCountry: getGeocodingCountry(),
-				serviceUrl: 'https://api-xstwo.cloud.ptvgroup.com/services/rest/XLocate/2.0/searchlocations/',
+				serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
 				token: token
 			}),
 			reverseWaypoints: true
@@ -142,7 +142,7 @@ var setCluster = function () {
 			]
 		},
 		router: L.Routing.ptv({
-		    serviceUrl: 'https://api-xstwo.cloud.ptvgroup.com/services/rs/XRoute/2.0/',
+		    serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
