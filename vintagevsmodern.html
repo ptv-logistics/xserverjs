@@ -1,0 +1,184 @@
+<html>
+   <head>
+      <title>vintage vs. modern</title>
+      <meta charset="utf-8" />
+
+      <meta content="yes" name="apple-mobile-web-app-capable">
+      <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" />
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+      <script src="token.js"></script>
+    
+      <style>
+         html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow:hidden;
+         }
+        
+         #map {
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+         }
+        
+         #rangeVis {
+            top: 0px;
+            left: 10px;
+            height: 100%;
+            width: 2px;
+            background-color: #808080;
+            position: absolute;
+            z-Index: 100000;
+         }
+        
+         #rangeVis div {
+            color: rgba(128, 128, 128, 0.8);
+            white-space: nowrap;
+            position: absolute;
+            top: 70px;
+         }
+        
+         #rangeVisModern {
+            left:-1.7em;
+            transform:rotate(90deg);
+         }
+        
+         #rangeVisVintage {
+            left:-2.9em;
+            transform:rotate(-90deg);
+         }
+
+         #rangeBg {
+            top: 10px;
+            left: 0px;
+            right: 0px;
+            height: 26px;
+            width: 100%;
+            background-color: rgba(192, 192, 192, 0.5);
+            position: absolute;
+            z-Index: 100001;
+         }
+
+         #range {
+            top: 10px;
+            left: 0px;
+            right: 0px;
+            width: 100%;
+            margin-left:0px;
+            margin-right:0px;
+            position: absolute;
+            z-Index: 100002;
+         }
+        
+         #layerParam {
+            top: 40px;
+            left: 5px;
+            position: absolute;
+            z-Index: 100002;
+            opacity: 0.5;
+         }
+      </style>
+   </head>
+
+   <body>
+      <div id="map"></div>
+    
+      <div id="rangeBg"></div>
+      <input id="range" type="range" min="0" max="1.0" step="any" />
+    
+      <div id="rangeVis">
+         <div id="rangeVisModern"><b>MODERN</b></div>
+         <div id="rangeVisVintage"><b>VINTAGE</b></div>
+      </div>
+    
+      <div id="layerParam">
+         <select id="cluster" onchange="initLayer()">
+            <option value="xserver2-dev">TomTom</option>
+            <option value="xserver2-europe-test">HERE</option>
+         </select>
+         <select id="profile" onchange="initLayer()">
+            <option value="silkysand">Silkysand</option>
+            <option value="sandbox">Sandbox</option>
+            <option value="gravelpit">Gravelpit</option>
+            <option value="classic">Classic [NO STABLE LABELLING]</option>
+         </select>
+      </div>
+    
+      <script>
+         var map = L.map('map', {
+            zoomControl: false,
+         }).setView([49.01405, 8.4044], 14);
+
+         new L.Control.Zoom({
+            position: 'bottomleft'
+         }).addTo(map);
+
+         var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+        
+         var leftMap = {}.undefined;
+         var rightMap = {}.undefined;
+        
+         var range = document.getElementById('range');
+         var rangeVis = document.getElementById('rangeVis');
+        
+         var clusterSelect = document.getElementById("cluster");
+         var profileSelect = document.getElementById("profile");
+        
+         var clip = function() {
+            var nw = map.containerPointToLayerPoint([0, 0]),
+                se = map.containerPointToLayerPoint(map.getSize()),
+                clipX = nw.x + (se.x - nw.x) * range.value;
+                
+            rangeVis.style.setProperty('left', '' + ((range.value * (document.body.clientWidth-1)) >> 0) + 'px');
+           
+            leftMap.getContainer().style.clip = 'rect(' + [nw.y, clipX, se.y, nw.x].join('px,') + 'px)';
+            rightMap.getContainer().style.clip = 'rect(' + [nw.y, se.x, se.y, clipX].join('px,') + 'px)';
+         }
+        
+         var replaceXServer2Layer = function(layerToReplace, cluster, profile, token, providerCopyright) {
+            if (layerToReplace) {
+               layerToReplace.removeFrom(map);
+            }
+            return L.tileLayer('https://s0{s}-' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + profile + '?xtok=' + token, {
+                attribution: '<a href="http://www.ptvgroup.com">PTV</a>, ' + providerCopyright,
+                maxZoom: 19,
+                subdomains: '1234'
+            }).addTo(map);
+         }
+        
+         var initLayer = function(cluster, profile) {
+        
+            cluster = cluster || clusterSelect.value;
+            profile = profile || profileSelect.value;
+        
+            var providerCopyright = /^xserver2-europe/gi.test(cluster) 
+               ? 'HERE'
+               : 'TomTom';
+        
+            rightMap = replaceXServer2Layer(
+               rightMap, cluster, profile + '_modern', token, providerCopyright
+            );
+            
+            leftMap = replaceXServer2Layer(
+               leftMap, cluster, profile, token, providerCopyright
+            );
+           
+            clip();
+         }
+        
+         range.onchange = clip;
+         range.oninput = clip;
+        
+         map.on('move', clip);
+        
+         initLayer('xserver2-dev', 'silkysand');
+      </script>
+   </body>
+</html>
