@@ -13,8 +13,8 @@
 
         for (var i = container._layers.length - 1; i >= 0 ; i--) {
             var layer = container._layers[i];
-            if ((layer.pixelReferencePoint.x - 8 <= mp.x) && (layer.pixelReferencePoint.x + 8 >= mp.x) &&
-                (layer.pixelReferencePoint.y - 8 <= mp.y) && (layer.pixelReferencePoint.y + 8 >= mp.y)) {
+            if ((layer.referencePixelPoint.x - 8 <= mp.x) && (layer.referencePixelPoint.x + 8 >= mp.x) &&
+                (layer.referencePixelPoint.y - 8 <= mp.y) && (layer.referencePixelPoint.y + 8 >= mp.y)) {
                 return layer;
             }
         }
@@ -37,14 +37,19 @@
         if (found) {
             e.preventDefault();
 
+			var description = '';
+			for(var i = 0; i < found.attributes.length; i++) {
+				var attribute = found.attributes[i];
+				description = description.concat(
+					attribute.key.replace(/[A-Z]/g, " $&") + ': ' + 
+					attribute.value.replace("_", " ") + '<br>');
+			}
+			
             L.popup()
                 .setLatLng(found.latLng)
-                .setContent(found.description
-                   .replace(/\|/g, "<br>") // Insert line breaks instead of pipe symbols
-                   .replace(/=/g, ": ") // Use colon instead of mathematical looking equal signs
-                   .replace(/[A-Z]/g, " $&") // Camel case notation eliminated by insertion of a blank
-                   .toLowerCase())
-                .openOn(map);
+                .setContent(description                   
+					.toLowerCase())
+				.openOn(map);
 
             e.stopPropagation();
             return false;
@@ -97,16 +102,16 @@
                var rawImage = resp.image;
                tile.src = prefixMap[rawImage.substr(0, 5)] + rawImage;
 
-               if (resp.drawnObjects)
+               if (resp.features)
                {
                   L.DomEvent
                    .on(tile, 'mousemove', L.Util.throttle(this._onMouseMove, 32, tile), tile)
                    .on(tile, 'click', this._onClick, tile);
                  
-                  var objectInfos = resp.drawnObjects;
+                  var objectInfos = resp.features;
                   for (var i = 0; i < objectInfos.length; i++) {
                      var oi = objectInfos[i];
-                     oi.latLng = this.pixToLatLng(coords, oi.pixelReferencePoint);
+                     oi.latLng = this.pixToLatLng(coords, oi.referencePixelPoint);
                      tile._layers.push(oi);
                   }
                 }
