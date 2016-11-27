@@ -63,7 +63,7 @@
 
         var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
 
-        var x2two = L.tileLayer('https://api{s}-xstwo.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
+        var x2two = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
             '?xtok=' + token, {
                 attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
                 maxZoom: 19,
@@ -71,7 +71,7 @@
             }).addTo(map);
 
 
-        var xs1background = L.tileLayer('https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png', {
+        var xs1background = L.tileLayer('https://s0{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png', {
             minZoom: 0,
             maxZoom: 19,
             opacity: 1.0,
