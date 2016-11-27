@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.2/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -45,7 +45,7 @@
     <input id="range" type="range" min="0" max="1.0" step="any" />
     <input id="range2" type="range" value="0.15" min="0" max="1.0" step="any" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.2/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
     <script src="./leaflet-xserver/NonTiledLayer.js"></script>
     <script src="./leaflet-xserver/NonTiledLayer.WMS.js"></script>
     <script src="token.js"></script>
@@ -71,7 +71,7 @@
             }).addTo(map);
 
 
-        var xs1background = L.tileLayer('https://s0{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png', {
+        var xs1background = L.tileLayer('https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png', {
             minZoom: 0,
             maxZoom: 19,
             opacity: 1.0,
