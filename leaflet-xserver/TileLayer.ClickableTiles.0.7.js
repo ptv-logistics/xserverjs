@@ -1,4 +1,4 @@
-﻿L.TileLayer.MetaInfoTiles = L.TileLayer.extend({
+﻿L.TileLayer.ClickableTiles = L.TileLayer.extend({
     includes: L.Mixin.Events,
 
     initialize: function(url, options) {
@@ -25,7 +25,7 @@
     },
 
     _initContainer: function() {
-        var tilePane = this._map._panes.overlayPane;
+        var tilePane = this.options.pane? this.options.pane : this._map._panes.tilePane;
 
         if (!this._container) {
             this._container = L.DomUtil.create('div', 'leaflet-layer');
@@ -45,7 +45,7 @@
             this._tileContainer.style.zIndex = this.options.zIndex;
 
             tilePane.appendChild(this._container);
-            this._container.style['pointer-events'] = 'none';
+//            this._container.style['pointer-events'] = 'none';
 
             if (this.options.opacity < 1) {
                 this._updateOpacity();
@@ -250,3 +250,7 @@
         });
     }
 });
+
+L.TileLayer.clickableTiles = function (url, options) {
+    return new L.TileLayer.ClickableTiles(url, options);
+};

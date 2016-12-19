@@ -27,12 +27,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     <script src="./leaflet-xserver/corslite.js"></script>
-    <script src="./leaflet-xserver/TileLayer.MetaInfoTiles.0.7.js"></script>
+    <script src="./leaflet-xserver/TileLayer.ClickableTiles.0.7.js"></script>
     <script src="./token.js"></script>
-    <script>
+    <script>	
         var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
-        var interactiveTileLayer = new L.TileLayer.MetaInfoTiles(
+        var interactiveTileLayer = L.TileLayer.clickableTiles(
 		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}/' +
 		'silkysand+PTV_TruckAttributes/json?xtok=' + token,
 		{

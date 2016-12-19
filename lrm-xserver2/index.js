@@ -2,8 +2,8 @@ if (!token) {
 	alert('you need a token to run the sample!');
 }
 
-// Fix for IE10 route-drag
-L.Browser.pointer = null;
+// Fix for IE10 route-drag - NOT
+// L.Browser.pointer = null;
 
 var cluster = 'hh';
 var itineraryLanguage = 'EN';
@@ -202,14 +202,15 @@ var empty =  L.layerGroup([]);
   };
 
 
-        var truckAttributesLayer = new L.TileLayer.MetaInfoTiles(
+        var truckAttributesLayer = L.TileLayer.clickableTiles(
 		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
 		'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
 		{
 			attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			subdomains: '1234',
             maxZoom: 22,
-			zIndex: 998
+			zIndex: 998,
+			pane: map._panes.overlayPane
         }).addTo(map);
 
 
