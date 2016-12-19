@@ -2,8 +2,6 @@ html {
     font-family: sans-serif;
 }
 
-.leaflet-routing-icon-undefined              { background-position: -240px 0; }
-
 .map {
     position: fixed;
     top: 0;
