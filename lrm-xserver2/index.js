@@ -5,9 +5,9 @@ if (!token) {
 // Fix for IE10 route-drag
 L.Browser.pointer = null;
 
-var cluster = 'eu';
+var cluster = 'hh';
 var itineraryLanguage = 'EN';
-var routingProfile = 'carfast';
+var routingProfile = 'truckfast';
 var alternativeRoutes = 0;
 
 var baseLayers;
@@ -42,15 +42,28 @@ var map = L.map('map', {
 
 // get the start and end coordinates for a cluster
 var getPlan = function () {
-		// return [
-			// L.latLng(48.8588, 2.3469),
-			// L.latLng(52.3546, 4.9039)
-		// ];
+	if (cluster.indexOf('hh') > -1) {
 		return [
 			L.latLng(53.55145062603612, 9.934816360473632),
 			L.latLng(53.52796226132062, 9.84975814819336)
 		];
-
+	}
+	if (cluster.indexOf('na') > -1) {
+        return [
+			L.latLng(40.71454, -74.00711),
+			L.latLng(42.35867, -71.05672)
+        ];
+    } else if (cluster.indexOf('au') > -1) {
+        return [
+			L.latLng(-33.86959, 151.20694),
+			L.latLng(-35.3065, 149.12659)
+        ];
+    } else { // 'eu'	
+        return [
+			L.latLng(48.8588, 2.3469),
+			L.latLng(52.3546, 4.9039)
+        ];
+    }
 };
 
 // get the fixed country for a cluster
@@ -180,11 +193,11 @@ var vectorDefault = L.layerGroup([layer, overlayLayer]);
 var empty =  L.layerGroup([]); 
 
   var baseLayers = {
+	  "Vector (Default)": vectorDefault,
+	  "Winter (Winter)": vectorWinter.addTo(map),
       "PTV gravelpit": getXMapBaseLayers("", 'gravelpit'),
       "PTV sandbox": getXMapBaseLayers("", 'sandbox'),
       "PTV silkysand": getXMapBaseLayers("", 'silkysand'),
-	  "Vector": vectorDefault.addTo(map),
-	  "Winter": vectorWinter,
 	  "Empty": empty
   };
 

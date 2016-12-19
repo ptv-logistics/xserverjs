@@ -66,8 +66,10 @@
 
             for (var j = tile._layers.length - 1; j >= 0; j--) {
                 var layer = tile._layers[j];
-                if ((layer.referencePixelPoint.x - 8 <= mp.x) && (layer.referencePixelPoint.x + 8 >= mp.x) &&
-                    (layer.referencePixelPoint.y - 8 <= mp.y) && (layer.referencePixelPoint.y + 8 >= mp.y)) {
+				var width = Math.abs(layer.pixelBoundingBox.right - layer.pixelBoundingBox.left);
+				var height = Math.abs(layer.pixelBoundingBox.top - layer.pixelBoundingBox.bottom);
+                if ((layer.referencePixelPoint.x - width/2 <= mp.x) && (layer.referencePixelPoint.x + width/2 >= mp.x) &&
+                    (layer.referencePixelPoint.y - height/2 <= mp.y) && (layer.referencePixelPoint.y + height/2 >= mp.y)) {
                     return layer;
                 }
             }
