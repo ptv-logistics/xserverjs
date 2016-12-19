@@ -195,8 +195,6 @@
     },
 
     _loadTile: function(tile, coords) {
-        //        var tile = document.createElement('img');
-        //        tile.style['pointer-events'] = 'auto';
         if (!this._map)
             return;
 
@@ -209,14 +207,16 @@
         this._adjustTilePoint(coords);
 
         var url = this.getTileUrl(coords);
-
+		
         this.runRequestQ(url,
             L.bind(function(error, response) {
                 if (!this._map)
                     return;
 
-				if(error)
+				if(error) {
+					tile.src = '//';
 					return;
+				}
 				
 				var resp = JSON.parse(response.responseText)
 				
