@@ -2,6 +2,9 @@ if (!token) {
 	alert('you need a token to run the sample!');
 }
 
+// Fix for IE10 route-drag
+L.Browser.pointer = null;
+
 var cluster = 'eu';
 var itineraryLanguage = 'EN';
 var routingProfile = 'carfast';
