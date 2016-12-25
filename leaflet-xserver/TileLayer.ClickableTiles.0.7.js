@@ -2,9 +2,6 @@
     includes: L.Mixin.Events,
 
     initialize: function(url, options) {
-        options.unloadInvisibleTiles = true;
-        options.reuseTiles = false;
-
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
 
@@ -45,7 +42,7 @@
             this._tileContainer.style.zIndex = this.options.zIndex;
 
             tilePane.appendChild(this._container);
-//            this._container.style['pointer-events'] = 'none';
+            this._container.style['pointer-events'] = 'none';
 
             if (this.options.opacity < 1) {
                 this._updateOpacity();
@@ -141,13 +138,6 @@
 
     _reset: function() {
         this._resetQueue();
-        for (var key in this._tiles) {
-            this._resetTile(this._tiles[key]);
-        }
-
-        for (var key in this._unusedTiles) {
-            this._resetTile(this._unusedTiles[key]);
-        }
 
         L.TileLayer.prototype._reset.call(this);
     },
@@ -214,7 +204,7 @@
                     return;
 
 				if(error) {
-					tile.src = '//';
+					tile.src = '';
 					return;
 				}
 				
@@ -229,11 +219,8 @@
 
                 var rawImage = resp.image;
                 tile.src = prefixMap[rawImage.substr(0, 5)] + rawImage;
-                this._resetTile(tile);
 
-                if (resp.features &&
-                    this._container &&
-                    this._tileContainer.style.visibility !== 'hidden') {
+                if (resp.features) {
                     var objectInfos = resp.features;
 
                     for (var i = 0; i < objectInfos.length; i++) {
