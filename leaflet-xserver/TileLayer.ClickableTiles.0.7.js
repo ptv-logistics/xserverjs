@@ -14,8 +14,8 @@
         L.TileLayer.prototype.onAdd.call(this, map);
 
         L.DomEvent
-            .on(document, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(document, 'click', this._onClick, this);
+            .on(map._mapPane, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
+            .on(map._mapPane, 'click', this._onClick, this);
     },
 
     onRemove: function(map) {
