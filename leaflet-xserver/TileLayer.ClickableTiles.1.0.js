@@ -2,9 +2,6 @@
     includes: L.Mixin.Events,
 	
 	initialize: function(url, options) {
-        options.unloadInvisibleTiles = true;
-        options.reuseTiles = false;
-
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
 	
@@ -202,8 +199,11 @@
                 if (!this._map)
                     return;
 
-				tile.src = '//';
-				
+				if(error) {
+					tile.src = '';
+					return;
+				}
+
 				var resp = JSON.parse(response.responseText)
 				
                 var prefixMap = {
