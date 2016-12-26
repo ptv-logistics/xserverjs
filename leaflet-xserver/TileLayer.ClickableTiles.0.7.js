@@ -14,7 +14,7 @@
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
-        var cont = this._isOverlay? map._container : this._container;
+        var cont = this._isOverlay? map._mapPane : this._container;
 
         L.DomEvent
             .on(cont, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
@@ -91,12 +91,12 @@
         if (this.findElement(e, this._container)) {
             e.preventDefault();
 
-            if(this._is_overlay)
+            if(this._isOverlay)
                 this._container.style['pointer-events'] = 'auto';
     
             L.DomUtil.addClass(this._container, 'leaflet-clickable'); // change cursor
         } else {
-            if(this._is_overlay)
+            if(this._isOverlay)
                 this._container.style['pointer-events'] = 'none';
             L.DomUtil.removeClass(this._container, 'leaflet-clickable');
         }
