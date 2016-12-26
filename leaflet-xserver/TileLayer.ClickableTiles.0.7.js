@@ -2,22 +2,24 @@
     includes: L.Mixin.Events,
 
     initialize: function(url, options) {
+         this._isOverlay = options.isOverlay;                                           
+
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
+
+    _isOverlay: false,
 
     onAdd: function(map) {
         this._resetQueue();
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
-
-		var stop = L.DomEvent.stopPropagation;
-
+        var cont = this._isOverlay? map._container : this._container;
 
         L.DomEvent
-            .on(map._container, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(map._container, 'mousedown', this._onMouseDown, this)
-            .on(map._container, 'click', this._onClick, this);
+            .on(cont, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
+            .on(cont, 'mousedown', this._onMouseDown, this)
+            .on(cont, 'click', this._onClick, this);
     },
 
     onRemove: function(map) {
@@ -47,7 +49,8 @@
             this._tileContainer.style.zIndex = this.options.zIndex;
 
             tilePane.appendChild(this._container);
-           this._container.style['pointer-events'] = 'none';
+            
+            this._container.style['pointer-events'] = this._isOverlay? 'none' : 'auto';
 
             if (this.options.opacity < 1) {
                 this._updateOpacity();
@@ -88,10 +91,13 @@
         if (this.findElement(e, this._container)) {
             e.preventDefault();
 
-            this._container.style['pointer-events'] = 'auto';
+            if(this._is_overlay)
+                this._container.style['pointer-events'] = 'auto';
+    
             L.DomUtil.addClass(this._container, 'leaflet-clickable'); // change cursor
         } else {
-            this._container.style['pointer-events'] = 'none';
+            if(this._is_overlay)
+                this._container.style['pointer-events'] = 'none';
             L.DomUtil.removeClass(this._container, 'leaflet-clickable');
         }
     },
