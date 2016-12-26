@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -33,12 +34,13 @@
 
 </head>
 <body>
+<!--			<iframe height="300" width="100%" src="bg.html" allowfullscreen></iframe> -->
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <div class="section hero">
-    <div class="container">
+  <div style="z-index:10000" id="map" class="section hero">
+    <div style="z-index:10000" class="container">
       <div class="row">
         <div class="four columns">
           <h4 class="hero-heading">xserver.js: JavaScript APIs for PTV xServer</h4>
@@ -102,6 +104,58 @@
   </div>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet-src.js"></script>
+    <script src="token.js"></script>
+    <script>
+
+        var map = L.map('map', {
+			zoomSnap: 0.5,
+            zoomDelta: 0.25,
+			wheelPxPerZoomLevel: 100,
+      zoomControl:false,
+      attributionControl:false
+}
+			).setView([0,0], 0);
+
+		var getLayer = function(profile) {
+		    return L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + profile +
+				'?xtok=' + token, {
+				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+				maxZoom: 22,
+				subdomains: '1234'
+			});
+		}
+
+		getLayer('gravelpit-labels').addTo(map);
+
+
+      map._handlers.forEach(function(handler) {
+    handler.disable();
+
+})
+
+		var positions = [
+      [49.01405, 8.4044, 16, 25], // KQ
+      [48.856667, 2.351667, 12, 25], // Paris
+      [51.50939, -0.11832, 12, 15]] // Paris
+
+		var filter = "blur(13px)";
+
+				map.getPanes().tilePane.style.webkitFilter = filter;
+			map.getPanes().tilePane.style.filter = filter;
+
+var i = 0;
+var p = positions[i];
+				
+		map.flyTo([p[0], p[1]], p[2], {duration: p[3]});
+
+				map.on('moveend', function(e) {
+					this.i = ++this.i % positions.length;
+var p = positions[i];
+
+		map.flyTo([p[0], p[1]], p[2], {duration: p[3]});
+				}, this);
+				</script>
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
