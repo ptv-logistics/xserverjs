@@ -222,7 +222,8 @@ var truckAttributesLayer = L.TileLayer.clickableTiles(
 		subdomains: '1234',
 		maxZoom: 22,
 		zIndex: 1000,
-		pane: map._panes.tileoverlayPane
+		pane: map._panes.tileoverlayPane,
+		isOverlay: true
 	}).addTo(map);
 
 
