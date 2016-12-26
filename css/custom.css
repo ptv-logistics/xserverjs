@@ -82,7 +82,7 @@
   .section {
   }
   .hero {
-    padding: 24rem 0;
+    padding: 24rem 0 24rem 6rem;
   }
   .hero-heading {
     font-size: 3.0rem;
