@@ -10,10 +10,10 @@
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
-        this._container.style['pointer-events'] = 'auto';
 		L.DomEvent
-            .on(map._mapPane, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(map._mapPane, 'click', this._onClick, this);
+            .on(map._container, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
+            .on(map._container, 'mousedown', this._onMouseDown, this)
+            .on(map._container, 'click', this._onClick, this);
     },
 
     onRemove: function(map) {
@@ -121,13 +121,28 @@
     },
 
     _onMouseMove: function(e) {
-        if (!this._map || this._map.dragging._draggable._moving || this._map._animatingZoom) 
-			return;
-		
-        if (this.findElement(e, this._container))
+        if (!this._map || this._map.dragging._draggable._moving || this._map._animatingZoom) {
+            return;
+        }
+
+        if (this.findElement(e, this._container)) {
+            e.preventDefault();
+
 			this._map._container.style.cursor = "pointer";
-        else {
+            
+            e.stopPropagation();
+        } else {
 			this._map._container.style.cursor = "";
+        }
+    },
+
+     _onMouseDown: function(e) {
+        var found = this.findElement(e, this._container);
+        if (found) {
+            e.preventDefault();
+
+            e.stopPropagation();
+            return false;
         }
     },
 
