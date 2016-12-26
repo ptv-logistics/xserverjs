@@ -39,7 +39,7 @@
 	padding: 5rem 0;
   }
   .hero {
-  background-image: url('../images/bg_page.png');
+/*  background-image: url('../images/bg_page.png'); */
   background-size: cover;
     padding-bottom: 12rem;
 /*    text-align: left;*/
