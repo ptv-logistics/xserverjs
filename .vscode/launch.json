@@ -5,7 +5,7 @@
             "name": "Launch index.html (without sourcemaps)",
             "type": "chrome",
             "request": "launch",
-            "file": "${workspaceRoot}/lrm-xserver2/index.html"
+            "file": "${workspaceRoot}/InteractiveTiles.0.7.html"
         }
     ]
 }

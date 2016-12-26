@@ -10,9 +10,14 @@
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
+
+		var stop = L.DomEvent.stopPropagation;
+
+
         L.DomEvent
-            .on(map._mapPane, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(map._mapPane, 'click', this._onClick, this);
+            .on(map._container, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
+            .on(map._container, 'mousedown', this._onMouseDown, this)
+            .on(map._container, 'click', this._onClick, this);
     },
 
     onRemove: function(map) {
@@ -42,7 +47,7 @@
             this._tileContainer.style.zIndex = this.options.zIndex;
 
             tilePane.appendChild(this._container);
-            this._container.style['pointer-events'] = 'none';
+           this._container.style['pointer-events'] = 'none';
 
             if (this.options.opacity < 1) {
                 this._updateOpacity();
@@ -88,6 +93,16 @@
         } else {
             this._container.style['pointer-events'] = 'none';
             L.DomUtil.removeClass(this._container, 'leaflet-clickable');
+        }
+    },
+
+     _onMouseDown: function(e) {
+        var found = this.findElement(e, this._container);
+        if (found) {
+            e.preventDefault();
+
+            e.stopPropagation();
+            return false;
         }
     },
 

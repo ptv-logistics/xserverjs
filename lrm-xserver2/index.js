@@ -92,7 +92,7 @@ function getXMapBaseLayers(style) {
 			maxZoom: 22,
 			subdomains: '1234',
 			pane: map._panes.tileoverlayPane,
-			zIndex: 999
+			zIndex: 1
 		});
 	
 	return L.layerGroup([bg, fg]);
@@ -168,6 +168,7 @@ L.control.scale().addTo(map);
 map._panes.tileoverlayPane = map._createPane('leaflet-tile-pane', map._panes.overlayPane);
 map._panes.tileoverlayPane.style['pointer-events'] = 'none';
 //			map._panes.tileoverlayPane.style.zIndex = 999;
+
 
 
 vectormaps.renderPTV.PARSE_COORDS_WORKER = "lib/vectormaps-worker.min.js";
