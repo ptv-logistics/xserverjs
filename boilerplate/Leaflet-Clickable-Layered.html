@@ -35,7 +35,7 @@
         var map = L.map('map').setView(coordinate, 14);
 
         var basemapLayer = L.tileLayer(
-		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}/' +
+		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
 		'silkysand?xtok=' + token,
 		{
 			attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
@@ -52,7 +52,7 @@
 		}).addTo(map).bindPopup("I am a circle.");
 
         var truckAttributesLayer = L.TileLayer.clickableTiles(
-		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}/' +
+		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
 		'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
 		{
 			attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',

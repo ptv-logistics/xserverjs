@@ -99,7 +99,7 @@ var setCluster = function () {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
+					serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations/',
 					token: token
 				}),
 				reverseWaypoints: true
