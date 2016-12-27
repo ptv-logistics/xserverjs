@@ -1,7 +1,7 @@
 L.Control.Geocoder.Ptv = L.Class.extend({
 	options: {
 		// xLocate url
-		serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
+		serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations/',
 		// token for xServer internet
 		token: ''
 	},
