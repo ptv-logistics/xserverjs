@@ -1,7 +1,7 @@
 xserver.js
 ==========
 
-JavaScript APIs for [http://xserver.ptvgroup.com/home/ptv-xserver-en/](PTV xServer)
+JavaScript APIs for ([PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
 Go to http://ptv-logistics.github.io/xserverjs/ 
 
