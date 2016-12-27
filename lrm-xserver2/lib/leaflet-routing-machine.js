@@ -1,9 +1,4 @@
-/*! leaflet-routing-machine - v3.2.4 - 2016-10-14
- * Copyright (c) 2013-2016 Per Liedman
- * Distributed under the ISC license */
-
-
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.L || (g.L = {})).Routing = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.L || (g.L = {})).Routing = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -13,7 +8,7 @@ function corslite(url, callback, cors) {
 
     if (typeof cors === 'undefined') {
         var m = url.match(/^\s*https?:\/\/[^\/]*/);
-        cors = m && (m[0] !== location.protocol + '//' + location.hostname +
+        cors = m && (m[0] !== location.protocol + '//' + location.domain +
                 (location.port ? ':' + location.port : ''));
     }
 
@@ -98,19 +93,13 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
-},{}],2:[function(_dereq_,module,exports){
-'use strict';
-
-/**
- * Based off of [the offical Google document](https://developers.google.com/maps/documentation/utilities/polylinealgorithm)
- *
- * Some parts from [this implementation](http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/PolylineEncoder.js)
- * by [Mark McClure](http://facstaff.unca.edu/mcmcclur/)
- *
- * @module polyline
- */
-
+},{}],2:[function(require,module,exports){
 var polyline = {};
+
+// Based off of [the offical Google document](https://developers.google.com/maps/documentation/utilities/polylinealgorithm)
+//
+// Some parts from [this implementation](http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/PolylineEncoder.js)
+// by [Mark McClure](http://facstaff.unca.edu/mcmcclur/)
 
 function encode(coordinate, factor) {
     coordinate = Math.round(coordinate * factor);
@@ -127,17 +116,8 @@ function encode(coordinate, factor) {
     return output;
 }
 
-/**
- * Decodes to a [latitude, longitude] coordinates array.
- *
- * This is adapted from the implementation in Project-OSRM.
- *
- * @param {String} str
- * @param {Number} precision
- * @returns {Array}
- *
- * @see https://github.com/Project-OSRM/osrm-frontend/blob/master/WebContent/routing/OSRM.RoutingGeometry.js
- */
+// This is adapted from the implementation in Project-OSRM
+// https://github.com/DennisOSRM/Project-OSRM-Web/blob/master/WebContent/routing/OSRM.RoutingGeometry.js
 polyline.decode = function(str, precision) {
     var index = 0,
         lat = 0,
@@ -187,15 +167,8 @@ polyline.decode = function(str, precision) {
     return coordinates;
 };
 
-/**
- * Encodes the given [latitude, longitude] coordinates array.
- *
- * @param {Array.<Array.<Number>>} coordinates
- * @param {Number} precision
- * @returns {String}
- */
 polyline.encode = function(coordinates, precision) {
-    if (!coordinates.length) { return ''; }
+    if (!coordinates.length) return '';
 
     var factor = Math.pow(10, precision || 5),
         output = encode(coordinates[0][0], factor) + encode(coordinates[0][1], factor);
@@ -209,51 +182,9 @@ polyline.encode = function(coordinates, precision) {
     return output;
 };
 
-function flipped(coords) {
-    var flipped = [];
-    for (var i = 0; i < coords.length; i++) {
-        flipped.push(coords[i].slice().reverse());
-    }
-    return flipped;
-}
+if (typeof module !== undefined) module.exports = polyline;
 
-/**
- * Encodes a GeoJSON LineString feature/geometry.
- *
- * @param {Object} geojson
- * @param {Number} precision
- * @returns {String}
- */
-polyline.fromGeoJSON = function(geojson, precision) {
-    if (geojson && geojson.type === 'Feature') {
-        geojson = geojson.geometry;
-    }
-    if (!geojson || geojson.type !== 'LineString') {
-        throw new Error('Input must be a GeoJSON LineString');
-    }
-    return polyline.encode(flipped(geojson.coordinates), precision);
-};
-
-/**
- * Decodes to a GeoJSON LineString geometry.
- *
- * @param {String} str
- * @param {Number} precision
- * @returns {Object}
- */
-polyline.toGeoJSON = function(str, precision) {
-    var coords = polyline.decode(str, precision);
-    return {
-        type: 'LineString',
-        coordinates: flipped(coords)
-    };
-};
-
-if (typeof module === 'object' && module.exports) {
-    module.exports = polyline;
-}
-
-},{}],3:[function(_dereq_,module,exports){
+},{}],3:[function(require,module,exports){
 (function() {
 	'use strict';
 
@@ -297,14 +228,8 @@ if (typeof module === 'object' && module.exports) {
 		_open: function() {
 			var rect = this._elem.getBoundingClientRect();
 			if (!this._container.parentElement) {
-				// See notes section under https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
-				// This abomination is required to support all flavors of IE
-				var scrollX = (window.pageXOffset !== undefined) ? window.pageXOffset
-					: (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-				var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset
-					: (document.documentElement || document.body.parentNode || document.body).scrollTop;
-				this._container.style.left = (rect.left + scrollX) + 'px';
-				this._container.style.top = (rect.bottom + scrollY) + 'px';
+				this._container.style.left = (rect.left + window.scrollX) + 'px';
+				this._container.style.top = (rect.bottom + window.scrollY) + 'px';
 				this._container.style.width = (rect.right - rect.left) + 'px';
 				document.body.appendChild(this._container);
 			}
@@ -465,20 +390,19 @@ if (typeof module === 'object' && module.exports) {
 	});
 })();
 
-},{}],4:[function(_dereq_,module,exports){
+},{}],4:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 
 	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.Itinerary'));
-	L.extend(L.Routing, _dereq_('./L.Routing.Line'));
-	L.extend(L.Routing, _dereq_('./L.Routing.Plan'));
-	L.extend(L.Routing, _dereq_('./L.Routing.OSRMv1'));
-	L.extend(L.Routing, _dereq_('./L.Routing.Mapbox'));
-	L.extend(L.Routing, _dereq_('./L.Routing.ErrorControl'));
+	L.extend(L.Routing, require('./L.Routing.Itinerary'));
+	L.extend(L.Routing, require('./L.Routing.Line'));
+	L.extend(L.Routing, require('./L.Routing.Plan'));
+	L.extend(L.Routing, require('./L.Routing.OSRM'));
+	L.extend(L.Routing, require('./L.Routing.ErrorControl'));
 
 	L.Routing.Control = L.Routing.Itinerary.extend({
 		options: {
@@ -488,25 +412,20 @@ if (typeof module === 'object' && module.exports) {
 			routeWhileDragging: false,
 			routeDragInterval: 500,
 			waypointMode: 'connect',
-			showAlternatives: false,
-			defaultErrorHandler: function(e) {
-				console.error('Routing error:', e.error);
-			}
+			useZoomParameter: false,
+			showAlternatives: false
 		},
 
 		initialize: function(options) {
 			L.Util.setOptions(this, options);
 
-			this._router = this.options.router || new L.Routing.OSRMv1(options);
+			this._router = this.options.router || new L.Routing.OSRM(options);
 			this._plan = this.options.plan || L.Routing.plan(this.options.waypoints, options);
 			this._requestCount = 0;
 
 			L.Routing.Itinerary.prototype.initialize.call(this, options);
 
 			this.on('routeselected', this._routeSelected, this);
-			if (this.options.defaultErrorHandler) {
-				this.on('routingerror', this.options.defaultErrorHandler);
-			}
 			this._plan.on('waypointschanged', this._onWaypointsChanged, this);
 			if (options.routeWhileDragging) {
 				this._setupRouteDragging();
@@ -517,39 +436,19 @@ if (typeof module === 'object' && module.exports) {
 			}
 		},
 
-		onZoomEnd: function() {
-			if (!this._selectedRoute ||
-				!this._router.requiresMoreDetail) {
-				return;
-			}
-
-			var map = this._map;
-			if (this._router.requiresMoreDetail(this._selectedRoute,
-					map.getZoom(), map.getBounds())) {
-				this.route({
-					callback: L.bind(function(err, routes) {
-						var i;
-						if (!err) {
-							for (i = 0; i < routes.length; i++) {
-								this._routes[i].properties = routes[i].properties;
-							}
-							this._updateLineCallback(err, routes);
-						}
-
-					}, this),
-					simplifyGeometry: false,
-					geometryOnly: true
-				});
-			}
-		},
-
 		onAdd: function(map) {
 			var container = L.Routing.Itinerary.prototype.onAdd.call(this, map);
 
 			this._map = map;
 			this._map.addLayer(this._plan);
 
-			this._map.on('zoomend', this.onZoomEnd, this);
+			if (this.options.useZoomParameter) {
+				this._map.on('zoomend', function() {
+					this.route({
+						callback: L.bind(this._updateLineCallback, this)
+					});
+				}, this);
+			}
 
 			if (this._plan.options.geocoder) {
 				container.insertBefore(this._plan.createGeocoders(), container.firstChild);
@@ -559,16 +458,10 @@ if (typeof module === 'object' && module.exports) {
 		},
 
 		onRemove: function(map) {
-			map.off('zoomend', this.onZoomEnd, this);
 			if (this._line) {
 				map.removeLayer(this._line);
 			}
 			map.removeLayer(this._plan);
-			if (this._alternatives && this._alternatives.length > 0) {
-				for (var i = 0, len = this._alternatives.length; i < len; i++) {
-					map.removeLayer(this._alternatives[i]);
-				}
-			}
 			return L.Routing.Itinerary.prototype.onRemove.call(this, map);
 		},
 
@@ -595,7 +488,7 @@ if (typeof module === 'object' && module.exports) {
 		},
 
 		_routeSelected: function(e) {
-			var route = this._selectedRoute = e.route,
+			var route = e.route,
 				alternatives = this.options.showAlternatives && e.alternatives,
 				fitMode = this.options.fitSelectedRoutes,
 				fitBounds =
@@ -744,10 +637,8 @@ if (typeof module === 'object' && module.exports) {
 
 		_updateLineCallback: function(err, routes) {
 			if (!err) {
-				routes = routes.slice();
-				var selected = routes.splice(this._selectedRoute.routesIndex, 1)[0];
-				this._updateLines({route: selected, alternatives: routes });
-			} else if (err.type !== 'abort') {
+				this._updateLines({route: routes[0], alternatives: routes.slice(1) });
+			} else {
 				this._clearLines();
 			}
 		},
@@ -755,11 +646,6 @@ if (typeof module === 'object' && module.exports) {
 		route: function(options) {
 			var ts = ++this._requestCount,
 				wps;
-
-			if (this._pendingRequest && this._pendingRequest.abort) {
-				this._pendingRequest.abort();
-				this._pendingRequest = null;
-			}
 
 			options = options || {};
 
@@ -770,21 +656,15 @@ if (typeof module === 'object' && module.exports) {
 
 				wps = options && options.waypoints || this._plan.getWaypoints();
 				this.fire('routingstart', {waypoints: wps});
-				this._pendingRequest = this._router.route(wps, function(err, routes) {
-					this._pendingRequest = null;
-
-					if (options.callback) {
-						return options.callback.call(this, err, routes);
-					}
-
+				this._router.route(wps, options.callback || function(err, routes) {
 					// Prevent race among multiple requests,
-					// by checking the current request's count
+					// by checking the current request's timestamp
 					// against the last request's; ignore result if
-					// this isn't the last request.
+					// this isn't the latest request.
 					if (ts === this._requestCount) {
 						this._clearLines();
 						this._clearAlts();
-						if (err && err.type !== 'abort') {
+						if (err) {
 							this.fire('routingerror', {error: err});
 							return;
 						}
@@ -825,7 +705,7 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.ErrorControl":5,"./L.Routing.Itinerary":8,"./L.Routing.Line":10,"./L.Routing.Mapbox":12,"./L.Routing.OSRMv1":13,"./L.Routing.Plan":14}],5:[function(_dereq_,module,exports){
+},{"./L.Routing.ErrorControl":5,"./L.Routing.Itinerary":8,"./L.Routing.Line":10,"./L.Routing.OSRM":12,"./L.Routing.Plan":13}],5:[function(require,module,exports){
 (function() {
 	'use strict';
 
@@ -886,21 +766,29 @@ if (typeof module === 'object' && module.exports) {
 	};
 })();
 
-},{}],6:[function(_dereq_,module,exports){
+},{}],6:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 
 	L.Routing = L.Routing || {};
 
-	L.extend(L.Routing, _dereq_('./L.Routing.Localization'));
+	L.extend(L.Routing, require('./L.Routing.Localization'));
 
 	L.Routing.Formatter = L.Class.extend({
 		options: {
 			units: 'metric',
-			unitNames: null,
+			unitNames: {
+				meters: 'm',
+				kilometers: 'km',
+				yards: 'yd',
+				miles: 'mi',
+				hours: 'h',
+				minutes: 'mín',
+				seconds: 's'
+			},
 			language: 'en',
 			roundingSensitivity: 1,
 			distanceTemplate: '{value} {unit}'
@@ -908,15 +796,10 @@ if (typeof module === 'object' && module.exports) {
 
 		initialize: function(options) {
 			L.setOptions(this, options);
-
-			var langs = L.Util.isArray(this.options.language) ?
-				this.options.language :
-				[this.options.language, 'en'];
-			this._localization = new L.Routing.Localization(langs);
 		},
 
 		formatDistance: function(d /* Number (meters) */, sensitivity) {
-			var un = this.options.unitNames || this._localization.localize('units'),
+			var un = this.options.unitNames,
 				simpleRounding = sensitivity <= 0,
 				round = simpleRounding ? function(v) { return v; } : L.bind(this._round, this),
 			    v,
@@ -946,7 +829,8 @@ if (typeof module === 'object' && module.exports) {
 			}
 
 			if (simpleRounding) {
-				data.value = data.value.toFixed(-sensitivity);
+				pow10 = Math.pow(10, -sensitivity);
+				data.value = Math.round(data.value * pow10) / pow10;
 			}
 
 			return L.Util.template(this.options.distanceTemplate, data);
@@ -962,33 +846,29 @@ if (typeof module === 'object' && module.exports) {
 		},
 
 		formatTime: function(t /* Number (seconds) */) {
-			var un = this.options.unitNames || this._localization.localize('units');
-			// More than 30 seconds precision looks ridiculous
-			t = Math.round(t / 30) * 30;
-
 			if (t > 86400) {
-				return Math.round(t / 3600) + ' ' + un.hours;
+				return Math.round(t / 3600) + ' h';
 			} else if (t > 3600) {
-				return Math.floor(t / 3600) + ' ' + un.hours + ' ' +
-					Math.round((t % 3600) / 60) + ' ' + un.minutes;
+				return Math.floor(t / 3600) + ' h ' +
+					Math.round((t % 3600) / 60) + ' min';
 			} else if (t > 300) {
-				return Math.round(t / 60) + ' ' + un.minutes;
+				return Math.round(t / 60) + ' min';
 			} else if (t > 60) {
-				return Math.floor(t / 60) + ' ' + un.minutes +
-					(t % 60 !== 0 ? ' ' + (t % 60) + ' ' + un.seconds : '');
+				return Math.floor(t / 60) + ' min' +
+					(t % 60 !== 0 ? ' ' + (t % 60) + ' s' : '');
 			} else {
-				return t + ' ' + un.seconds;
+				return t + ' s';
 			}
 		},
 
 		formatInstruction: function(instr, i) {
 			if (instr.text === undefined) {
-				return this.capitalize(L.Util.template(this._getInstructionTemplate(instr, i),
-					L.extend({}, instr, {
-						exitStr: instr.exit ? this._localization.localize('formatOrder')(instr.exit) : '',
-						dir: this._localization.localize(['directions', instr.direction]),
-						modifier: this._localization.localize(['directions', instr.modifier])
-					})));
+				return L.Util.template(this._getInstructionTemplate(instr, i),
+					L.extend({
+						exitStr: instr.exit ? L.Routing.Localization[this.options.language].formatOrder(instr.exit) : '',
+						dir: L.Routing.Localization[this.options.language].directions[instr.direction]
+					},
+					instr));
 			} else {
 				return instr.text;
 			}
@@ -996,22 +876,8 @@ if (typeof module === 'object' && module.exports) {
 
 		getIconName: function(instr, i) {
 			switch (instr.type) {
-			case 'Head':
-				if (i === 0) {
-					return 'depart';
-				}
-				break;
-			case 'WaypointReached':
-				return 'via';
-			case 'Roundabout':
-				return 'enter-roundabout';
-			case 'DestinationReached':
-				return 'arrive';
-			}
-
-			switch (instr.modifier) {
 			case 'Straight':
-				return 'continue';
+				return (i === 0 ? 'depart' : 'continue');
 			case 'SlightRight':
 				return 'bear-right';
 			case 'Right':
@@ -1019,7 +885,6 @@ if (typeof module === 'object' && module.exports) {
 			case 'SharpRight':
 				return 'sharp-right';
 			case 'TurnAround':
-			case 'Uturn':
 				return 'u-turn';
 			case 'SharpLeft':
 				return 'sharp-left';
@@ -1027,23 +892,18 @@ if (typeof module === 'object' && module.exports) {
 				return 'turn-left';
 			case 'SlightLeft':
 				return 'bear-left';
+			case 'WaypointReached':
+				return 'via';
+			case 'Roundabout':
+				return 'enter-roundabout';
+			case 'DestinationReached':
+				return 'arrive';
 			}
-		},
-
-		capitalize: function(s) {
-			return s.charAt(0).toUpperCase() + s.substring(1);
 		},
 
 		_getInstructionTemplate: function(instr, i) {
 			var type = instr.type === 'Straight' ? (i === 0 ? 'Head' : 'Continue') : instr.type,
-				strings = this._localization.localize(['instructions', type]);
-
-			if (!strings) {
-				strings = [
-					this._localization.localize(['directions', type]),
-					' ' + this._localization.localize(['instructions', 'Onto'])
-				];
-			}
+				strings = L.Routing.Localization[this.options.language].instructions[type];
 
 			return strings[0] + (strings.length > 1 && instr.road ? strings[1] : '');
 		}
@@ -1054,14 +914,14 @@ if (typeof module === 'object' && module.exports) {
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Localization":11}],7:[function(_dereq_,module,exports){
+},{"./L.Routing.Localization":11}],7:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.Autocomplete'));
+	L.extend(L.Routing, require('./L.Routing.Autocomplete'));
 
 	function selectInputText(input) {
 		if (input.setSelectionRange) {
@@ -1090,8 +950,8 @@ if (typeof module === 'object' && module.exports) {
 					closeButton: remove
 				};
 			},
-			geocoderPlaceholder: function(i, numberWaypoints, geocoderElement) {
-				var l = new L.Routing.Localization(geocoderElement.options.language).localize('ui');
+			geocoderPlaceholder: function(i, numberWaypoints, plan) {
+				var l = L.Routing.Localization[plan.options.language].ui;
 				return i === 0 ?
 					l.startPlaceholder :
 					(i < numberWaypoints - 1 ?
@@ -1210,16 +1070,16 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Autocomplete":3}],8:[function(_dereq_,module,exports){
+},{"./L.Routing.Autocomplete":3}],8:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 
 	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.Formatter'));
-	L.extend(L.Routing, _dereq_('./L.Routing.ItineraryBuilder'));
+	L.extend(L.Routing, require('./L.Routing.Formatter'));
+	L.extend(L.Routing, require('./L.Routing.ItineraryBuilder'));
 
 	L.Routing.Itinerary = L.Control.extend({
 		includes: L.Mixin.Events,
@@ -1447,12 +1307,12 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Formatter":6,"./L.Routing.ItineraryBuilder":9}],9:[function(_dereq_,module,exports){
+},{"./L.Routing.Formatter":6,"./L.Routing.ItineraryBuilder":9}],9:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 	L.Routing = L.Routing || {};
 
 	L.Routing.ItineraryBuilder = L.Class.extend({
@@ -1498,12 +1358,12 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(_dereq_,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 
 	L.Routing = L.Routing || {};
 
@@ -1540,7 +1400,11 @@ if (typeof module === 'object' && module.exports) {
 				this.options.styles,
 				this.options.addWaypoints);
 		},
-		
+
+		addTo: function(map) {
+			map.addLayer(this);
+			return this;
+		},
 		getBounds: function() {
 			return L.latLngBounds(this._route.coordinates);
 		},
@@ -1640,104 +1504,12 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],11:[function(_dereq_,module,exports){
+},{}],11:[function(require,module,exports){
 (function() {
 	'use strict';
-
-	var spanish = {
-		directions: {
-			N: 'norte',
-			NE: 'noreste',
-			E: 'este',
-			SE: 'sureste',
-			S: 'sur',
-			SW: 'suroeste',
-			W: 'oeste',
-			NW: 'noroeste',
-			SlightRight: 'leve giro a la derecha',
-			Right: 'derecha',
-			SharpRight: 'giro pronunciado a la derecha',
-			SlightLeft: 'leve giro a la izquierda',
-			Left: 'izquierda',
-			SharpLeft: 'giro pronunciado a la izquierda',
-			Uturn: 'media vuelta'
-		},
-		instructions: {
-			// instruction, postfix if the road is named
-			'Head':
-				['Derecho {dir}', ' sobre {road}'],
-			'Continue':
-				['Continuar {dir}', ' en {road}'],
-			'TurnAround':
-				['Dar vuelta'],
-			'WaypointReached':
-				['Llegó a un punto del camino'],
-			'Roundabout':
-				['Tomar {exitStr} salida en la rotonda', ' en {road}'],
-			'DestinationReached':
-				['Llegada a destino'],
-			'Fork': ['En el cruce gira a {modifier}', ' hacia {road}'],
-			'Merge': ['Incorpórate {modifier}', ' hacia {road}'],
-			'OnRamp': ['Gira {modifier} en la salida', ' hacia {road}'],
-			'OffRamp': ['Toma la salida {modifier}', ' hacia {road}'],
-			'EndOfRoad': ['Gira {modifier} al final de la carretera', ' hacia {road}'],
-			'Onto': 'hacia {road}'
-		},
-		formatOrder: function(n) {
-			return n + 'º';
-		},
-		ui: {
-			startPlaceholder: 'Inicio',
-			viaPlaceholder: 'Via {viaNumber}',
-			endPlaceholder: 'Destino'
-		},
-		units: {
-			meters: 'm',
-			kilometers: 'km',
-			yards: 'yd',
-			miles: 'mi',
-			hours: 'h',
-			minutes: 'min',
-			seconds: 's'
-		}
-	};
-
 	L.Routing = L.Routing || {};
 
-	L.Routing.Localization = L.Class.extend({
-		initialize: function(langs) {
-			this._langs = L.Util.isArray(langs) ? langs : [langs, 'en'];
-
-			for (var i = 0, l = this._langs.length; i < l; i++) {
-				if (!L.Routing.Localization[this._langs[i]]) {
-					throw new Error('No localization for language "' + this._langs[i] + '".');
-				}
-			}
-		},
-
-		localize: function(keys) {
-			var dict,
-				key,
-				value;
-
-			keys = L.Util.isArray(keys) ? keys : [keys];
-
-			for (var i = 0, l = this._langs.length; i < l; i++) {
-				dict = L.Routing.Localization[this._langs[i]];
-				for (var j = 0, nKeys = keys.length; dict && j < nKeys; j++) {
-					key = keys[j];
-					value = dict[key];
-					dict = value;
-				}
-
-				if (value) {
-					return value;
-				}
-			}
-		}
-	});
-
-	L.Routing.Localization = L.extend(L.Routing.Localization, {
+	L.Routing.Localization = {
 		'en': {
 			directions: {
 				N: 'north',
@@ -1747,35 +1519,34 @@ if (typeof module === 'object' && module.exports) {
 				S: 'south',
 				SW: 'southwest',
 				W: 'west',
-				NW: 'northwest',
-				SlightRight: 'slight right',
-				Right: 'right',
-				SharpRight: 'sharp right',
-				SlightLeft: 'slight left',
-				Left: 'left',
-				SharpLeft: 'sharp left',
-				Uturn: 'Turn around'
+				NW: 'northwest'
 			},
 			instructions: {
 				// instruction, postfix if the road is named
 				'Head':
 					['Head {dir}', ' on {road}'],
 				'Continue':
-					['Continue {dir}'],
+					['Continue {dir}', ' on {road}'],
+				'SlightRight':
+					['Slight right', ' onto {road}'],
+				'Right':
+					['Right', ' onto {road}'],
+				'SharpRight':
+					['Sharp right', ' onto {road}'],
 				'TurnAround':
 					['Turn around'],
+				'SharpLeft':
+					['Sharp left', ' onto {road}'],
+				'Left':
+					['Left', ' onto {road}'],
+				'SlightLeft':
+					['Slight left', ' onto {road}'],
 				'WaypointReached':
 					['Waypoint reached'],
 				'Roundabout':
 					['Take the {exitStr} exit in the roundabout', ' onto {road}'],
 				'DestinationReached':
 					['Destination reached'],
-				'Fork': ['At the fork, turn {modifier}', ' onto {road}'],
-				'Merge': ['Merge {modifier}', ' onto {road}'],
-				'OnRamp': ['Turn {modifier} on the ramp', ' onto {road}'],
-				'OffRamp': ['Take the ramp on the {modifier}', ' onto {road}'],
-				'EndOfRoad': ['Turn {modifier} at the end of the road', ' onto {road}'],
-				'Onto': 'onto {road}'
 			},
 			formatOrder: function(n) {
 				var i = n % 10 - 1,
@@ -1787,15 +1558,6 @@ if (typeof module === 'object' && module.exports) {
 				startPlaceholder: 'Start',
 				viaPlaceholder: 'Via {viaNumber}',
 				endPlaceholder: 'End'
-			},
-			units: {
-				meters: 'm',
-				kilometers: 'km',
-				yards: 'yd',
-				miles: 'mi',
-				hours: 'h',
-				minutes: 'min',
-				seconds: 's'
 			}
 		},
 
@@ -1856,47 +1618,34 @@ if (typeof module === 'object' && module.exports) {
 				S: 'syd',
 				SW: 'sydväst',
 				W: 'väst',
-				NW: 'nordväst',
-				SlightRight: 'svagt höger',
-				Right: 'höger',
-				SharpRight: 'skarpt höger',
-				SlightLeft: 'svagt vänster',
-				Left: 'vänster',
-				SharpLeft: 'skarpt vänster',
-				Uturn: 'Vänd'
+				NW: 'nordväst'
 			},
 			instructions: {
 				// instruction, postfix if the road is named
 				'Head':
-					['Åk åt {dir}', ' till {road}'],
+					['Åk åt {dir}', ' på {road}'],
 				'Continue':
-					['Fortsätt {dir}'],
+					['Fortsätt {dir}', ' på {road}'],
 				'SlightRight':
-					['Svagt höger', ' till {road}'],
+					['Svagt höger', ' på {road}'],
 				'Right':
-					['Sväng höger', ' till {road}'],
+					['Sväng höger', ' på {road}'],
 				'SharpRight':
-					['Skarpt höger', ' till {road}'],
+					['Skarpt höger', ' på {road}'],
 				'TurnAround':
 					['Vänd'],
 				'SharpLeft':
-					['Skarpt vänster', ' till {road}'],
+					['Skarpt vänster', ' på {road}'],
 				'Left':
-					['Sväng vänster', ' till {road}'],
+					['Sväng vänster', ' på {road}'],
 				'SlightLeft':
-					['Svagt vänster', ' till {road}'],
+					['Svagt vänster', ' på {road}'],
 				'WaypointReached':
 					['Viapunkt nådd'],
 				'Roundabout':
 					['Tag {exitStr} avfarten i rondellen', ' till {road}'],
 				'DestinationReached':
 					['Framme vid resans mål'],
-				'Fork': ['Tag av {modifier}', ' till {road}'],
-				'Merge': ['Anslut {modifier} ', ' till {road}'],
-				'OnRamp': ['Tag påfarten {modifier}', ' till {road}'],
-				'OffRamp': ['Tag avfarten {modifier}', ' till {road}'],
-				'EndOfRoad': ['Sväng {modifier} vid vägens slut', ' till {road}'],
-				'Onto': 'till {road}'
 			},
 			formatOrder: function(n) {
 				return ['första', 'andra', 'tredje', 'fjärde', 'femte',
@@ -1910,9 +1659,53 @@ if (typeof module === 'object' && module.exports) {
 			}
 		},
 
-		'es': spanish,
-    'sp': spanish,
-		
+		'sp': {
+			directions: {
+				N: 'norte',
+				NE: 'noreste',
+				E: 'este',
+				SE: 'sureste',
+				S: 'sur',
+				SW: 'suroeste',
+				W: 'oeste',
+				NW: 'noroeste'
+			},
+			instructions: {
+				// instruction, postfix if the road is named
+				'Head':
+					['Derecho {dir}', ' sobre {road}'],
+				'Continue':
+					['Continuar {dir}', ' en {road}'],
+				'SlightRight':
+					['Leve giro a la derecha', ' sobre {road}'],
+				'Right':
+					['Derecha', ' sobre {road}'],
+				'SharpRight':
+					['Giro pronunciado a la derecha', ' sobre {road}'],
+				'TurnAround':
+					['Dar vuelta'],
+				'SharpLeft':
+					['Giro pronunciado a la izquierda', ' sobre {road}'],
+				'Left':
+					['Izquierda', ' en {road}'],
+				'SlightLeft':
+					['Leve giro a la izquierda', ' en {road}'],
+				'WaypointReached':
+					['Llegó a un punto del camino'],
+				'Roundabout':
+					['Tomar {exitStr} salida en la rotonda', ' en {road}'],
+				'DestinationReached':
+					['Llegada a destino'],
+			},
+			formatOrder: function(n) {
+				return n + 'º';
+			},
+			ui: {
+				startPlaceholder: 'Inicio',
+				viaPlaceholder: 'Via {viaNumber}',
+				endPlaceholder: 'Destino'
+			}
+		},
 		'nl': {
 			directions: {
 				N: 'noordelijke',
@@ -2067,14 +1860,7 @@ if (typeof module === 'object' && module.exports) {
 				S: 'sul',
 				SW: 'sudoeste',
 				W: 'oeste',
-				NW: 'noroeste',
-				SlightRight: 'curva ligeira a direita',
-				Right: 'direita',
-				SharpRight: 'curva fechada a direita',
-				SlightLeft: 'ligeira a esquerda',
-				Left: 'esquerda',
-				SharpLeft: 'curva fechada a esquerda',
-				Uturn: 'Meia volta'
+				NW: 'noroeste'
 			},
 			instructions: {
 				// instruction, postfix if the road is named
@@ -2102,12 +1888,6 @@ if (typeof module === 'object' && module.exports) {
 					['Pegue a {exitStr} saída na rotatória', ' na {road}'],
 				'DestinationReached':
 					['Destino atingido'],
-				'Fork': ['Na encruzilhada, vire a {modifier}', ' na {road}'],
-				'Merge': ['Entre à {modifier}', ' na {road}'],
-				'OnRamp': ['Vire {modifier} na rampa', ' na {road}'],
-				'OffRamp': ['Entre na rampa na {modifier}', ' na {road}'],
-				'EndOfRoad': ['Vire {modifier} no fim da rua', ' na {road}'],
-				'Onto': 'na {road}'
 			},
 			formatOrder: function(n) {
 				return n + 'º';
@@ -2118,233 +1898,32 @@ if (typeof module === 'object' && module.exports) {
 				endPlaceholder: 'Destino'
 			}
 		},
-		'sk': {
-			directions: {
-				N: 'sever',
-				NE: 'serverovýchod',
-				E: 'východ',
-				SE: 'juhovýchod',
-				S: 'juh',
-				SW: 'juhozápad',
-				W: 'západ',
-				NW: 'serverozápad'
-			},
-			instructions: {
-				// instruction, postfix if the road is named
-				'Head':
-					['Mierte na {dir}', ' na {road}'],
-				'Continue':
-					['Pokračujte na {dir}', ' na {road}'],
-				'SlightRight':
-					['Mierne doprava', ' na {road}'],
-				'Right':
-					['Doprava', ' na {road}'],
-				'SharpRight':
-					['Prudko doprava', ' na {road}'],
-				'TurnAround':
-					['Otočte sa'],
-				'SharpLeft':
-					['Prudko doľava', ' na {road}'],
-				'Left':
-					['Doľava', ' na {road}'],
-				'SlightLeft':
-					['Mierne doľava', ' na {road}'],
-				'WaypointReached':
-					['Ste v prejazdovom bode.'],
-				'Roundabout':
-					['Odbočte na {exitStr} výjazde', ' na {road}'],
-				'DestinationReached':
-					['Prišli ste do cieľa.'],
-			},
-			formatOrder: function(n) {
-				var i = n % 10 - 1,
-				suffix = ['.', '.', '.'];
-
-				return suffix[i] ? n + suffix[i] : n + '.';
-			},
-			ui: {
-				startPlaceholder: 'Začiatok',
-				viaPlaceholder: 'Cez {viaNumber}',
-				endPlaceholder: 'Koniec'
-			}
-		},
-		'el': {
-			directions: {
-				N: 'βόρεια',
-				NE: 'βορειοανατολικά',
-				E: 'ανατολικά',
-				SE: 'νοτιοανατολικά',
-				S: 'νότια',
-				SW: 'νοτιοδυτικά',
-				W: 'δυτικά',
-				NW: 'βορειοδυτικά'
-			},
-			instructions: {
-				// instruction, postfix if the road is named
-				'Head':
-					['Κατευθυνθείτε {dir}', ' στην {road}'],
-				'Continue':
-					['Συνεχίστε {dir}', ' στην {road}'],
-				'SlightRight':
-					['Ελαφρώς δεξιά', ' στην {road}'],
-				'Right':
-					['Δεξιά', ' στην {road}'],
-				'SharpRight':
-					['Απότομη δεξιά στροφή', ' στην {road}'],
-				'TurnAround':
-					['Κάντε αναστροφή'],
-				'SharpLeft':
-					['Απότομη αριστερή στροφή', ' στην {road}'],
-				'Left':
-					['Αριστερά', ' στην {road}'],
-				'SlightLeft':
-					['Ελαφρώς αριστερά', ' στην {road}'],
-				'WaypointReached':
-					['Φτάσατε στο σημείο αναφοράς'],
-				'Roundabout':
-					['Ακολουθήστε την {exitStr} έξοδο στο κυκλικό κόμβο', ' στην {road}'],
-				'DestinationReached':
-					['Φτάσατε στον προορισμό σας'],
-			},
-			formatOrder: function(n) {
-				return n + 'º';
-			},
-			ui: {
-				startPlaceholder: 'Αφετηρία',
-				viaPlaceholder: 'μέσω {viaNumber}',
-				endPlaceholder: 'Προορισμός'
-			}
-		},
-		'ca': {
-			directions: {
-				N: 'nord',
-				NE: 'nord-est',
-				E: 'est',
-				SE: 'sud-est',
-				S: 'sud',
-				SW: 'sud-oest',
-				W: 'oest',
-				NW: 'nord-oest',
-				SlightRight: 'lleu gir a la dreta',
-				Right: 'dreta',
-				SharpRight: 'gir pronunciat a la dreta',
-				SlightLeft: 'gir pronunciat a l\'esquerra',
-				Left: 'esquerra',
-				SharpLeft: 'lleu gir a l\'esquerra',
-				Uturn: 'mitja volta'
-			},
-			instructions: {
-				'Head':
-					['Recte {dir}', ' sobre {road}'],
-				'Continue':
-					['Continuar {dir}'],
-				'TurnAround':
-					['Donar la volta'],
-				'WaypointReached':
-					['Ha arribat a un punt del camí'],
-				'Roundabout':
-					['Agafar {exitStr} sortida a la rotonda', ' a {road}'],
-				'DestinationReached':
-					['Arribada al destí'],
-				'Fork': ['A la cruïlla gira a la {modifier}', ' cap a {road}'],
-				'Merge': ['Incorpora\'t {modifier}', ' a {road}'],
-				'OnRamp': ['Gira {modifier} a la sortida', ' cap a {road}'],
-				'OffRamp': ['Pren la sortida {modifier}', ' cap a {road}'],
-				'EndOfRoad': ['Gira {modifier} al final de la carretera', ' cap a {road}'],
-				'Onto': 'cap a {road}'
-			},
-			formatOrder: function(n) {
-				return n + 'º';
-			},
-			ui: {
-				startPlaceholder: 'Origen',
-				viaPlaceholder: 'Via {viaNumber}',
-				endPlaceholder: 'Destí'
-			},
-			units: {
-				meters: 'm',
-				kilometers: 'km',
-				yards: 'yd',
-				miles: 'mi',
-				hours: 'h',
-				minutes: 'min',
-				seconds: 's'
-			}
-		}
-	});
-
-	module.exports = L.Routing;
-})();
-
-},{}],12:[function(_dereq_,module,exports){
-(function (global){
-(function() {
-	'use strict';
-
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
-
-	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.OSRMv1'));
-
-	/**
-	 * Works against OSRM's new API in version 5.0; this has
-	 * the API version v1.
-	 */
-	L.Routing.Mapbox = L.Routing.OSRMv1.extend({
-		options: {
-			serviceUrl: 'https://api.mapbox.com/directions/v5',
-			profile: 'mapbox/driving',
-			useHints: false
-		},
-
-		initialize: function(accessToken, options) {
-			L.Routing.OSRMv1.prototype.initialize.call(this, options);
-			this.options.requestParameters = this.options.requestParameters || {};
-			/* jshint camelcase: false */
-			this.options.requestParameters.access_token = accessToken;
-			/* jshint camelcase: true */
-		}
-	});
-
-	L.Routing.mapbox = function(accessToken, options) {
-		return new L.Routing.Mapbox(accessToken, options);
 	};
 
 	module.exports = L.Routing;
 })();
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.OSRMv1":13}],13:[function(_dereq_,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null),
-		corslite = _dereq_('corslite'),
-		polyline = _dereq_('polyline');
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null),
+		corslite = require('corslite'),
+		polyline = require('polyline');
 
 	// Ignore camelcase naming for this file, since OSRM's API uses
 	// underscores.
 	/* jshint camelcase: false */
 
 	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.Waypoint'));
+	L.extend(L.Routing, require('./L.Routing.Waypoint'));
 
-	/**
-	 * Works against OSRM's new API in version 5.0; this has
-	 * the API version v1.
-	 */
-	L.Routing.OSRMv1 = L.Class.extend({
+	L.Routing.OSRM = L.Class.extend({
 		options: {
-			serviceUrl: 'https://router.project-osrm.org/route/v1',
-			profile: 'driving',
+			serviceUrl: '//router.project-osrm.org/viaroute',
 			timeout: 30 * 1000,
-			routingOptions: {
-				alternatives: true,
-				steps: true
-			},
-			polylinePrecision: 5,
-			useHints: true
+			routingOptions: {}
 		},
 
 		initialize: function(options) {
@@ -2360,14 +1939,9 @@ if (typeof module === 'object' && module.exports) {
 				url,
 				timer,
 				wp,
-				i,
-				xhr;
+				i;
 
-			options = L.extend({}, this.options.routingOptions, options);
-			url = this.buildRouteUrl(waypoints, options);
-			if (this.options.requestParameters) {
-				url += L.Util.getParamString(this.options.requestParameters, url);
-			}
+			url = this.buildRouteUrl(waypoints, L.extend({}, this.options.routingOptions, options));
 
 			timer = setTimeout(function() {
 				timedOut = true;
@@ -2385,204 +1959,97 @@ if (typeof module === 'object' && module.exports) {
 				wps.push(new L.Routing.Waypoint(wp.latLng, wp.name, wp.options));
 			}
 
-			return xhr = corslite(url, L.bind(function(err, resp) {
+			corslite(url, L.bind(function(err, resp) {
 				var data,
-					error =  {};
+					errorMessage,
+					statusCode;
 
 				clearTimeout(timer);
 				if (!timedOut) {
+					errorMessage = 'HTTP request failed: ' + err;
+					statusCode = -1;
+
 					if (!err) {
 						try {
 							data = JSON.parse(resp.responseText);
 							try {
-								return this._routeDone(data, wps, options, callback, context);
+								return this._routeDone(data, wps, callback, context);
 							} catch (ex) {
-								error.status = -3;
-								error.message = ex.toString();
+								statusCode = -3;
+								errorMessage = ex.toString();
 							}
 						} catch (ex) {
-							error.status = -2;
-							error.message = 'Error parsing OSRM response: ' + ex.toString();
+							statusCode = -2;
+							errorMessage = 'Error parsing OSRM response: ' + ex.toString();
 						}
-					} else {
-						error.message = 'HTTP request failed: ' + err.type +
-							(err.target && err.target.status ? ' HTTP ' + err.target.status + ': ' + err.target.statusText : '');
-						error.url = url;
-						error.status = -1;
-						error.target = err;
 					}
 
-					callback.call(context || callback, error);
-				} else {
-					xhr.abort();
+					callback.call(context || callback, {
+						status: statusCode,
+						message: errorMessage
+					});
 				}
 			}, this));
+
+			return this;
 		},
 
-		requiresMoreDetail: function(route, zoom, bounds) {
-			if (!route.properties.isSimplified) {
-				return false;
-			}
-
-			var waypoints = route.inputWaypoints,
-				i;
-			for (i = 0; i < waypoints.length; ++i) {
-				if (!bounds.contains(waypoints[i].latLng)) {
-					return true;
-				}
-			}
-
-			return false;
-		},
-
-		_routeDone: function(response, inputWaypoints, options, callback, context) {
-			var alts = [],
+		_routeDone: function(response, inputWaypoints, callback, context) {
+			var coordinates,
+			    alts,
 			    actualWaypoints,
-			    i,
-			    route;
+			    i;
 
 			context = context || callback;
-			if (response.code !== 'Ok') {
+			if (response.status !== 0 && response.status !== 200) {
 				callback.call(context, {
-					status: response.code
+					status: response.status,
+					message: response.status_message
 				});
 				return;
 			}
 
-			actualWaypoints = this._toWaypoints(inputWaypoints, response.waypoints);
+			coordinates = this._decodePolyline(response.route_geometry);
+			actualWaypoints = this._toWaypoints(inputWaypoints, response.via_points);
+			alts = [{
+				name: this._createName(response.route_name),
+				coordinates: coordinates,
+				instructions: response.route_instructions ? this._convertInstructions(response.route_instructions) : [],
+				summary: response.route_summary ? this._convertSummary(response.route_summary) : [],
+				inputWaypoints: inputWaypoints,
+				waypoints: actualWaypoints,
+				waypointIndices: this._clampIndices(response.via_indices, coordinates)
+			}];
 
-			for (i = 0; i < response.routes.length; i++) {
-				route = this._convertRoute(response.routes[i]);
-				route.inputWaypoints = inputWaypoints;
-				route.waypoints = actualWaypoints;
-				route.properties = {isSimplified: !options || !options.geometryOnly || options.simplifyGeometry};
-				alts.push(route);
-			}
-
-			this._saveHintData(response.waypoints, inputWaypoints);
-
-			callback.call(context, null, alts);
-		},
-
-		_convertRoute: function(responseRoute) {
-			var result = {
-					name: '',
-					coordinates: [],
-					instructions: [],
-					summary: {
-						totalDistance: responseRoute.distance,
-						totalTime: responseRoute.duration
-					}
-				},
-				legNames = [],
-				index = 0,
-				legCount = responseRoute.legs.length,
-				hasSteps = responseRoute.legs[0].steps.length > 0,
-				i,
-				j,
-				leg,
-				step,
-				geometry,
-				type,
-				modifier;
-
-			for (i = 0; i < legCount; i++) {
-				leg = responseRoute.legs[i];
-				legNames.push(leg.summary && leg.summary.charAt(0).toUpperCase() + leg.summary.substring(1));
-				for (j = 0; j < leg.steps.length; j++) {
-					step = leg.steps[j];
-					geometry = this._decodePolyline(step.geometry);
-					result.coordinates.push.apply(result.coordinates, geometry);
-					type = this._maneuverToInstructionType(step.maneuver, i === legCount - 1);
-					modifier = this._maneuverToModifier(step.maneuver);
-
-					if (type) {
-						result.instructions.push({
-							type: type,
-							distance: step.distance,
-							time: step.duration,
-							road: step.name,
-							direction: this._bearingToDirection(step.maneuver.bearing_after),
-							exit: step.maneuver.exit,
-							index: index,
-							mode: step.mode,
-							modifier: modifier
-						});
-					}
-
-					index += geometry.length;
+			if (response.alternative_geometries) {
+				for (i = 0; i < response.alternative_geometries.length; i++) {
+					coordinates = this._decodePolyline(response.alternative_geometries[i]);
+					alts.push({
+						name: this._createName(response.alternative_names[i]),
+						coordinates: coordinates,
+						instructions: response.alternative_instructions[i] ? this._convertInstructions(response.alternative_instructions[i]) : [],
+						summary: response.alternative_summaries[i] ? this._convertSummary(response.alternative_summaries[i]) : [],
+						inputWaypoints: inputWaypoints,
+						waypoints: actualWaypoints,
+						waypointIndices: this._clampIndices(response.alternative_geometries.length === 1 ?
+							// Unsure if this is a bug in OSRM or not, but alternative_indices
+							// does not appear to be an array of arrays, at least not when there is
+							// a single alternative route.
+							response.alternative_indices : response.alternative_indices[i],
+							coordinates)
+					});
 				}
 			}
 
-			result.name = legNames.join(', ');
-			if (!hasSteps) {
-				result.coordinates = this._decodePolyline(responseRoute.geometry);
+			// only versions <4.5.0 will support this flag
+			if (response.hint_data) {
+				this._saveHintData(response.hint_data, inputWaypoints);
 			}
-
-			return result;
-		},
-
-		_bearingToDirection: function(bearing) {
-			var oct = Math.round(bearing / 45) % 8;
-			return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][oct];
-		},
-
-		_maneuverToInstructionType: function(maneuver, lastLeg) {
-			switch (maneuver.type) {
-			case 'new name':
-				return 'Continue';
-			case 'depart':
-				return 'Head';
-			case 'arrive':
-				return lastLeg ? 'DestinationReached' : 'WaypointReached';
-			case 'roundabout':
-			case 'rotary':
-				return 'Roundabout';
-			case 'merge':
-			case 'fork':
-			case 'on ramp':
-			case 'off ramp':
-			case 'end of road':
-				return this._camelCase(maneuver.type);
-			// These are all reduced to the same instruction in the current model
-			//case 'turn':
-			//case 'ramp': // deprecated in v5.1
-			default:
-				return this._camelCase(maneuver.modifier);
-			}
-		},
-
-		_maneuverToModifier: function(maneuver) {
-			var modifier = maneuver.modifier;
-
-			switch (maneuver.type) {
-			case 'merge':
-			case 'fork':
-			case 'on ramp':
-			case 'off ramp':
-			case 'end of road':
-				modifier = this._leftOrRight(modifier);
-			}
-
-			return modifier && this._camelCase(modifier);
-		},
-
-		_camelCase: function(s) {
-			var words = s.split(' '),
-				result = '';
-			for (var i = 0, l = words.length; i < l; i++) {
-				result += words[i].charAt(0).toUpperCase() + words[i].substring(1);
-			}
-
-			return result;
-		},
-
-		_leftOrRight: function(d) {
-			return d.indexOf('left') >= 0 ? 'Left' : 'Right';
+			callback.call(context, null, alts);
 		},
 
 		_decodePolyline: function(routeGeometry) {
-			var cs = polyline.decode(routeGeometry, this.options.polylinePrecision),
+			var cs = polyline.decode(routeGeometry, 6),
 				result = new Array(cs.length),
 				i;
 			for (i = cs.length - 1; i >= 0; i--) {
@@ -2594,80 +2061,181 @@ if (typeof module === 'object' && module.exports) {
 
 		_toWaypoints: function(inputWaypoints, vias) {
 			var wps = [],
-			    i,
-			    viaLoc;
+			    i;
 			for (i = 0; i < vias.length; i++) {
-				viaLoc = vias[i].location;
-				wps.push(L.Routing.waypoint(L.latLng(viaLoc[1], viaLoc[0]),
+				wps.push(L.Routing.waypoint(L.latLng(vias[i]),
 				                            inputWaypoints[i].name,
-											inputWaypoints[i].options));
+				                            inputWaypoints[i].options));
 			}
 
 			return wps;
 		},
 
+		_createName: function(nameParts) {
+			var name = '',
+				i;
+
+			for (i = 0; i < nameParts.length; i++) {
+				if (nameParts[i]) {
+					if (name) {
+						name += ', ';
+					}
+					name += nameParts[i].charAt(0).toUpperCase() + nameParts[i].slice(1);
+				}
+			}
+
+			return name;
+		},
+
 		buildRouteUrl: function(waypoints, options) {
 			var locs = [],
-				hints = [],
 				wp,
-				latLng,
 			    computeInstructions,
-			    computeAlternative = true;
+			    computeAlternative,
+			    locationKey,
+			    hint;
 
 			for (var i = 0; i < waypoints.length; i++) {
 				wp = waypoints[i];
-				latLng = wp.latLng;
-				locs.push(latLng.lng + ',' + latLng.lat);
-				hints.push(this._hints.locations[this._locationKey(latLng)] || '');
+				locationKey = this._locationKey(wp.latLng);
+				locs.push('loc=' + locationKey);
+
+				hint = this._hints.locations[locationKey];
+				if (hint) {
+					locs.push('hint=' + hint);
+				}
+
+				if (wp.options && wp.options.allowUTurn) {
+					locs.push('u=true');
+				}
 			}
 
-			computeInstructions =
+			computeAlternative = computeInstructions =
 				!(options && options.geometryOnly);
 
-			return this.options.serviceUrl + '/' + this.options.profile + '/' +
-				locs.join(';') + '?' +
-				(options.geometryOnly ? (options.simplifyGeometry ? '' : 'overview=full') : 'overview=false') +
-				'&alternatives=' + computeAlternative.toString() +
-				'&steps=' + computeInstructions.toString() +
-				(this.options.useHints ? '&hints=' + hints.join(';') : '') +
-				(options.allowUTurns ? '&continue_straight=' + !options.allowUTurns : '');
+			return this.options.serviceUrl + '?' +
+				'instructions=' + computeInstructions.toString() + '&' +
+				'alt=' + computeAlternative.toString() + '&' +
+				(options.z ? 'z=' + options.z + '&' : '') +
+				locs.join('&') +
+				(this._hints.checksum !== undefined ? '&checksum=' + this._hints.checksum : '') +
+				(options.fileformat ? '&output=' + options.fileformat : '') +
+				(options.allowUTurns ? '&uturns=' + options.allowUTurns : '');
 		},
 
 		_locationKey: function(location) {
 			return location.lat + ',' + location.lng;
 		},
 
-		_saveHintData: function(actualWaypoints, waypoints) {
+		_saveHintData: function(hintData, waypoints) {
 			var loc;
 			this._hints = {
+				checksum: hintData.checksum,
 				locations: {}
 			};
-			for (var i = actualWaypoints.length - 1; i >= 0; i--) {
+			for (var i = hintData.locations.length - 1; i >= 0; i--) {
 				loc = waypoints[i].latLng;
-				this._hints.locations[this._locationKey(loc)] = actualWaypoints[i].hint;
+				this._hints.locations[this._locationKey(loc)] = hintData.locations[i];
 			}
 		},
+
+		_convertSummary: function(osrmSummary) {
+			return {
+				totalDistance: osrmSummary.total_distance,
+				totalTime: osrmSummary.total_time
+			};
+		},
+
+		_convertInstructions: function(osrmInstructions) {
+			var result = [],
+			    i,
+			    instr,
+			    type,
+			    driveDir;
+
+			for (i = 0; i < osrmInstructions.length; i++) {
+				instr = osrmInstructions[i];
+				type = this._drivingDirectionType(instr[0]);
+				driveDir = instr[0].split('-');
+				if (type) {
+					result.push({
+						type: type,
+						distance: instr[2],
+						time: instr[4],
+						road: instr[1],
+						direction: instr[6],
+						exit: driveDir.length > 1 ? driveDir[1] : undefined,
+						index: instr[3]
+					});
+				}
+			}
+
+			return result;
+		},
+
+		_drivingDirectionType: function(d) {
+			switch (parseInt(d, 10)) {
+			case 1:
+				return 'Straight';
+			case 2:
+				return 'SlightRight';
+			case 3:
+				return 'Right';
+			case 4:
+				return 'SharpRight';
+			case 5:
+				return 'TurnAround';
+			case 6:
+				return 'SharpLeft';
+			case 7:
+				return 'Left';
+			case 8:
+				return 'SlightLeft';
+			case 9:
+				return 'WaypointReached';
+			case 10:
+				// TODO: "Head on"
+				// https://github.com/DennisOSRM/Project-OSRM/blob/master/DataStructures/TurnInstructions.h#L48
+				return 'Straight';
+			case 11:
+			case 12:
+				return 'Roundabout';
+			case 15:
+				return 'DestinationReached';
+			default:
+				return null;
+			}
+		},
+
+		_clampIndices: function(indices, coords) {
+			var maxCoordIndex = coords.length - 1,
+				i;
+			for (i = 0; i < indices.length; i++) {
+				indices[i] = Math.min(maxCoordIndex, Math.max(indices[i], 0));
+			}
+			return indices;
+		}
 	});
 
-	L.Routing.osrmv1 = function(options) {
-		return new L.Routing.OSRMv1(options);
+	L.Routing.osrm = function(options) {
+		return new L.Routing.OSRM(options);
 	};
 
 	module.exports = L.Routing;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Waypoint":15,"corslite":1,"polyline":2}],14:[function(_dereq_,module,exports){
+},{"./L.Routing.Waypoint":14,"corslite":1,"polyline":2}],13:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 	L.Routing = L.Routing || {};
-	L.extend(L.Routing, _dereq_('./L.Routing.GeocoderElement'));
-	L.extend(L.Routing, _dereq_('./L.Routing.Waypoint'));
+	L.extend(L.Routing, require('./L.Routing.GeocoderElement'));
+	L.extend(L.Routing, require('./L.Routing.Waypoint'));
 
-	L.Routing.Plan = (L.Layer || L.Class).extend({
+	L.Routing.Plan = L.Class.extend({
 		includes: L.Mixin.Events,
 
 		options: {
@@ -3009,12 +2577,12 @@ if (typeof module === 'object' && module.exports) {
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.GeocoderElement":7,"./L.Routing.Waypoint":15}],15:[function(_dereq_,module,exports){
+},{"./L.Routing.GeocoderElement":7,"./L.Routing.Waypoint":14}],14:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
 
-	var L = (typeof window !== "undefined" ? window['L'] : typeof global !== "undefined" ? global['L'] : null);
+	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
 	L.Routing = L.Routing || {};
 
 	L.Routing.Waypoint = L.Class.extend({

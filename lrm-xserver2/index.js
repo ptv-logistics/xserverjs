@@ -2,9 +2,6 @@ if (!token) {
 	alert('you need a token to run the sample!');
 }
 
-// Fix for IE10 route-drag - NOT
-// L.Browser.pointer = null;
-
 var cluster = 'hh';
 var itineraryLanguage = 'EN';
 var routingProfile = 'truckfast';
@@ -118,21 +115,22 @@ var setCluster = function () {
 			]
 		},
 		router: L.Routing.ptv({
-			serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
+			// serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
+			serviceUrl: 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
 		routeWhileDragging: false,
 		routeDragInterval: 1000,
-		formatter: new L.Routing.Formatter({ roundingSensitivity: 1000 }),
-		collapsible: true
+		collapsible: true,
+		formatter: new L.Routing.Formatter({ roundingSensitivity: 1000 })
 	}).addTo(map);
 
 	routingControl.on('routingerror', function (e) {
 		alert(e.error.responseJSON.message);
 	});
 
-	routingControl.hide();
+//	routingControl.hide();
 };
 
 // initalize the cluster
@@ -149,14 +147,11 @@ $('#alternativeRoutes').val(alternativeRoutes);
 var sidebar = L.control.sidebar('sidebar').addTo(map);
 //sidebar.open('home');
 
-
 // add scale control
 L.control.scale().addTo(map);
 
 map._panes.tileoverlayPane = map._createPane('leaflet-tile-pane', map._panes.overlayPane);
 map._panes.tileoverlayPane.style['pointer-events'] = 'none';
-//			map._panes.tileoverlayPane.style.zIndex = 999;
-
 
 
 vectormaps.renderPTV.PARSE_COORDS_WORKER = "lib/vectormaps-worker.min.js";
@@ -217,7 +212,6 @@ var truckAttributesLayer = L.TileLayer.clickableTiles(
 
 L.control.layers(baseLayers, { "Truck Attributes": truckAttributesLayer },
 	{ position: 'bottomleft', autoZIndex: false }).addTo(map);
-
 
 // update the map cluster
 var updateCluster = function () {
