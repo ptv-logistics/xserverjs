@@ -36,7 +36,7 @@
 /* Bigger than 550 */
 @media (min-width: 550px) {
   .section {
-	padding: 5rem 0;
+	padding: 2rem 0;
   }
   .hero {
 /*  background-image: url('../images/bg_page.png'); */
