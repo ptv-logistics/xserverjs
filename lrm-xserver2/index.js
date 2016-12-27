@@ -66,17 +66,6 @@ var getPlan = function () {
 	}
 };
 
-// get the fixed country for a cluster
-function getGeocodingCountry() {
-	if (cluster.indexOf('cn-n') > -1) {
-		return 'CHN';
-	} else if (cluster.indexOf('jp-n') > -1) {
-		return 'JPN';
-	} else {
-		return null;
-	}
-}
-
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style) {
 	var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' + 
@@ -113,7 +102,6 @@ var setCluster = function () {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					fixedCountry: getGeocodingCountry(),
 					serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
 					token: token
 				}),
