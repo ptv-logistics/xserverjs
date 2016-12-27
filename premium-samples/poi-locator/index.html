@@ -102,7 +102,7 @@
             var fuzzySearchCmd = "if(!isBusy)findFuzzy(document.getElementById('f2').value);";
             var html =
                 '<form id="myForm">' +
-                '<div>Click on map or find near address</div>' +
+                '<div>Click map or find nearby address</div>' +
                 '<div>' +
                 '<input type="text" id="f1" value="Hamburg, Rathausmarkt">' +
                 '<input type="button" value="Find" onClick="' + clickcmd + '">' +
@@ -121,7 +121,7 @@
                 '</div><br>' +
                 '<div>Or find stores by name</div>' +
                 '<div>' +
-                '<input type="text" id="f2" value="Metro">' +
+                '<input type="text" id="f2" value="minimal">' +
                 '<input type="button" value="Find" onClick="' + fuzzySearchCmd + '">' +
                 '</div>' + '</form>';
             container.innerHTML = html;
