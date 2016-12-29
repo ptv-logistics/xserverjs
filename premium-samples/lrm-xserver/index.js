@@ -127,9 +127,10 @@ var setCluster = function () {
 	}).addTo(map);
 
 	routingControl.on('routingerror', function (e) {
-		alert(e.error.responseJSON.message);
+//		alert(e.error.message);
 	});
 
+L.Routing.errorControl(routingControl).addTo(map);
 //	routingControl.hide();
 };
 
