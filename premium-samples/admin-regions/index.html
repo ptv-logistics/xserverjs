@@ -16,7 +16,12 @@
             padding: 0;
             margin: 0;
         }
-
+        h4 {
+            margin: 0.4em 0;
+       }
+        p {
+            margin: .4em 0;
+       }
         html,
         body,
         #map {
@@ -51,8 +56,8 @@
         var container = L.DomUtil.create('div', 'info-panel leaflet-bar leaflet-control leaflet-control-custom');
         var html = 
           '<div>' +
-          '  <div">' +
-          '      <h3>This sample displays administrative regions on PTV xMap Server.</h3>' +
+          '  <div>' +
+          '      <h4>This sample displays administrative regions on PTV xMap Server.</h4>' +
           '      <p>You see two additional layers: communes and postcode areas. The communes are colored by the 12 cantons of' +
           '          Luxembourg.' +
           '      </p>' +
@@ -64,9 +69,8 @@
           '          <div class="check"><label><input id="municipalities" type="checkbox" disabled checked /> Communes </label></div>' +
           '          <div class="check"><label><input id="postcode" type="checkbox" disabled checked /> Postcode Areas </label></div>' +
           '      </div>' +
-          '      <div>' +
-          '          <div id="postCodeInfo"></div>' +
-          '      </div>' +
+          '      <div id="postCodeInfo"></div>' +
+          '  </div>' +
           '  </div>' +
           '</div>' ;
   
@@ -213,9 +217,9 @@
 
     // the function that displays the postcode information in our panel
     var setPostCodeInfo = function (feature) {
-        $('#postCodeInfo div').replaceWith('<div><b>'
+        $('#postCodeInfo').replaceWith('<div id="postCodeInfo"><h4>'
             + (feature ? 'Postcode: ' + feature.properties.id : 'Hover over a postcode area')
-            + '</b></div>');
+            + '</h4></div>');
     };
 
     // initialize the postcode information
