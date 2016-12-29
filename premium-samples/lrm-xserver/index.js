@@ -65,7 +65,7 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' + 
+	var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
 		'?xtok=' + token, {
 			attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			maxZoom: 22,
@@ -80,7 +80,7 @@ function getXMapBaseLayers(style) {
 			pane: map._panes.tileoverlayPane,
 			zIndex: 1
 		});
-	
+
 	return L.layerGroup([bg, fg]);
 }
 
@@ -99,7 +99,7 @@ var setCluster = function () {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+					serviceUrl: 'https://xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
 					token: token
 				}),
 				reverseWaypoints: true
@@ -127,11 +127,11 @@ var setCluster = function () {
 	}).addTo(map);
 
 	routingControl.on('routingerror', function (e) {
-//		alert(e.error.message);
+		//		alert(e.error.message);
 	});
 
-L.Routing.errorControl(routingControl).addTo(map);
-//	routingControl.hide();
+	L.Routing.errorControl(routingControl).addTo(map);
+	//	routingControl.hide();
 };
 
 // initalize the cluster

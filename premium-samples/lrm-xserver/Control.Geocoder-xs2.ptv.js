@@ -9,25 +9,60 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 	initialize: function (options) {
 		L.Util.setOptions(this, options);
 	},
-	
+
 	runRequest: function (url, request, token, handleSuccess, handleError) {
 		$.ajax({
-			url: url + request.address + '?xtok=' + token,
+			url: url + encodeURIComponent(request.address) + '?xtok=' + token,
 			type: 'GET'
-		,
-		success: function (data, status, xhr) {
+			,
+			success: function (data, status, xhr) {
 				handleSuccess(data);
 			},
 
-		error: function (xhr, status, error) {
-			handleError(xhr);
-		}});
+			error: function (xhr, status, error) {
+				handleError(xhr);
+			}
+		});
 	},
 
-	_buildAddressString: function (address) {
-		var street = (address.street + ' ' + address.houseNumber).trim();
-		var city = (address.postalCode + ' ' + address.city).trim();
-		city = (address.state + ' ' + city).trim();
+
+	// Creates the address string to show in the result list.
+	_buildAddressString: function (loc) {
+		if (loc.formattedAddress) {
+			return loc.formattedAddress;
+		}
+
+		// if no formatted address is available, build our own
+		var address = loc.address;
+
+		var street = '';
+		if (address.street) {
+			street = address.street;
+		}
+		if (address.houseNumber) {
+			street = (street + ' ' + address.houseNumber).trim();
+		}
+
+		var city = '';
+		if (address.city && address.city.name) {
+			city = address.city.name;
+		}
+		if (address.postalCode) {
+			city = (address.postalCode + ' ' + city).trim();
+		}
+
+		if (address.state) {
+			city = (address.state + ' ' + city).trim();
+		}
+
+		if (address.countryName) {
+			city = (address.countryName + ' ' + city).trim();
+		}
+
+		if (address.region && address.region.name) {
+			city = (city + ' (' + address.region.name + ')').trim();
+		}
+
 
 		if (!street) {
 			return city;
@@ -39,6 +74,23 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			return street + ', ' + city;
 		}
 	},
+
+	_buildReverseAddressString: function (address) {
+		var street = (address.street? address.street : '' + ' ' + address.houseNumber? address.houseNumber: '').trim();
+		var city = (address.postalCode? address.postalCode : '' + ' ' + address.city? address.city : '').trim();
+		city = (address.state? address.state : '' + ' ' + city).trim();
+
+		if (!street) {
+			return city;
+		}
+		else if (!city) {
+			return street;
+		}
+		else {
+			return street + ', ' + city;
+		}
+	},
+
 
 	geocode: function (query, cb, context) {
 		var url = this.options.serviceUrl;
@@ -54,7 +106,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 					var resultAddress = response.results[i];
 					var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);
 					results[i] = {
-						name: this._buildAddressString(resultAddress.location.address),
+						name: this._buildAddressString(resultAddress.location),
 						center: loc,
 						bbox: L.latLngBounds(loc, loc)
 					};
@@ -69,7 +121,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 	},
 
 	// use xlocate1 for reverse geocoding
-	
+
 	runPostRequest: function (url, request, token, handleSuccess, handleError) {
 		$.ajax({
 			url: url,
@@ -108,14 +160,14 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			additionalFields: [],
 			callerContext: {
 				properties: [
-				{
-					key: 'CoordFormat',
-					value: 'OG_GEODECIMAL'
-				},
-				{
-					key: 'Profile',
-					value: 'default'
-				}]
+					{
+						key: 'CoordFormat',
+						value: 'OG_GEODECIMAL'
+					},
+					{
+						key: 'Profile',
+						value: 'default'
+					}]
 			}
 		};
 
@@ -128,7 +180,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 				var resultAddress = response.resultList[0];
 				var loc = L.latLng(resultAddress.coordinates.point.y, resultAddress.coordinates.point.x);
 				cb.call(context, [{
-					name: this._buildAddressString(resultAddress),
+					name: this._buildReverseAddressString(resultAddress),
 					center: loc,
 					bounds: L.latLngBounds(loc, loc)
 				}]);
