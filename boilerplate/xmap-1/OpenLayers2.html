@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet Quick Start Guide Example</title>
+    <meta charset="utf-8" />
+
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>
+    <script src="../../token.js"></script>
+    <script>
+
+        // define control options
+        var options = {
+            projection: 'EPSG:900913',
+            displayProjection: new OpenLayers.Projection('EPSG:4326'),
+            units: 'm',
+            numZoomLevels: 19,
+            maxResolution: 156543.0399,
+            maxExtent: new OpenLayers.Bounds(-19900000.0, -7300000.0, 19900000.0, 18600000.0),
+            restrictExtent: new OpenLayers.Bounds(-19900000.0, -7300000.0, 19900000.0, 18600000.0)
+        };
+
+        var map = new OpenLayers.Map('map', options);
+
+        // add map gadgets
+        map.addControl(new OpenLayers.Control.MousePosition());
+        map.addControl(new OpenLayers.Control.ScaleLine());
+        map.addControl(new OpenLayers.Control.OverviewMap());
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+        var style = 'silkysand';
+
+        // returns a url for a foreground (or label) tile
+        var getLabels = function (bounds) {
+            return 'https://api-test.cloud.ptvgroup.com/WMS' +
+                '/WMS?LAYERS=xmap-' + style + '-fg&FORMAT=image%2Fpng&TRANSPARENT=true' +
+                '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=' +
+                '&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&SRS=EPSG:3857' +
+                '&BBOX=' + bounds.toBBOX() + '&WIDTH=' + this.getImageSize().w +
+                '&HEIGHT=' + this.getImageSize().h + '&xtok=' + token;
+        }
+
+        // create the foreground (or label) layer
+        var labelLayer = new OpenLayers.Layer.TMS(
+            'Labels', '', {
+                type: 'png',
+                getURL: getLabels,
+                singleTile: true,
+                visibility: true,
+                isBaseLayer: false
+            });
+
+        // create a background tile layer, use domain-sarding for xServer internet
+        var backgroundLayer = new OpenLayers.Layer.XYZ(
+            'BaseMap', [
+                'https://api1-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/${x}/${y}/${z}.png',
+                'https://api2-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/${x}/${y}/${z}.png',
+                'https://api3-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/${x}/${y}/${z}.png',
+                'https://api4-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/${x}/${y}/${z}.png'],
+            {
+                sphericalMercator: true
+            }
+        );
+
+
+        backgroundLayer.buffer = 0;
+
+        // add the layers
+        map.addLayer(backgroundLayer);
+        map.addLayer(labelLayer);
+
+        // let's go to Karlsruhe
+        var center = new OpenLayers.LonLat(8.4043, 49.014);
+
+        // OL needs the projected location
+        var projectedLocation = center.transform(
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            new OpenLayers.Projection("EPSG:900913")); // to Spherical Mercator Projection
+
+        map.setCenter(projectedLocation, 10);
+    </script>
+</body>
+
+</html>
