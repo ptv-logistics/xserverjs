@@ -23,7 +23,7 @@
         L.TileLayer.prototype.onRemove.call(this, map);
     },
 	
-	maxConcurrentRequests: 4,
+	maxConcurrentRequests: 8,
 
     activeRequestCount: 0,
 
