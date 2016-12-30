@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client-side Drawing of Administrative Regions(Leaflet)</title>
+    <meta name="keywords" content="Mapping, Leaflet" />
+    <meta name="description" content="Client-side Drawing of Administrative Regions(Leaflet)" />
+    <meta name="level" content="1" />
+    <meta name="documentation" content="./doc.html" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        h4 {
+            margin: 0.4em 0;
+       }
+        p {
+            margin: .4em 0;
+       }
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+        .info-panel {
+            max-width:320px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="./L.TopoJSON.js"></script>
+<script src="../../token.js"></script>
+
+<script type="text/javascript">
+
+    // initialize the map
+    var map = L.map('map', {
+        renderer: L.canvas(),
+            worldCopyJump: true,
+            zoomSnap: 0.25,
+            zoomDelta: 0.5,
+            wheelPxPerZoomLevel: 100    }).setView([49.611389, 6.130833], 12); // go to Luxemburg
+
+    map.zoomControl.setPosition('bottomright'); // move the zoom control
+
+    var info = L.control();
+    info.onAdd = function (map) {
+        var container = L.DomUtil.create('div', 'info-panel leaflet-bar leaflet-control leaflet-control-custom');
+        var html = 
+          '<div>' +
+          '  <div>' +
+          '      <h4>This sample displays administrative regions on PTV xMap Server.</h4>' +
+          '      <p>You see two additional layers: communes and postcode areas. The communes are colored by the 12 cantons of' +
+          '          Luxembourg.' +
+          '      </p>' +
+          '      <p>If you hover over a postcode area, the area is highlighted and the postcode is displayed on this panel.</p>' +
+          '      <p>Click or tap on a postcode to focus the map on it.</p>' +
+          '      <div>' +
+          '          <h4>Layers</h4>' +
+          '          <div class="check"><label><input id="basemap" type="checkbox" checked /> Base Map </label></div>' +
+          '          <div class="check"><label><input id="municipalities" type="checkbox" disabled checked /> Communes </label></div>' +
+          '          <div class="check"><label><input id="postcode" type="checkbox" disabled checked /> Postcode Areas </label></div>' +
+          '      </div>' +
+          '      <div id="postCodeInfo"></div>' +
+          '  </div>' +
+          '  </div>' +
+          '</div>' ;
+  
+        container.innerHTML = html;
+
+        L.DomEvent.disableClickPropagation(container);
+        return container;
+    };
+    info.addTo(map);
+
+    // a nice palette of colors for the cantons
+    var colors = [
+        "#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462",
+        "#b3de69", "#fccde5", "#d9d9d9", "#bc80bd", "#ccebc5", "#ffed6f"];
+
+    var tokenSuffix = ''; // token in case of xServer internet '?xtok=...'
+    var ptvAttribution = '&copy; <a href="http://www.ptvgroup.com">PTV</a>, TomTom';
+    var ddsAttribution = '&copy; 2012 GfK Geomarketing GmbH';
+
+    // create a basemap layer using the xMap Tile api
+    var background = L.tileLayer(
+        'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+        'silkysand-labels?xtok=' + token,
+        {
+            attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+            subdomains: '1234',
+            maxZoom: 22,
+            pane: 'tilePane'
+        }).addTo(map);
+
+    var foreground = L.tileLayer(
+        'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+        'silkysand-background-transport?xtok=' + token,
+        {
+            attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+            subdomains: '1234',
+            maxZoom: 22,
+            pane: 'shadowPane'
+        }).addTo(map);
+
+    // add the two xMap layers as a layer group
+    var basemap = L.layerGroup([background, foreground]).addTo(map);
+
+    // these variables hold the layer for municipaltites and postcodes
+    var municipalitiesLayer, postcodeLayer;
+
+    // the style for municipalities, they are colored by the first two digits (the canton-id)
+    var municipalityStyle = function (feature) {
+        return {
+            weight: 3.5,
+            opacity: 1,
+            color: 'blue',
+            dashArray: '',
+            fillOpacity: 0.5,
+            fillColor: colors[feature.properties.id.substring(0, 2) % colors.length]
+        };
+    };
+
+    // load the municipalties json and create the layer
+    $.getJSON("./data/municipalities-topo.json", function (data) {
+        municipalitiesLayer = L.topoJson(data, {
+            attribution: ddsAttribution,
+            style: municipalityStyle
+        });
+        municipalitiesLayer.getAttribution = function () { return ddsAttribution; };
+        municipalitiesLayer.addTo(map);
+        municipalitiesLayer.bringToBack();
+
+        $('#municipalities').prop('disabled', false); // enable checkbox
+    });
+
+
+    // the postcodes are displayed only with a border
+    var postCodeStyle = {
+        weight: 1,
+        opacity: 1,
+        color: 'black',
+        dashArray: '',
+        fillColor: 'yellow',
+        fillOpacity: 0.0
+    };
+
+    // the interaction function for the postcode layer
+    var onEachPostCode = function (feature, layer) {
+        layer.on({
+            mouseover: function (e) {
+                setPostCodeInfo(e.target.feature);
+
+                e.target.setStyle({
+                    weight: 5,
+                    color: 'red',
+                    fillOpacity: 0.5
+                });
+            },
+            mouseout: function (e) {
+                setPostCodeInfo();
+
+                e.target.setStyle(postCodeStyle);
+            },
+            click: function (e) {
+                map.fitBounds(e.target.getBounds());
+            }
+        });
+    };
+
+    // load the postcode json and create the layer
+    $.getJSON("./data/postcode-topo.json", function (data) {
+        postcodeLayer = L.topoJson(data, {
+            style: postCodeStyle,
+            onEachFeature: onEachPostCode
+        });
+        postcodeLayer.getAttribution = function () { return ddsAttribution; };
+        postcodeLayer.addTo(map);
+
+        $('#postcode').prop('disabled', false);  // enable checkbox
+    });
+
+
+    // disable/enable the municipalities layer
+    $("#municipalities").click(function (e) {
+        if ($('#municipalities').is(':checked')) {
+            map.addLayer(municipalitiesLayer);
+            municipalitiesLayer.bringToBack(); // force municipalities behind postcodes
+        } else
+            map.removeLayer(municipalitiesLayer);
+    });
+
+    // disable/enable the postcode layer
+    $("#postcode").click(function (e) {
+        if ($('#postcode').is(':checked'))
+            map.addLayer(postcodeLayer);
+        else
+            map.removeLayer(postcodeLayer);
+    });
+
+    // disable/enable the basemap layers
+    $("#basemap").click(function (e) {
+        if ($('#basemap').is(':checked')) {
+            map.addLayer(basemap);
+        } else
+            map.removeLayer(basemap);
+    });
+
+
+    // the function that displays the postcode information in our panel
+    var setPostCodeInfo = function (feature) {
+        $('#postCodeInfo').replaceWith('<div id="postCodeInfo"><h4>'
+            + (feature ? 'Postcode: ' + feature.properties.id : 'Hover over a postcode area')
+            + '</h4></div>');
+    };
+
+    // initialize the postcode information
+    setPostCodeInfo();
+</script>
+</body>
+
+</html>
