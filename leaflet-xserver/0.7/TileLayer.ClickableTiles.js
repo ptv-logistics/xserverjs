@@ -148,7 +148,7 @@
             (180.0 / Math.PI) * x);
     },
 
-    maxConcurrentRequests: 4,
+    maxConcurrentRequests: 8,
 
     activeRequestCount: 0,
 
