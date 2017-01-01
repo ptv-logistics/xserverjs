@@ -43,10 +43,10 @@ var baseMapLayer = L.tileLayer(
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
+            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token
         ], {
             sphericalMercator: true
         }
@@ -58,7 +58,7 @@ var raster = new OpenLayers.Layer.XYZ(
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-            'http:127.0.0.1:50000/services/rest/XMap/tile/${z}/${x}/${y}'
+            'http:127.0.0.1:50000/services/rest/XMap/tile/${z}/${x}/${y}/silkysand'
         ], {
             sphericalMercator: true
         }
@@ -75,10 +75,10 @@ var raster = new OpenLayers.Layer.XYZ(
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
         urls: [
-            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token
+            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token
         ],
         layer: 'xmap', maxZoom: 22
     })
@@ -91,7 +91,7 @@ var raster = new ol.layer.Tile({
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
         urls: [
-            'http:127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}'
+            'http:127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}/silkysand'
         ],
         layer: 'xmap', maxZoom: 22
     })
