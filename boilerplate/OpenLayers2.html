@@ -1,6 +1,6 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Leaflet Quick Start Guide Example</title>
     <meta charset="utf-8" />
@@ -21,13 +21,14 @@
         }
     </style>
 </head>
+
 <body>
     <div id="map"></div>
 
     <script src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>
     <script src="../token.js"></script>
     <script>
-		
+
         // define control options
         var options = {
             projection: 'EPSG:900913',
@@ -46,29 +47,31 @@
         map.addControl(new OpenLayers.Control.ScaleLine());
         map.addControl(new OpenLayers.Control.OverviewMap());
         map.addControl(new OpenLayers.Control.LayerSwitcher());
-		
-		// add tile layer
-		var raster = new OpenLayers.Layer.XYZ(
-			'BaseMap' ,
-            ['https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-			'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-			'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-			'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token],
-			{
-				sphericalMercator: true}
-			);
-		
-		map.addLayer(raster);
+
+        // add tile layer
+        var raster = new OpenLayers.Layer.XYZ(
+            'BaseMap', [
+                'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+                'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+                'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+                'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
+            ], {
+                sphericalMercator: true
+            }
+        );
+
+        map.addLayer(raster);
 
         // let's go to Karlsruhe
         var center = new OpenLayers.LonLat(8.4043, 49.014);
 
         // OL needs the projected location
         var projectedLocation = center.transform(
-                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-                    new OpenLayers.Projection("EPSG:900913")); // to Spherical Mercator Projection
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            new OpenLayers.Projection("EPSG:900913")); // to Spherical Mercator Projection
 
         map.setCenter(projectedLocation, 10);
-	</script>
+    </script>
 </body>
+
 </html>
