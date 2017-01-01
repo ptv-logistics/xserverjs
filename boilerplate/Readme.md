@@ -1,5 +1,7 @@
 ### Basic Setups for Map Widgets
 
+This section contains temples to initialize a basic xMapServer-2 base map.
+
 #### Leaflet Basic Setup
 
 [Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet.1.0.html)
@@ -51,12 +53,12 @@ var raster = new OpenLayers.Layer.XYZ(
     );
 ```
 
-##### on-premis
+##### on-premise
 
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-            'http:127.0.0.1:50000/services/rest/XMap/tile/${z}/${x}/${y}
+            'http:127.0.0.1:50000/services/rest/XMap/tile/${z}/${x}/${y}'
         ], {
             sphericalMercator: true
         }
