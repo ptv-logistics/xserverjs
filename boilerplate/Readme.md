@@ -43,10 +43,10 @@ var baseMapLayer = L.tileLayer(
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-        'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-        'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-        'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-        'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
+            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
         ], {
             sphericalMercator: true
         }
