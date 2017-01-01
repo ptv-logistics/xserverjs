@@ -1,6 +1,6 @@
 ### Basic Setups for Map Widgets
 
-This section contains temples to initialize a basic xMapServer-2 base map.
+This section contains templates to initialize a basic xMapServer-2 base map.
 
 #### Leaflet Basic Setup
 
