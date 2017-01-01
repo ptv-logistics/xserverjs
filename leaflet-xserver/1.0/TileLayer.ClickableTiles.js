@@ -13,7 +13,7 @@
 		L.DomEvent
             .on(map._container, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
             .on(map._container, 'mousedown', this._onMouseDown, this)
-            .on(map._container, 'mouseup', this._onMouseDown, this)
+//            .on(map._container, 'mouseup', this._onMouseDown, this)
             .on(map._container, 'click', this._onClick, this);
     },
 
@@ -159,7 +159,7 @@
                     attribute.key.replace(/[A-Z]/g, " $&") + ': ' +
                     attribute.value.replace("_", " ") + '<br>');
             }
-
+            
             L.popup()
                 .setLatLng(found.latLng)
                 .setContent(description
