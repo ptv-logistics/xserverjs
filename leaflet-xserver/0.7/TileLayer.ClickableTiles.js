@@ -7,19 +7,17 @@
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
 
-    _isOverlay: false,
-
     onAdd: function(map) {
         this._resetQueue();
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
-        var cont = this._isOverlay? map._mapPane : this._container;
+        cont = map._container;
 
         L.DomEvent
-            .on(cont, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(cont, 'mousedown', this._onMouseDown, this)
-            .on(cont, 'click', this._onClick, this);
+           .on(cont, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
+           .on(cont, 'mousedown', this._onMouseDown, this)
+           .on(cont, 'click', this._onClick, this);
     },
 
     onRemove: function(map) {
@@ -50,7 +48,7 @@
 
             tilePane.appendChild(this._container);
             
-            this._container.style['pointer-events'] = this._isOverlay? 'none' : 'auto';
+            this._map._container.style['pointer-events'] = 'auto';
 
             if (this.options.opacity < 1) {
                 this._updateOpacity();
@@ -91,13 +89,12 @@
         if (this.findElement(e, this._container)) {
             e.preventDefault();
 
-            if(this._isOverlay)
-                this._container.style['pointer-events'] = 'auto';
+            this._container.style['pointer-events'] = 'auto';
     
             L.DomUtil.addClass(this._container, 'leaflet-clickable'); // change cursor
         } else {
-            if(this._isOverlay)
-                this._container.style['pointer-events'] = 'none';
+            this._container.style['pointer-events'] = 'none';
+
             L.DomUtil.removeClass(this._container, 'leaflet-clickable');
         }
     },
