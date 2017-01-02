@@ -167,6 +167,7 @@ L.Routing.Ptv = L.Class.extend({
 			    index: segments[manoeuvre.routeListSegmentIdx].firstPolyIdx,
 			    time: segments[manoeuvre.routeListSegmentIdx].accTime,
 			    type: this._drivingDirectionType(manoeuvre),
+				modifier: this._drivingDirectionType(manoeuvre),
 			    text: manoeuvre.manoeuvreDesc
 			});
 		}
