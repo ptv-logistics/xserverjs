@@ -42,7 +42,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/2.2.0/topojson.min.js"></script>
 <script src="./L.TopoJSON.js"></script>
 <script src="../../token.js"></script>
 
@@ -50,11 +50,11 @@
 
     // initialize the map
     var map = L.map('map', {
-        renderer: L.canvas(),
             worldCopyJump: true,
             zoomSnap: 0.25,
             zoomDelta: 0.5,
-            wheelPxPerZoomLevel: 100    }).setView([49.611389, 6.130833], 12); // go to Luxemburg
+            wheelPxPerZoomLevel: 100    
+        }).setView([49.611389, 6.130833], 12); // go to Luxemburg
 
     map.zoomControl.setPosition('bottomright'); // move the zoom control
 
@@ -220,7 +220,6 @@
         } else
             map.removeLayer(basemap);
     });
-
 
     // the function that displays the postcode information in our panel
     var setPostCodeInfo = function (feature) {
