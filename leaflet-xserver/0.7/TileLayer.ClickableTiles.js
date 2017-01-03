@@ -147,12 +147,11 @@
 
     maxConcurrentRequests: 8,
 
-    activeRequestCount: 0,
-
     requestQueue: [],
 
-    currentRequests: [],
+    activeRequests: [],
 
+    queueId: 0,
 
     _reset: function() {
         this._resetQueue();
@@ -160,46 +159,41 @@
         L.TileLayer.prototype._reset.call(this);
     },
 
-    cnt: 0,
-
     _resetQueue: function() {
         this.requestQueue = [];
-        this.cnt = this.cnt + 1;
-        for (var i = 0; i < this.currentRequests.length; i++)
-            this.currentRequests[i].abort();
-        this.currentRequests = [];
+        this.queueId = this.queueId + 1;
 
-        this.activeRequestCount = 0;
+        for (var i = 0; i < this.activeRequests.length; i++)
+            this.activeRequests[i].abort();
+        
+        this.activeRequests = [];
     },
 
     runRequestQ: function(url, handleSuccess, force) {
-        if (!force && this.activeRequestCount >= this.maxConcurrentRequests) {
+        if (!force && this.activeRequests.length >= this.maxConcurrentRequests) {
             this.requestQueue.push({
                 url: url,
                 handleSuccess: handleSuccess
             });
             return;
         }
-        if (!force)
-            this.activeRequestCount++;
 
         var that = this;
-        var cnt = this.cnt;
+        var queueId = this.queueId;
 
         var request = corslite(url, 
             function(err, resp) {
-                that.currentRequests.splice(that.currentRequests.indexOf(request), 1);
-                if (that.cnt == cnt && that.requestQueue.length) {
+                that.activeRequests.splice(that.activeRequests.indexOf(request), 1);
+                if (that.queueId == queueId && that.requestQueue.length) {
                     var pendingRequest = that.requestQueue.shift();
                     that.runRequestQ(pendingRequest.url, pendingRequest.handleSuccess, true);
-                } else {
-                    that.activeRequestCount--;
                 }
+                
                 handleSuccess(err, resp);
             }
 			, true); // cross origin?
 
-        this.currentRequests.push(request);
+        this.activeRequests.push(request);
     },
 
     _loadTile: function(tile, coords) {
