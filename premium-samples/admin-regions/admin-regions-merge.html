@@ -71,7 +71,7 @@
                 '      <div>' +
                 '          <h4>Layers</h4>' +
                 '          <div class="check"><label><input id="basemap" type="checkbox" checked /> Base Map </label></div>' +
-                '          <div class="check"><label><input id="municipalities" type="checkbox" disabled checked /> Custom Regions </label></div>' +
+                '          <div class="check"><label><input id="custom" type="checkbox" disabled checked /> Custom Regions </label></div>' +
                 '          <div class="check"><label><input id="postcode" type="checkbox" disabled checked /> Postcode Areas </label></div>' +
                 '      </div>' +
                 '      <div id="postCodeInfo"></div>' +
@@ -120,9 +120,9 @@
         var basemap = L.layerGroup([background, foreground]).addTo(map);
 
         // these variables hold the layer for municipaltites and postcodes
-        var municipalitiesLayer, postcodeLayer;
+        var customLayer, postcodeLayer;
 
-        // the style for municipalities, they are colored by the first two digits (the canton-id)
+        // the style for custom regions
         var municipalityStyle = function (feature) {
             return {
                 weight: 3.5,
@@ -134,20 +134,12 @@
             };
         };
 
+        // the postcode areas as TopoJSON
         var topoData;
-        var newSet = d3.set([]);
+        // the ids of the new custom area
+        var customSet = d3.set([]);
+        // the counter for the custom regions
         var currentRegion = 0;
-
-        // load the municipalties json and create the layer
-        d3.json("./data/postcode-topo.json", function (error, data) {
-            topoData = data;
-
-            municipalitiesLayer = L.layerGroup();
-            municipalitiesLayer.getAttribution = function () { return ddsAttribution; };
-            municipalitiesLayer.addTo(map);
-
-            $('#municipalities').prop('disabled', false); // enable checkbox
-        });
 
         // the postcodes are displayed only with a border
         var postCodeStyle = {
@@ -169,11 +161,11 @@
                     setPostCodeInfo();
                 },
                 click: function (e) {
-                    if (newSet.has(e.target.feature.properties.id)) {
-                        newSet.remove(e.target.feature.properties.id);
+                    if (customSet.has(e.target.feature.properties.id)) {
+                        customSet.remove(e.target.feature.properties.id);
                         e.target.setStyle(postCodeStyle);
                     } else {
-                        newSet.add(e.target.feature.properties.id);
+                        customSet.add(e.target.feature.properties.id);
                         e.target.setStyle({
                             weight: 2,
                             color: 'red',
@@ -184,8 +176,12 @@
             });
         };
 
-        // load the postcode json and create the layer
+        // load the postcode json and create the layers
         d3.json("./data/postcode-topo.json", function (error, data) {
+            // store
+            topoData = data;
+
+            // create postcode layer
             postcodeLayer = L.topoJson(data, {
                 style: postCodeStyle,
                 onEachFeature: onEachPostCode
@@ -195,15 +191,22 @@
             postcodeLayer.bringToBack();
 
             $('#postcode').prop('disabled', false);  // enable checkbox
+
+            // create custom layer
+            customLayer = L.layerGroup();
+            customLayer.getAttribution = function () { return ddsAttribution; };
+            customLayer.addTo(map);
+
+            $('#custom').prop('disabled', false); // enable checkbox
         });
 
 
-        // disable/enable the municipalities layer
-        $("#municipalities").click(function (e) {
-            if ($('#municipalities').is(':checked')) {
-                map.addLayer(municipalitiesLayer);
+        // disable/enable the custom layer
+        $("#custom").click(function (e) {
+            if ($('#custom').is(':checked')) {
+                map.addLayer(customLayer);
             } else
-                map.removeLayer(municipalitiesLayer);
+                map.removeLayer(customLayer);
         });
 
         // disable/enable the postcode layer
@@ -225,17 +228,20 @@
         });
 
         var merge = function () {
-            var plan = topojson.merge(topoData, topoData.objects.postcode.geometries.filter(function (d) { return newSet.has(d.properties.id); }));
-            plan.properties = { id: currentRegion++ };
-            municipalitiesLayer.addLayer(L.topoJson(plan, {
+            var newTopo = topojson.merge(topoData, topoData.objects.postcode.geometries.filter(function (d) { return customSet.has(d.properties.id); }));
+            newTopo.properties = { id: currentRegion++ };
+            customLayer.addLayer(L.topoJson(newTopo, {
                 attribution: ddsAttribution,
                 style: municipalityStyle
             }));
 
-            var x = postcodeLayer.getLayers().forEach(function (layer) {
+            // reset postoce style
+            postcodeLayer.getLayers().forEach(function (layer) {
                 layer.setStyle(postCodeStyle);
             });
-            newSet = d3.set();
+
+            // clear set
+            customSet = d3.set();
         }
 
         // the function that displays the postcode information in our panel
