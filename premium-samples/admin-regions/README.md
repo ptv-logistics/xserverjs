@@ -14,6 +14,7 @@ and also [directly displayed on GitHub](https://github.com/ptv-logistics/xserver
 ### Add adminstrtaive regions as GeoJSON to the map
 
 [Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
+
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/index.html)
 
 Leaflet has a layer to display GeoJSON data. We load the data with jquery $.getJSON function. Note: you cannot run this sample directly from the file, because the browser blocks direct file access! To use this code you have to run it from a web server (IIS or Apache).
@@ -32,6 +33,7 @@ After loading we can add styling and interactions to the polygons.
 ### Reduce the size with TopoJSON
 
 [Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-topo)
+
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-topo.html)
 
 Administrative regions usually define a "topology". This means they don't have to be stored as independent polygons, but as their common borders.  [TopoJSON](https://github.com/topojson/topojson) is an extension to GeoJSON that uses this capacity. To convert GeoJson to TopoJson we can use the site http://mapshaper.org/, drop our GeoJSON, and download it as TopoJSON. The resulting files are about [30% of the GeoJSON size](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data).
@@ -49,8 +51,9 @@ $.getJSON("./data/municipalities.json", function (data) {
 
 ### Create custom regions by merging admin regions with D3
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-topo)
-[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-topo.html)
+[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-merge)
+
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-merge.html)
 
 One benefit of TopoJSON is the ability to merge neighbouring regions by removing their common border. The library [D3](https://d3js.org/) has a merge function for topoloy regions. We can filter the merge function for a specific set of ids. The result can be added to our layer containing the custom regions.
 
