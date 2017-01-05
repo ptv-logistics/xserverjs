@@ -19,7 +19,7 @@ function replaceAll(find, replace, str) {
 }
 
 // runRequest executes a json request on PTV xServer internet,
-// given the url endpoint, the token and the callbacks to be called
+// given the url endpoint, the token and th e callbacks to be called
 // upon completion. The error callback is parameterless, the success
 // callback is called with the object returned by the server.
 function runRequest(url, request, token, handleSuccess, handleError) {
@@ -40,6 +40,20 @@ function runRequest(url, request, token, handleSuccess, handleError) {
         error: function (xhr, status, error) {
             handleError(xhr);
         }
+    });
+}
+
+function runGetRequest(url, input, token, handleSuccess, handleError) {
+    $.ajax({
+        url: url + "/" + encodeURIComponent(input) + (token? "?xtok=" + token : ""),
+
+    success: function (data, status, xhr) {
+        handleSuccess(data);
+    },
+
+    error: function (xhr, status, error) {
+        handleError(xhr);
+    }
     });
 }
 
