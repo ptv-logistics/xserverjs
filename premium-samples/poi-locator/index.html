@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>POI Locator Demo</title>
+         <title>POI Locator Demo</title>
     <meta charset="utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -36,28 +36,12 @@
     <script src="./lunr.min.js"></script>
     <script src="./helper.js"></script>
     <script src="../../token.js"></script>
-    <script type="text/javascript" src="./baufeldt.js"></script>
     <script type="text/javascript">
-        // set up the map
-        var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
-        var mapLocation = new L.LatLng(53.550556, 9.993333); // HH
-
-        // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map').setView(mapLocation, 12);
-
-        // insert xMap back- and forground layers with sandbox-style
-        L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
-				'?xtok=' + token, {
-				attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-				maxZoom: 22,
-				subdomains: '1234'
-            }).addTo(map);
-            
-        if (!token)
-            alert("you need to configure your xServer internet token in token.js!")
-
-        // add scale control
-        L.control.scale().addTo(map);
+        // url we're sending the request to
+        var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
+        var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
+        var isoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
+        var searchForReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
 
         var searchLocation;
         var isoFeature;
@@ -66,32 +50,29 @@
         var marker;
         var horizon = 600;
         var searchMethod = 0;
+        var index;
 
-        // create full text index
-        var index = lunr(function () {
-            this.field('description', {
-                boost: 10
-            })
-            this.ref('id')
-        })
-        for (var i = 0; i < poiData.features.length; i++) {
-            index.add({
-                id: i,
-                description: poiData.features[i].description
-            });
-        }
+        // set up the map
+        var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+        var mapLocation = new L.LatLng(51, 10); 
 
-        // url we're sending the request to
-        var isoUrl = 'https://xroute-eu-n-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
-        var findAddressUrl = 'https://xlocate-eu-n-test.cloud.ptvgroup.com/xlocate/rs/XLocate/findAddressByText';
-        var searchForReachableObjectsUrl = 'https://xroute-eu-n-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
+        // create a map in the "map" div, set the view to a given place and zoom
+        var map = new L.Map('map',{ preferCanvas: true}).setView(mapLocation, 6);
+
+        // insert xMap back- and forground layers with sandbox-style
+        L.tileLayer(xMapTileUrl + '?xtok=' + token, {
+                attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                maxZoom: 22,
+                subdomains: '1234'
+            }).addTo(map);
+
+        if (!token)
+            alert("you need to configure your xServer internet token in token.js!")
+
+        // add scale control
+        L.control.scale().addTo(map);
 
         map.on('click', onMapClick);
-
-        // init pois
-        L.geoJson(poiData, {
-            pointToLayer: style
-        }).addTo(map);
 
         // add input control
         var info = L.control();
@@ -103,7 +84,7 @@
                 '<form id="myForm">' +
                 '<div>Click map or find nearby address</div>' +
                 '<div>' +
-                '<input type="text" id="f1" value="Hamburg, Rathausmarkt">' +
+                '<input type="text" id="f1" value="Karlsruhe, Haid-und-Neu-Straße 15">' +
                 '<input type="button" value="Find" onClick="' + clickcmd + '">' +
                 '</div><br>' +
                 '<div>Search method</div>' +
@@ -114,27 +95,60 @@
                 '</div><br>' +
                 '<div>Horizon</div>' +
                 '<div>' +
-                '<input type="radio" name="horizon" checked="true" onclick="setHorizon(600);">10 min' +
-                '<input type="radio" name="horizon" onclick="setHorizon(1200);">20 min' +
-                '<input type="radio" name="horizon" onclick="setHorizon(1800);">30 min' +
+                '<input type="radio" name="horizon" checked="true" onclick="setHorizon(1200);">20 min' +
+                '<input type="radio" name="horizon" onclick="setHorizon(2400);">40 min' +
+                '<input type="radio" name="horizon" onclick="setHorizon(3600);">60 min' +
                 '</div><br>' +
                 '<div>Or find stores by name</div>' +
                 '<div>' +
-                '<input type="text" id="f2" value="minimal">' +
+                '<input type="text" id="f2" value="OBI">' +
                 '<input type="button" value="Find" onClick="' + fuzzySearchCmd + '">' +
                 '</div>' + '</form>';
             container.innerHTML = html;
 
-            L.DomEvent.disableClickPropagation(container);  
+            L.DomEvent.disableClickPropagation(container);
             return container;
         };
         info.addTo(map);
 
+        setBusy(true);
+
+        $.getJSON('./inobas.json', initialize); 
+
+        function initialize(pd) {
+            poiData = pd;
+
+            poiData.features.sort(function(a,b) {
+                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+            });
+
+            // create full text index
+            index = lunr(function () {
+                this.field('description', {
+                    boost: 10
+                })
+                this.ref('id')
+            })
+            for (var i = 0; i < poiData.features.length; i++) {
+                index.add({
+                    id: i,
+                    description: poiData.features[i].properties.description
+                });
+            }
+
+            // init pois
+            L.geoJson(poiData, {
+                pointToLayer: poiStyle
+            }).addTo(map);
+
+             setBusy(false);
+        }
+
         function setBusy(busy) {
 
-//            isBusy = busy;
+             isBusy = busy;
 
-         $("#myForm :input").prop("disabled", busy);
+            $("#myForm :input").prop("disabled", busy);
         }
 
         function findNearestObjects() {
@@ -184,39 +198,24 @@
             cleanupMarkers();
 
             var res = index.search(name);
+
             for (var i = 0; i < res.length; i++) {
                 highlightPoi(poiData.features[res[i].ref], 'marker-green');
             }
+
             setBounds(highlightedPois);
         }
 
         function findByAddress(adr) {
-            var request = {
-                "address": adr,
-                "country": "D",
-                "options": [],
-                "sorting": [],
-                "additionalFields": [],
-                "callerContext": {
-                    "properties": [{
-                        "key": "CoordFormat",
-                        "value": "OG_GEODECIMAL"
-                    }, {
-                        "key": "Profile",
-                        "value": "default"
-                    }]
-                }
-            };
-
             setBusy(true);
 
-            runRequest(
+            runGetRequest(
                 findAddressUrl,
-                request,
+                "D " + adr,
                 token,
                 function (response) {
-                    var firstResult = response.resultList[0].coordinates.point;
-                    searchLocation = new L.LatLng(firstResult.y, firstResult.x);
+                    var firstResult = response.results[0].location;
+                    searchLocation = new L.LatLng(firstResult.referenceCoordinate.y, firstResult.referenceCoordinate.x);
                     findNearestObjects();
                 },
                 function (xhr) {
@@ -245,7 +244,7 @@
                     "expansionDesc": {
                         "expansionType": "EXP_TIME",
                         "horizons": [
-                            hor
+                            hor 
                         ]
                     }
                 },
@@ -258,7 +257,7 @@
                         "value": "WKT"
                     }, {
                         "key": "Profile",
-                        "value": "pedestrian"
+                        "value": "carfast"
                     }]
                 }
             };
@@ -294,7 +293,7 @@
                         }
                     });
 
-                    isoFeature.on('click', onMapClick); 
+                    isoFeature.on('click', onMapClick);
                     isoFeature.addTo(map);
 
                     for (var i = 0; i < poiData.features.length; i++) {
@@ -303,7 +302,7 @@
                         }
                     }
 
-  
+
 
                     map.fitBounds(isoFeature.getBounds());
 
@@ -316,7 +315,7 @@
 
         function filterByAirline(latlng, hor) {
             var result = new Array();
-            var range = hor /*=s*/ * 6 /* km/h */ / 3.6 /*=m/s */;
+            var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */;
 
             for (var i = 0; i < poiData.features.length; i++) {
                 var poiLocation = poiData.features[i].geometry.coordinates;
@@ -326,7 +325,7 @@
                     result.push({ distance: distance, data: poiData.features[i] });
                 }
             }
-            
+
             return result;
         }
 
@@ -339,7 +338,7 @@
             }
 
             setBounds(highlightedPois, latlng);
-            
+
             setBusy(false);
         }
 
@@ -377,7 +376,7 @@
                 "expansionDesc": {
                     "expansionType": "EXP_TIME",
                     "horizons": [
-                      hor
+                        hor
                     ]
                 },
                 "callerContext": {
@@ -389,7 +388,7 @@
                         "value": "WKT"
                     }, {
                         "key": "Profile",
-                        "value": "pedestrian"
+                        "value": "carfast"
                     }]
                 }
             };
@@ -409,6 +408,7 @@
                     setBounds(highlightedPois, latlng);
                 },
                 function (xhr) {
+                    setBounds([], latlng);
                     setBusy(false);
                 });
         }
@@ -420,8 +420,15 @@
             }
             if (center)
                 arr.push(center);
-            var bounds = new L.LatLngBounds(arr);
-            map.fitBounds(bounds);
+
+             if(arr.length) {  
+                var bounds = new L.LatLngBounds(arr);
+
+                map.fitBounds(bounds);
+             }
+             else {
+                 alert("nothing found!")
+             }
         }
 
         function cleanupMarkers() {
@@ -440,12 +447,12 @@
         function highlightPoi(feature, c, additionalInfo, drawSpiderLine) {
             var latlon = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
 
-            var popUp = feature.description;
+            var popUp = feature.properties.description;
             if (additionalInfo)
                 popUp = popUp + "<br>" + additionalInfo;
 
             var highlightedPoi = L.marker(latlon, {
-                zIndexOffset: 1000,
+                zIndexOffset: c === 'marker-red'? 1000 : 0,
                 icon: new L.Icon.Default({
                     imagePath: "./icons/",
                     iconUrl: c + ".png",
@@ -455,7 +462,7 @@
             highlightedPoi.bindPopup(popUp);
 
             if (drawSpiderLine) {
-                var spidlerLineline = L.polyline([searchLocation, latlon], { color: 'red' }).addTo(map)
+                var spidlerLineline = L.polyline([searchLocation, latlon], { color: 'red', weight: 1 }).addTo(map)
                 highlightedPois.push(spidlerLineline);
                 spidlerLineline.bindPopup(popUp);
             }
@@ -463,16 +470,19 @@
             highlightedPois.push(highlightedPoi);
         }
 
-        function style(feature, latlng) {
+        function poiStyle(feature, latlng) {
             var style =
-                L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], { 
+                L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
                     fillColor: '#444',
                     fillOpacity: 1,
-                    stroke: false
+                    stroke: true,
+                    weight: 1,
+                    color: '#aaa'
                 }).setRadius(6);
-            style.bindPopup(feature.description);
+            style.bindPopup(feature.properties.description);
             return style;
         }
+
     </script>
 </body>
 
