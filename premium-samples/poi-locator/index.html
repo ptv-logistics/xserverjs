@@ -2,7 +2,7 @@
 <html>
 
 <head>
-         <title>POI Locator Demo</title>
+    <title>POI Locator Demo</title>
     <meta charset="utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -30,13 +30,50 @@
 
 <body>
     <div id="map"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet-src.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="./leaflet-pip.js"></script>
     <script src="./lunr.min.js"></script>
     <script src="./helper.js"></script>
     <script src="../../token.js"></script>
     <script type="text/javascript">
+        L.Canvas.prototype._updateCircle = function (layer) {
+            if (!this._drawing || layer._empty()) { return; }
+
+            var p = layer._point,
+                ctx = this._ctx,
+                r = layer._radius,
+                s = (layer._radiusY || r) / r;
+
+            this._drawnLayers[layer._leaflet_id] = layer;
+
+            if (s !== 1) {
+                ctx.save();
+                ctx.scale(1, s);
+            }
+
+            ctx.beginPath();
+
+            if (s !== 1) {
+                ctx.restore();
+            }
+        
+		var options = layer.options;
+
+    	if (options.stroke && options.weight !== 0) {
+                ctx.arc(p.x, p.y / s, r+1, 0, Math.PI * 2, false);
+		    	ctx.globalAlpha = options.fillOpacity;
+		    	ctx.fillStyle =  options.fillColor;
+		    	ctx.fill(options.fillRule || 'evenodd');
+	    	}
+
+		if (options.fill) {
+                ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
+		    	ctx.globalAlpha = options.fillOpacity;
+		    	ctx.fillStyle = options.color;
+		    	ctx.fill(options.fillRule || 'evenodd');
+	    	}
+        };
         // url we're sending the request to
         var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
         var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
@@ -54,17 +91,17 @@
 
         // set up the map
         var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
-        var mapLocation = new L.LatLng(51, 10); 
+        var mapLocation = new L.LatLng(51, 10);
 
         // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map',{ preferCanvas: true}).setView(mapLocation, 6);
+        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation, 6);
 
         // insert xMap back- and forground layers with sandbox-style
         L.tileLayer(xMapTileUrl + '?xtok=' + token, {
-                attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-                maxZoom: 22,
-                subdomains: '1234'
-            }).addTo(map);
+            attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+            maxZoom: 22,
+            subdomains: '1234'
+        }).addTo(map);
 
         if (!token)
             alert("you need to configure your xServer internet token in token.js!")
@@ -113,12 +150,12 @@
 
         setBusy(true);
 
-        $.getJSON('./inobas.json', initialize); 
+        $.getJSON('./inobas.json', initialize);
 
         function initialize(pd) {
             poiData = pd;
 
-            poiData.features.sort(function(a,b) {
+            poiData.features.sort(function (a, b) {
                 return b.geometry.coordinates[1] - a.geometry.coordinates[1];
             });
 
@@ -136,17 +173,21 @@
                 });
             }
 
-            // init pois
-            L.geoJson(poiData, {
+            //            L.geoJson(poiData, {
+            //                pointToLayer: poiStroke
+            //            }).addTo(map);
+
+            L.geoJson([poiData], {
                 pointToLayer: poiStyle
             }).addTo(map);
 
-             setBusy(false);
+
+            setBusy(false);
         }
 
         function setBusy(busy) {
 
-             isBusy = busy;
+            isBusy = busy;
 
             $("#myForm :input").prop("disabled", busy);
         }
@@ -244,7 +285,7 @@
                     "expansionDesc": {
                         "expansionType": "EXP_TIME",
                         "horizons": [
-                            hor 
+                            hor
                         ]
                     }
                 },
@@ -421,14 +462,14 @@
             if (center)
                 arr.push(center);
 
-             if(arr.length) {  
+            if (arr.length) {
                 var bounds = new L.LatLngBounds(arr);
 
                 map.fitBounds(bounds);
-             }
-             else {
-                 alert("nothing found!")
-             }
+            }
+            else {
+                alert("nothing found!")
+            }
         }
 
         function cleanupMarkers() {
@@ -452,7 +493,7 @@
                 popUp = popUp + "<br>" + additionalInfo;
 
             var highlightedPoi = L.marker(latlon, {
-                zIndexOffset: c === 'marker-red'? 1000 : 0,
+                zIndexOffset: c === 'marker-red' ? 1000 : 0,
                 icon: new L.Icon.Default({
                     imagePath: "./icons/",
                     iconUrl: c + ".png",
@@ -473,11 +514,11 @@
         function poiStyle(feature, latlng) {
             var style =
                 L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                    fillColor: '#444',
+                    fillColor: '#aaa',
                     fillOpacity: 1,
                     stroke: true,
-                    weight: 1,
-                    color: '#aaa'
+                    color: '#000',
+                    weight: 1
                 }).setRadius(6);
             style.bindPopup(feature.properties.description);
             return style;
