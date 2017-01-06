@@ -74,6 +74,34 @@
 		    	ctx.fill(options.fillRule || 'evenodd');
 	    	}
         };
+
+        function createGradient (map) {
+  // Get the SVG element from the overlayPane
+  var svg = map.getPanes().overlayPane.firstChild;
+  var doc = document.implementation.createDocument(null, null, null);
+      // Create def element
+var svgDef = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    // Create gradient and stops element
+var svgGradient = doc.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+var svgStart = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
+var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
+
+  // Set ID attribute of gradient
+  svgGradient.setAttribute('id', 'gradient');
+
+  // set stops and colors
+  svgStart.setAttribute('offset', '0%');
+  svgStop.setAttribute('offset', '100%');
+  svgStart.setAttribute('stop-color', 'white');
+  svgStop.setAttribute('stop-color', 'gray');
+
+  svgGradient.appendChild(svgStart);
+  svgGradient.appendChild(svgStop);
+  // Append blur element to filter element
+  svgDef.appendChild(svgGradient);
+  // Append filter element to SVG element
+  svg.appendChild(svgDef);
+}
         // url we're sending the request to
         var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
         var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
@@ -173,10 +201,11 @@
                 });
             }
 
-            L.geoJson([poiData], {
+            var gj = L.geoJson([poiData], {
                 pointToLayer: poiStyle
             }).addTo(map);
-
+    
+            createGradient(map);
 
             setBusy(false);
         }
@@ -510,9 +539,9 @@
         function poiStyle(feature, latlng) {
             var style =
                 L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                    fillColor: '#aaa',
+                    fillColor: 'url(#gradient)',
                     fillOpacity: 1,
-                    stroke: true,
+                    stroke: false,
                     color: '#000',
                     weight: 1
                 }).setRadius(6);
