@@ -145,7 +145,7 @@
     zoomControl: false,
     attributionControl: false
   }
-  ).setView([0, 0], 2);
+  ).setView([0, 0], 3);
 
   L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand-labels?xtok=' + token, {
       subdomains: '1234'
@@ -160,7 +160,7 @@
   map.getPanes().tilePane.style.filter = filter;
 
   var positions = [
-    [49.01405, 8.4044, 16, 25], // KA
+    [49.01405, 8.4044, 16, 45], // KA
     [48.856667, 2.351667, 12, 25], // Paris
     [51.50939, -0.11832, 12, 15], // Lonodn
     [40.712778, -74.005833, 15, 25], // NY
@@ -178,7 +178,7 @@
 
       map.flyTo([p[0], p[1]], p[2], { duration: p[3] });
     }, this);
-  }, 2000);
+  }, 4000);
 
 </script>
 <!-- End Document
