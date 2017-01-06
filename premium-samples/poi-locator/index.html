@@ -91,10 +91,10 @@
 
         // set up the map
         var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
-        var mapLocation = new L.LatLng(51, 10);
+        var mapLocation = new L.LatLng(49, 8.4);
 
         // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation, 6);
+        var map = new L.Map('map', { preferCanvas: false }).setView(mapLocation, 12);
 
         // insert xMap back- and forground layers with sandbox-style
         L.tileLayer(xMapTileUrl + '?xtok=' + token, {
@@ -155,9 +155,9 @@
         function initialize(pd) {
             poiData = pd;
 
-            poiData.features.sort(function (a, b) {
-                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-            });
+//            poiData.features.sort(function (a, b) {
+//                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+//            });
 
             // create full text index
             index = lunr(function () {
@@ -172,10 +172,6 @@
                     description: poiData.features[i].properties.description
                 });
             }
-
-            //            L.geoJson(poiData, {
-            //                pointToLayer: poiStroke
-            //            }).addTo(map);
 
             L.geoJson([poiData], {
                 pointToLayer: poiStyle
