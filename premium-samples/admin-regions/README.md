@@ -11,7 +11,11 @@ Administrative regions are polygons defined by the borders of administrative uni
 Our partner [digital data services gmbh](http://www.ddsgeo.de/) provides both geography and the corresponding socio-economic data in various formats. The most popular format is [GeoJSON](http://geojson.org/). GeoJSON can be processed directly in JavaScript and Leaflet, 
 and also [directly displayed on GitHub](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data/municipalities.json),
 
-### Add adminstrtaive regions as GeoJSON to the map
+### Add admininstrative regions as GeoJSON to the map
+
+Required services:
+
+* PTV xMapServer2
 
 [Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
 

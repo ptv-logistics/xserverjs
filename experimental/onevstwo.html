@@ -61,11 +61,11 @@
             position: 'bottomleft'
         }).addTo(map);
 
-        var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+        var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
 
         var x2two = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
             '?xtok=' + token, {
-                attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
                 maxZoom: 19,
                 subdomains: '1234'
             }).addTo(map);

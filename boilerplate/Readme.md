@@ -15,7 +15,7 @@ var baseMapLayer = L.tileLayer(
     'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
     '?xtok=' + token
 	{
-        attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22
     }).addTo(map);
@@ -29,7 +29,7 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 var baseMapLayer = L.tileLayer(
     'http://127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}/silkysand',
 	{
-        attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         maxZoom: 22
     }).addTo(map);
 ```

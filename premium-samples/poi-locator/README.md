@@ -5,14 +5,23 @@ A  tutorial on building mobile-friendly Web Apps to search on user-POIs by proxi
 
 [Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/poi-locator)
 
+Required services:
+
+* PTV xMapServer-2 to display the base map
+* PTV xLocateServer-2 to search a geo-location for an address
+* PTV xRouteServer-1 for 1:n routing and isochrone calculation
+
 The JavaScript libraries used:
 
+* [jQuery](https://jquery.com/) - to make ajax requests on PTV xServer
 * [Leaflet](http://leafletjs.com/) - a JavaScript library for mobile-friendly interactive maps 
 * [Leaflet-pip](https://github.com/mapbox/leaflet-pip) - a simple point-in-polygon function in JavaScript to find all POIs within an isochrone 
 * [lunr.js](http://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.
 
+Note: The sample loads the POI data from the folder containing the web-page. For security reason
+
 ## Set-up the base map
-First, you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. To display the xServer basemap, you'll also have to add the NonTiledLayer and NonTiledLayer.WMS.js to your includes. The initial setup which displays the basemap in Hamburg:
+First, you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. The initial setup that displays the basemap around Hamburg:
 
 ```js
 // set up the map
@@ -24,7 +33,7 @@ var map = new L.Map('map').setView(mapLocation, 14);
 // initialize xServer-internet basemap with silkysand-style
 L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
 	'?xtok=' + token, {
-	    attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+	    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 		subdomains: '1234'
     }).addTo(map);
 ```
@@ -71,7 +80,7 @@ L.geoJson(poiData, {
 ## Search by proximity 
 Now we can view all our POIs and get the name when we click/tap on it. Next we want to find all POIs in range of a specific location. We implement two Versions for setting the source: 1. By clicking on the map and 2. By entering an address.
 
-### Set your source by clicking in the map
+### Set the search location by clicking in the map
 We have a ```js searchLocation``` variable that defines the origin for the search. It is a Leaflet LatLng value holding the Location as a WGS84 coordinate. 
 ```js
 var searchLocation;
@@ -83,8 +92,8 @@ function onMapClick(e) {
 }
 ```
 
-### Set your source by geocoding
-If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocate returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runRequest``` in the helper.js file wich das a JSON call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
+### Set the search location by geocoding
+If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runRequest``` in the helper.js file wich das a JSON call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
 var findAddressUrl = 'https://xlocate-eu-n-test.cloud.ptvgroup.com/xlocate/rs/XLocate/findAddressByText';
 
@@ -126,7 +135,7 @@ Now we want to get all Locations within a range "as the crow flies". For a horiz
 ```js
 function filterByAirline(latlng, hor) {
     var result = new Array();
-    var range = hor /*=s*/ * 6 /* km/h */ / 3.6 /*=m/s */;
+    var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */;
 
     for (var i = 0; i < poiData.features.length; i++) {
         var poiLocation = poiData.features[i].geometry.coordinates;

@@ -120,7 +120,7 @@
             position: 'bottomleft'
          }).addTo(map);
 
-         var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+         var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
         
          var leftMap = {}.undefined;
          var rightMap = {}.undefined;
@@ -147,7 +147,7 @@
                layerToReplace.removeFrom(map);
             }
             return L.tileLayer('https://s0{s}-' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + profile + '?xtok=' + token, {
-                attribution: '<a href="http://www.ptvgroup.com">PTV</a>, ' + providerCopyright,
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, ' + providerCopyright,
                 maxZoom: 19,
                 subdomains: '1234'
             }).addTo(map);

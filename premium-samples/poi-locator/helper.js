@@ -45,15 +45,15 @@ function runRequest(url, request, token, handleSuccess, handleError) {
 
 function runGetRequest(url, input, token, handleSuccess, handleError) {
     $.ajax({
-        url: url + "/" + encodeURIComponent(input) + (token? "?xtok=" + token : ""),
+        url: url + "/" + encodeURIComponent(input) + (token ? "?xtok=" + token : ""),
 
-    success: function (data, status, xhr) {
-        handleSuccess(data);
-    },
+        success: function (data, status, xhr) {
+            handleSuccess(data);
+        },
 
-    error: function (xhr, status, error) {
-        handleError(xhr);
-    }
+        error: function (xhr, status, error) {
+            handleError(xhr);
+        }
     });
 }
 
@@ -68,3 +68,54 @@ function latFormatter(num) {
     var formatted = Math.abs(L.Util.formatNum(num, 3)) + '&ordm; ' + direction;
     return formatted;
 }
+
+(function () {
+    'use strict';
+
+    var proto = L.Canvas.prototype;
+
+    // https://github.com/Leaflet/Leaflet/issues/1886
+    // Workaround: https://github.com/mapbox/mapbox.js/issues/470
+    var prev = proto._updateCircle;
+
+    proto._updateCircle = function (layer) {
+        if(!layer.options.renderFast) {
+            return prev.call(this, layer);        
+        }
+
+        if (!this._drawing || layer._empty()) { return; }
+
+        var p = layer._point,
+            ctx = this._ctx,
+            r = layer._radius,
+            s = (layer._radiusY || r) / r;
+
+        this._drawnLayers[layer._leaflet_id] = layer;
+
+        if (s !== 1) {
+            ctx.save();
+            ctx.scale(1, s);
+        }
+
+        ctx.beginPath();
+
+        if (s !== 1) {
+            ctx.restore();
+        }
+
+        var options = layer.options;
+
+        if (options.stroke && options.weight !== 0) {
+            ctx.arc(p.x, p.y / s, r + options.weight, 0, Math.PI * 2, false);
+            ctx.fillStyle = options.color;
+            ctx.fill(options.fillRule || 'evenodd');
+        }
+
+        if (options.fill) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
+            ctx.fillStyle = options.fillColor || options.color;
+            ctx.fill(options.fillRule || 'evenodd');
+        }
+    };
+})();
