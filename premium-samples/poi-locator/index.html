@@ -37,71 +37,7 @@
     <script src="./helper.js"></script>
     <script src="../../token.js"></script>
     <script type="text/javascript">
-        L.Canvas.prototype._updateCircle = function (layer) {
-            if (!this._drawing || layer._empty()) { return; }
-
-            var p = layer._point,
-                ctx = this._ctx,
-                r = layer._radius,
-                s = (layer._radiusY || r) / r;
-
-            this._drawnLayers[layer._leaflet_id] = layer;
-
-            if (s !== 1) {
-                ctx.save();
-                ctx.scale(1, s);
-            }
-
-            ctx.beginPath();
-
-            if (s !== 1) {
-                ctx.restore();
-            }
-        
-		var options = layer.options;
-
-    	if (options.stroke && options.weight !== 0) {
-                ctx.arc(p.x, p.y / s, r+1, 0, Math.PI * 2, false);
-		    	ctx.globalAlpha = options.fillOpacity;
-		    	ctx.fillStyle =  options.fillColor;
-		    	ctx.fill(options.fillRule || 'evenodd');
-	    	}
-
-		if (options.fill) {
-                ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
-		    	ctx.globalAlpha = options.fillOpacity;
-		    	ctx.fillStyle = options.color;
-		    	ctx.fill(options.fillRule || 'evenodd');
-	    	}
-        };
-
-        function createGradient (map) {
-  // Get the SVG element from the overlayPane
-  var svg = map.getPanes().overlayPane.firstChild;
-  var doc = document.implementation.createDocument(null, null, null);
-      // Create def element
-var svgDef = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    // Create gradient and stops element
-var svgGradient = doc.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-var svgStart = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
-var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
-
-  // Set ID attribute of gradient
-  svgGradient.setAttribute('id', 'gradient');
-
-  // set stops and colors
-  svgStart.setAttribute('offset', '0%');
-  svgStop.setAttribute('offset', '100%');
-  svgStart.setAttribute('stop-color', 'white');
-  svgStop.setAttribute('stop-color', 'gray');
-
-  svgGradient.appendChild(svgStart);
-  svgGradient.appendChild(svgStop);
-  // Append blur element to filter element
-  svgDef.appendChild(svgGradient);
-  // Append filter element to SVG element
-  svg.appendChild(svgDef);
-}
+        'use strict';
         // url we're sending the request to
         var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
         var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
@@ -116,17 +52,18 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
         var horizon = 600;
         var searchMethod = 0;
         var index;
+        var poiData;
 
         // set up the map
-        var attribution = '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+        var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
         var mapLocation = new L.LatLng(49, 8.4);
 
         // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map', { preferCanvas: false }).setView(mapLocation, 12);
+        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation, 12);
 
         // insert xMap back- and forground layers with sandbox-style
         L.tileLayer(xMapTileUrl + '?xtok=' + token, {
-            attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+            attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
             subdomains: '1234'
         }).addTo(map);
@@ -183,9 +120,9 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
         function initialize(pd) {
             poiData = pd;
 
-//            poiData.features.sort(function (a, b) {
-//                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-//            });
+            //            poiData.features.sort(function (a, b) {
+            //                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+            //            });
 
             // create full text index
             index = lunr(function () {
@@ -202,10 +139,11 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
             }
 
             var gj = L.geoJson([poiData], {
+                attribution: 'DDS, Inobas',
                 pointToLayer: poiStyle
             }).addTo(map);
-    
-            createGradient(map);
+
+            //            createGradient(map);
 
             setBusy(false);
         }
@@ -285,7 +223,7 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
                     findNearestObjects();
                 },
                 function (xhr) {
-                    alert(xhr);
+                    alert(xhr.responseJSON.errorMessage);
                     setBusy(false);
                 });
         }
@@ -375,6 +313,7 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
                     setBusy(false);
                 },
                 function (xhr) {
+                    alert(xhr.responseJSON.errorMessage);
                     setBusy(false);
                 });
         }
@@ -474,6 +413,7 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
                     setBounds(highlightedPois, latlng);
                 },
                 function (xhr) {
+                    alert(xhr.responseJSON.errorMessage);
                     setBounds([], latlng);
                     setBusy(false);
                 });
@@ -539,11 +479,12 @@ var svgStop = doc.createElementNS('http://www.w3.org/2000/svg', 'stop');
         function poiStyle(feature, latlng) {
             var style =
                 L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-                    fillColor: 'url(#gradient)',
+                    fillColor: '#aaa',
                     fillOpacity: 1,
-                    stroke: false,
+                    stroke: true,
                     color: '#000',
-                    weight: 1
+                    weight: 2,
+                    renderFast: true
                 }).setRadius(6);
             style.bindPopup(feature.properties.description);
             return style;

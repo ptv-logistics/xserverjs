@@ -14,7 +14,7 @@ var interactiveTileLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand+PTV_TruckAttributes/json?xtok=' + token,
     {
-        attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22
 }).addTo(map);
@@ -35,7 +35,7 @@ var basemapLayer = L.tileLayer(
     'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand?xtok=' + token,
     {
-        attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22,
         pane: 'tilePane'
@@ -52,7 +52,7 @@ var truckAttributesLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
     {
-        attribution: '<a href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22,
         pane: 'shadowPane'
