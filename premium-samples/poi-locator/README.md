@@ -62,19 +62,31 @@ We can add the data as script file then
 ```
 Now we can insert the data with the L.geoJson layer, using a custom poi-style that uses a grey push-pin and binds the description as popup.
 ```js
-// add our p0is
-L.geoJson(poiData, {
-    pointToLayer: function (feature, latlng) {
-        var item =  L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-            icon: new L.Icon.Default({
-                iconUrl: 'icons/marker-grey.png',
-                iconRetinaUrl: 'icons/marker-grey-2x.png'
-            })
-        });
-        item.bindPopup(feature.description);
-        return item;
-    }
-}).addTo(map);
+// add our POIs
+$.getJSON('./inobas.json', initialize);
+
+function initialize(pd) {
+    // store our data
+    poiData = pd;
+
+    L.geoJson(poiData, {
+        attribution: 'DDS, Inobas',
+        pointToLayer: poiStyle
+    }).addTo(map);
+}
+
+function poiStyle(feature, latlng) {
+    var style = L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
+        fillColor: '#aaa',
+        fillOpacity: 1,
+        stroke: true,
+        color: '#000',
+        weight: 2,
+        renderFast: true
+    }).setRadius(6);
+    style.bindPopup(feature.properties.description);
+    return style;
+}
 ```       
 
 ## Search by proximity 

@@ -33,27 +33,26 @@
             //, crs:L.CRS.EPSG4326 // test for Plate Carree projection
         });
         
-        // link to GitHub page at attribution
-       map.attributionControl.setPrefix(
-            '<a href="https://github.com/ptv-logistics/Leaflet.NonTiledLayer">Leaflet.NonTiledLayer<\/a>');
-
         // center Karlsruhe - setting fractional zoom
         map.setView(new L.LatLng(49.01, 8.4), 16);
 
         // using the xserver-internet WMS adapter
         var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token;
+        var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
         var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, TOMTOM';
 
+        // on-premise
+        // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
+        // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+
         // add (tiled) background layer
-        var background = new L.TileLayer.WMS(xMapWmsUrl, {
+        var background = L.tileLayer(xMapTileUrl, {
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
             noWrap: false,
-            layers: 'xmap-gravelpit-bg',
-            format: 'image/png',
-            transparent: false,
             attribution: xMapAttribution,
+            subdomains: '1234',
             zIndex: 1
         }).addTo(map);
 
@@ -62,7 +61,7 @@
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
-            layers: 'xmap-gravelpit-fg',
+            layers: 'xmap-silkysand-fg',
             format: 'image/png',
             transparent: true,
             attribution: xMapAttribution,

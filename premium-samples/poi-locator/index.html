@@ -118,11 +118,18 @@
         $.getJSON('./inobas.json', initialize);
 
         function initialize(pd) {
+            // store our data
             poiData = pd;
 
-            //            poiData.features.sort(function (a, b) {
-            //                return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-            //            });
+            // tip: sort the features by latitued, so they overlap nicely on the map!
+            // poiData.features.sort(function (a, b) {
+            //  return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+            // });
+
+            L.geoJson(poiData, {
+                attribution: 'DDS, Inobas',
+                pointToLayer: poiStyle
+            }).addTo(map);
 
             // create full text index
             index = lunr(function () {
@@ -137,13 +144,6 @@
                     description: poiData.features[i].properties.description
                 });
             }
-
-            var gj = L.geoJson([poiData], {
-                attribution: 'DDS, Inobas',
-                pointToLayer: poiStyle
-            }).addTo(map);
-
-            //            createGradient(map);
 
             setBusy(false);
         }
@@ -305,8 +305,6 @@
                             highlightPoi(poiData.features[i], 'marker-green', null, true);
                         }
                     }
-
-
 
                     map.fitBounds(isoFeature.getBounds());
 
@@ -484,7 +482,7 @@
                     stroke: true,
                     color: '#000',
                     weight: 2,
-                    renderFast: true
+                    renderFast: true // our special optimization for fast-rendering
                 }).setRadius(6);
             style.bindPopup(feature.properties.description);
             return style;

@@ -40,7 +40,7 @@ After loading we can add styling and interactions to the polygons.
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-topo.html)
 
-Administrative regions usually define a "topology". This means they don't have to be stored as independent polygons, but as their common borders.  [TopoJSON](https://github.com/topojson/topojson) is an extension to GeoJSON that uses this capacity. To convert GeoJson to TopoJson we can use the site http://mapshaper.org/, drop our GeoJSON, and download it as TopoJSON. The resulting files are about [30% of the GeoJSON size](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data).
+Administrative regions usually define a "topology". This means they don't have to be stored as independent polygons, but as their common borders.  [TopoJSON](https://github.com/topojson/topojson) is an extension to GeoJSON that uses this potential. To convert GeoJson to TopoJson we can use the site http://mapshaper.org/, drop our GeoJSON, and download it as TopoJSON. The resulting files are about [30% of the GeoJSON size](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data).
 
 To load the data in leaflet, we have to include the topojson.js and an extension to the Leaflet GeoJSON layer to handle the topojson format. The initialization of this layer is the same as for GeoJSON.
 
