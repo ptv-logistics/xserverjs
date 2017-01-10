@@ -5,7 +5,7 @@
     <title>Leaflet NonTiledLayer Example</title>
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -22,7 +22,7 @@
 
 <body>
     <div id="map" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
     <script src="../../leaflet-xserver/NonTiledLayer.js"></script>
     <script src="../../leaflet-xserver/NonTiledLayer.WMS.js"></script>
 	<script src="../../token.js"></script>
@@ -48,15 +48,13 @@
         var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, TOMTOM';
 
         // add (tiled) background layer
-        var background = new L.TileLayer.WMS(xMapWmsUrl, {
+        var background = L.tileLayer('https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png', {
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
             noWrap: false,
-            layers: 'xmap-gravelpit-bg',
-            format: 'image/png',
-            transparent: false,
             attribution: xMapAttribution,
+            subdomains: '1234',
             zIndex: 1
         }).addTo(map);
 
@@ -65,7 +63,7 @@
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
-            layers: 'xmap-gravelpit-fg',
+            layers: 'xmap-silkysand-fg',
             format: 'image/png',
             transparent: true,
             attribution: xMapAttribution,
