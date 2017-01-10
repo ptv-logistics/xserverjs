@@ -5,7 +5,7 @@ This section contains templates to initialize a basic xMapServer-2 base map.
 
 #### Leaflet Basic Setup
 
-[Demo](https://github.com/ptv-logistics/xserverjs/tree/master/boilerplate/xmap-l)
+[Demo](https://ptv-logistics.gthub.io/xserverjs/tree/master/boilerplate/xmap-l.html)
 
 ##### xserver-internet
 
