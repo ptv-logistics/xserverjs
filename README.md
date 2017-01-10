@@ -11,6 +11,14 @@ To run the project locally:
 * To use samples with your on-premise xServer, replace the urls in the corresponding index.html file with your xServer url.
 * Some samples need to access local files via ajax. Chrome and IE block this. Either use FireFox or run the sample from a WebServer folder.
 
+
+* https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1
+* https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1
+* https://github.com/ptv-logistics/xserverjs/tree/master/leaflet-xserver
+* https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/lrm-xserver
+* https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/poi-locator
+* https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/admin-regions
+
 History 
 -------
 
