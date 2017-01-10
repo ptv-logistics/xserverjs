@@ -13,7 +13,7 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
 <script src="./NonTiledLayer.js"></script>
 <script src="./NonTiledLayer.WMS.js"></script>
 <script src="./token.js"></script>
-
+<script>
     // initialize leaflet
     var map = new L.Map('map', {});
 
@@ -53,4 +53,5 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
         pane: 'tilePane',
         zIndex:3
     }).addTo(map);
+</script>
 ```
