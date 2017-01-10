@@ -5,7 +5,7 @@ This section contains templates to initialize a basic xMapServer-2 base map.
 
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/xmap-l/Leaflet.1.0.html)
+[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
 The optimal configuration for xMapServer-1 is the use of the WMS adapter. To use this with Leaflet, you have to include the files NonTiledLayer.js and NonTiledLayer..WMS.js to your project:
 
