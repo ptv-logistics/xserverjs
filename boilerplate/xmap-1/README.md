@@ -13,13 +13,17 @@ This section contains templates to initialize a basic xMapServer-2 base map.
 // initialize leaflet
 var map = new L.Map('map', {});
 
+// center Karlsruhe
+map.setView(new L.LatLng(49.01, 8.4), 16);
 
-// center Karlsruhe - setting fractional zoom
-map.setView(new L.LatLng(49.01, 8.4), 16.5);
-
-// using the xserver-internet WMS adapter
+// using the xServer WMS adapter
 var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token;
 var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+
+// on-premis
+// var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
+// var xMapTileUrl = 'localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+
 var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, TOMTOM';
 
 // add (tiled) background layer
