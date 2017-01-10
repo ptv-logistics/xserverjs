@@ -1,9 +1,7 @@
 ﻿L.TileLayer.ClickableTiles = L.TileLayer.extend({
     includes: L.Mixin.Events,
 
-    initialize: function(url, options) {
-         this._isOverlay = options.isOverlay;                                           
-
+    initialize: function(url, options) {                                   
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
 
