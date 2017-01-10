@@ -215,7 +215,7 @@
 
             runGetRequest(
                 findAddressUrl,
-                "D " + adr,
+                "D " + adr, // use Germany as fixed country
                 token,
                 function (response) {
                     var firstResult = response.results[0].location;

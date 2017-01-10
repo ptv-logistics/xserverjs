@@ -31,8 +31,8 @@ var mapLocation = new L.LatLng(53.550556, 9.993333); // HH
 var map = new L.Map('map').setView(mapLocation, 14);
 
 // initialize xServer-internet basemap with silkysand-style
-L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
-	'?xtok=' + token, {
+        var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
+L.tileLayer(xMapTileUrl + '?xtok=' + token, { 
 	    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 		subdomains: '1234'
     }).addTo(map);
@@ -40,12 +40,12 @@ L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/ti
 
 ## Prepare your data
 
-Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). I'm having some old location data stored in a Microsoft Access database (.mdb). So i've written [a tool which reads the .mdb and writes it to a text-file as GeoJson](https://github.com/ptv-logistics/PoiLocator/tree/master/tools/mdbtojson). You need Visual Studio or [C# Express for Desktop](http://www.microsoft.com/en-us/download/details.aspx?id=40787) to run the tool. The same practice should also apply to Excel, .csv or "real" databases.
+Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). We have some old location data stored in a Microsoft Access database (.mdb). Here is [a tool which reads the .mdb and writes it to a text-file as GeoJson](https://github.com/ptv-logistics/PoiLocator/tree/master/tools/mdbtojson). You need Visual Studio or [C# Express for Desktop](http://www.microsoft.com/en-us/download/details.aspx?id=40787) to run the tool. The same practice should also apply to Excel, .csv or "real" databases.
 
 GeoJson needs the coordinates as [WGS84](http://de.wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
 
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
-2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use my little [GeoTransform](https://gist.github.com/oliverheilig/7029947) code snippet, which does the conversion for the various PTV formats. You can also try it online [here](http://jsil.org/try/#7029947). Before saving the point, you can convert it to Wgs84 with the Trans() function.
+2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. You can also try it online [here](http://jsil.org/try/#7029947). Before saving the point, you can convert it to Wgs84 with the Trans() function.
 3. **If you have coordinates in other spatial reference systems** - Then you should try to find out what kind of coordinates these are and use some 3rd-party tools to transform into WGS84. Or just jump to point 4.
 4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is part of your xServer internet subscription. [You find a tutorial how to use xServer in C# here](http://xserver.ptvgroup.com/en-uk/cookbook/c/accessing-ptv-xserver-internet-in-net-applications/).
  
@@ -53,13 +53,6 @@ A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/
 ## Add your data to the map 
 In our web application we could load the JSON using jQuery. But for static data it is easier to embed it as JavaScript source. We just take the json.txt output of our tool, add a ```var poiData =``` at the beginning and a ```;``` at the end, so it looks like this. 
 
-https://github.com/ptv-logistics/PoiLocator/blob/master/baufeldt.js
-
-We can add the data as script file then
-
-```js
-<script type="text/javascript" src="baufeldt.js"></script>
-```
 Now we can insert the data with the L.geoJson layer, using a custom poi-style that uses a grey push-pin and binds the description as popup.
 ```js
 // add our POIs
@@ -105,39 +98,25 @@ function onMapClick(e) {
 ```
 
 ### Set the search location by geocoding
-If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runRequest``` in the helper.js file wich das a JSON call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
+If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which das a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
-var findAddressUrl = 'https://xlocate-eu-n-test.cloud.ptvgroup.com/xlocate/rs/XLocate/findAddressByText';
+var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
 function findByAddress(adr) {
-    var request = {
-        "address": adr,
-        "country": "D",
-        "options": [],
-        "sorting": [],
-        "additionalFields": [],
-        "callerContext": {
-            "properties": [{
-                "key": "CoordFormat",
-                "value": "OG_GEODECIMAL"
-            }, {
-                "key": "Profile",
-                "value": "default"
-            }]
-        }
-    };
+    setBusy(true);
 
-    runRequest(
+    runGetRequest(
         findAddressUrl,
-        request,
+        "D " + adr,  // use Germany as fixed country
         token,
         function (response) {
-            var firstResult = response.resultList[0].coordinates.point;
-            searchLocation = new L.LatLng(firstResult.y, firstResult.x);
+            var firstResult = response.results[0].location;
+            searchLocation = new L.LatLng(firstResult.referenceCoordinate.y, firstResult.referenceCoordinate.x);
             findNearestObjects();
         },
         function (xhr) {
-            alert(xhr);
+            alert(xhr.responseJSON.errorMessage);
+            setBusy(false);
         });
 }
 ```
