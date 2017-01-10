@@ -1,18 +1,18 @@
 
 ### Basic Setups for Map Widgets
 
-This section contains templates to initialize a basic xMapServer-2 base map.
+xserverjs also supports templates to add an xMapServer-1 map to JavaScript widgets.
 
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
 [Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
-The optimal configuration for xMapServer-1 is the use of the WMS adapter. To use this with Leaflet, you have to include the files NonTiledLayer.js and NonTiledLayer..WMS.js to your project:
+The optimal configuration for xMapServer-1 is the use of the WMS adapter. For Leaflet you have to include the files `NonTiledLayer.js` and `NonTiledLayer.WMS.js` to your project:
 
 ```javascript
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-<script src="./leaflet-xserver/NonTiledLayer.js"></script>
-<script src="./leaflet-xserver/NonTiledLayer.WMS.js"></script>
+<script src="./NonTiledLayer.js"></script>
+<script src="./NonTiledLayer.WMS.js"></script>
 <script src="./token.js"></script>
 
     // initialize leaflet
