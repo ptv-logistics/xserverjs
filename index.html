@@ -108,7 +108,11 @@
       <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/lrm-xserver/">Read here for more.</a>
     </p>
     <div class="row">
-      <iframe height="500" width="100%" src="./premium-samples/lrm-xserver/index.html" allowfullscreen></iframe>
+      <ul id="lrmtabs" class="shadetabs">
+        <li><a href="./premium-samples/lrm-xserver/xserver-1/index.html"  class="selected" rel="#iframe">xServer-1</a></li>
+        <li><a href="./premium-samples/lrm-xserver/xserver-2/index.html" rel="#iframe">xServer-2</a></li>
+      </ul>
+      <div id="lrmdivcontainer" style="border:1px solid gray; width:100%; height:500px; margin-bottom: 1em; padding: 1px"></div>
     </div>
 
   </div>
@@ -134,8 +138,8 @@
     </p>
     <div class="row">
       <ul id="countrytabs" class="shadetabs">
-        <li><a href="https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/"  class="selected" rel="#iframe">GeoJSON</a></li>
-        <li><a href="https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-merge.html" rel="#iframe">TopoJSON</a></li>
+        <li><a href="./premium-samples/admin-regions/index.html"  class="selected" rel="#iframe">GeoJSON</a></li>
+        <li><a href="./premium-samples/admin-regions/admin-regions-merge.html" rel="#iframe">TopoJSON</a></li>
       </ul>
       <div id="countrydivcontainer" style="border:1px solid gray; width:100%; height:500px; margin-bottom: 1em; padding: 1px"></div>
     </div>
@@ -150,6 +154,12 @@ var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
 countries.setpersist(false)
 countries.setselectedClassTarget("link") //"link" or "linkparent"
 countries.init()
+
+var lrm=new ddajaxtabs("lrmtabs", "lrmdivcontainer")
+lrm.setpersist(false)
+lrm.setselectedClassTarget("link") //"link" or "linkparent"
+lrm.init()
+
 
   var map = L.map('map', {
     zoomControl: false,
