@@ -1,8 +1,4 @@
-if (!token) {
-	alert('you need a token to run the sample!');
-}
-
-var cluster = 'hh';
+var cluster = 'eu';
 var itineraryLanguage = 'EN';
 var routingProfile = 'truckfast';
 var alternativeRoutes = 0;
@@ -37,6 +33,10 @@ var map = L.map('map', {
 	]
 });
 
+map.createPane('labels');
+map.getPane('labels').style.zIndex = 500;
+map.getPane('labels').style.pointerEvents = 'none';
+
 // get the start and end coordinates for a cluster
 var getPlan = function () {
 	if (cluster.indexOf('hh') > -1) {
@@ -65,19 +65,19 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
+	var bg = L.tileLayer('https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
 		'?xtok=' + token, {
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			maxZoom: 22,
-			subdomains: '1234'
+			subdomains: '124'
 		});
 
-	var fg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
+	var fg = L.tileLayer('https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
 		'?xtok=' + token, {
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			maxZoom: 22,
-			subdomains: '1234',
-			pane: map._panes.tileoverlayPane,
+			subdomains: '124',
+			pane: 'shadowPane',
 			zIndex: 1
 		});
 
@@ -92,10 +92,12 @@ var setCluster = function () {
 	routingControl = L.Routing.control({
 		plan: L.Routing.plan(getPlan(),
 			{
+				routeWhileDragging: false,
+				routeDragInterval: 3000,
 				createMarker: function (i, wp) {
 					return L.marker(wp.latLng, {
 						draggable: true,
-						icon: new L.Icon.Label.Default({ labelText: String.fromCharCode(65 + i) })
+						icon: L.icon.glyph({ glyph: String.fromCharCode(65 + i) })
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
@@ -115,14 +117,13 @@ var setCluster = function () {
 			]
 		},
 		router: L.Routing.ptv({
-			// serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
-			serviceUrl: 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
+			serviceUrl: 'https://xserver2-europe-eu-test.cloud.ptvgroup.com/services/rs/XRoute/experimental/',
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
-		routeWhileDragging: false,
-		routeDragInterval: 1000,
 		collapsible: true,
+		routeWhileDragging: false,
+		routeDragInterval: 3000,
 		formatter: new L.Routing.Formatter({ roundingSensitivity: 1000 })
 	}).addTo(map);
 
@@ -151,63 +152,29 @@ var sidebar = L.control.sidebar('sidebar').addTo(map);
 // add scale control
 L.control.scale().addTo(map);
 
-map._panes.tileoverlayPane = map._createPane('leaflet-tile-pane', map._panes.overlayPane);
-map._panes.tileoverlayPane.style['pointer-events'] = 'none';
-
-
-vectormaps.renderPTV.PARSE_COORDS_WORKER = "lib/vectormaps-worker.min.js";
-
-// add PTV tile and label (overlay) layers
-var overlayLayer = vectormaps.overlayLayer({
-	updateWhenIdle: false,
-	unloadInvisibleTiles: true,
-	pane: map._panes.tileoverlayPane,
-	zIndex: 999
-});
-var layer = vectormaps.vectorTileLayer(
-	'http://xvector.westeurope.cloudapp.azure.com/vectormaps/vectormaps/', {
-		stylesUrl: 'styles/styles-winter.json',
-		updateWhenIdle: false,
-		unloadInvisibleTiles: true
-	}, overlayLayer);
-var vectorWinter = L.layerGroup([layer, overlayLayer]);
-
-overlayLayer = vectormaps.overlayLayer({
-	updateWhenIdle: false,
-	unloadInvisibleTiles: true,
-	pane: map._panes.tileoverlayPane,
-	zIndex: 999
-});
-layer = vectormaps.vectorTileLayer(
-	'http://xvector.westeurope.cloudapp.azure.com/vectormaps/vectormaps/', {
-		stylesUrl: 'styles/styles-default.json',
-		updateWhenIdle: false,
-		unloadInvisibleTiles: true
-	}, overlayLayer);
-var vectorDefault = L.layerGroup([layer, overlayLayer]);
+//map._panes.tileoverlayPane = map._createPane('leaflet-tile-pane', map._panes.overlayPane);
+//map._panes.tileoverlayPane.style['pointer-events'] = 'none';
 
 var empty = L.layerGroup([]);
 
 var baseLayers = {
-	"Vector (Default)": vectorDefault,
-	"Winter (Winter)": vectorWinter.addTo(map),
 	"PTV gravelpit": getXMapBaseLayers('gravelpit'),
 	"PTV sandbox": getXMapBaseLayers('sandbox'),
-	"PTV silkysand": getXMapBaseLayers('silkysand'),
+	"PTV silkysand": getXMapBaseLayers('silkysand').addTo(map),
 	"Empty": empty
 };
 
 
 var truckAttributesLayer = L.TileLayer.clickableTiles(
-	'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+	'https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
 	'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
 	{
 		attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-		subdomains: '1234',
+		subdomains: '124',
 		maxZoom: 22,
 		zIndex: 1000,
-		pane: map._panes.tileoverlayPane
-	}).addTo(map);
+		pane: 'shadowPane'
+	});
 
 
 L.control.layers(baseLayers, { "Truck Attributes": truckAttributesLayer },

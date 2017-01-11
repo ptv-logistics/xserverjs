@@ -75,22 +75,6 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 		}
 	},
 
-	_buildReverseAddressString: function (address) {
-		var street = (address.street? address.street : '' + ' ' + address.houseNumber? address.houseNumber: '').trim();
-		var city = (address.postalCode? address.postalCode : '' + ' ' + address.city? address.city : '').trim();
-		city = (address.state? address.state : '' + ' ' + city).trim();
-
-		if (!street) {
-			return city;
-		}
-		else if (!city) {
-			return street;
-		}
-		else {
-			return street + ', ' + city;
-		}
-	},
-
 
 	geocode: function (query, cb, context) {
 		var url = this.options.serviceUrl;
@@ -112,78 +96,6 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 					};
 				}
 				cb.call(context, results);
-			}, this),
-
-			function (xhr) {
-				console.log(xhr);
-			}
-		);
-	},
-
-	// use xlocate1 for reverse geocoding
-
-	runPostRequest: function (url, request, token, handleSuccess, handleError) {
-		$.ajax({
-			url: url,
-			type: 'POST',
-			data: JSON.stringify(request),
-
-			headers: {
-				'Authorization': 'Basic ' + btoa('xtok:' + token),
-				'Content-Type': 'application/json'
-			},
-
-			success: function (data, status, xhr) {
-				handleSuccess(data);
-			},
-
-			error: function (xhr, status, error) {
-				handleError(xhr);
-			}
-		});
-	},
-
-	reverse: function (location, scale, cb, context) {
-		var url = 'https://api-test.cloud.ptvgroup.com/xlocate/rs/XLocate/findLocation';
-
-		var request = {
-			location: {
-				coordinate: {
-					point: {
-						x: location.lng,
-						y: location.lat
-					}
-				}
-			},
-			options: [],
-			sorting: [],
-			additionalFields: [],
-			callerContext: {
-				properties: [
-					{
-						key: 'CoordFormat',
-						value: 'OG_GEODECIMAL'
-					},
-					{
-						key: 'Profile',
-						value: 'default'
-					}]
-			}
-		};
-
-		this.runPostRequest(url, request, this.options.token,
-			L.bind(function (response) {
-				if (response.resultList.length === 0) {
-					return;
-				}
-
-				var resultAddress = response.resultList[0];
-				var loc = L.latLng(resultAddress.coordinates.point.y, resultAddress.coordinates.point.x);
-				cb.call(context, [{
-					name: this._buildReverseAddressString(resultAddress),
-					center: loc,
-					bounds: L.latLngBounds(loc, loc)
-				}]);
 			}, this),
 
 			function (xhr) {

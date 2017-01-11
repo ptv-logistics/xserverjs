@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>xServer internet routing demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />    
+    <link rel="stylesheet" href="lib/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="lib/leaflet.iconlabel.css" />
+    <link rel="stylesheet" href="lib/leaflet-sidebar.min.css" />
+    <link rel="stylesheet" href="lib/leaflet.contextmenu.css">
+    <link rel="stylesheet" href="index.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .leaflet-top-pane {
+            pointer-events: none;
+        }
+
+        div.inputForm {
+            display: table;
+        }
+
+            div.inputForm p {
+                display: table-row;
+            }
+
+            div.inputForm label {
+                display: table-cell;
+            }
+
+            div.inputForm select {
+                margin: 4px;
+                display: table-cell;
+            }
+    </style>
+</head>
+<body>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <ul class="sidebar-tabs" role="tablist">
+            <li><a href="#home" role="tab"><i class="fa fa-flag"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="sidebar-content active">
+            <div class="sidebar-pane" id="home">
+                <h2>
+                    xServer-1
+                </h2>
+                <p>
+                    Drag and drop the blue waypoint markers, or grab the orange route line and drag
+                    a new via waypoint. You can also enter an address in the address text fields on
+                    the right side.
+                </p>
+                <div class="inputForm">
+                    <p>
+                        <label for="scenarioSelect">Sample Route</label>
+                        <select id="scenarioSelect" onchange="updateScenario()">
+                            <option>eu</option>
+                            <option>na</option>
+                            <option>au</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="routingProfile">Routing Profile</label>
+                        <select id="routingProfile" onchange="updateParams()">
+                            <option>carfast</option>
+                            <option>carslow</option>
+                            <option>truckfast</option>
+                            <option>truckslow</option>
+                            <option>delivery</option>
+                            <option>emergency</option>
+                            <option>bicycle</option>
+                            <option>bicycle-oneway</option>
+                            <option>pedestrian</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="alternativeRoutes">Alternative Routes</label>
+                        <select id="alternativeRoutes" onchange="updateParams()">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="languageSelect">Itinerary Language</label>
+                        <select id="languageSelect" onchange="updateParams()">
+                            <option>EN</option>
+                            <option>DE</option>
+                            <option>FR</option>
+                            <option>NL</option>
+                            <option>RO</option>
+                            <option>DA</option>
+                            <option>PL</option>
+                            <option>CS</option>
+                            <option>SK</option>
+                            <option>SR</option>
+                            <option>BG</option>
+                            <option>SL</option>
+                            <option>HR</option>
+                            <option>x-ptv-BOS</option>
+                            <option>UK</option>
+                            <option>RU</option>
+                            <option>ES</option>
+                            <option>IT</option>
+                            <option>SV</option>
+                            <option>PT</option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="map">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet-src.js"></script>
+    <script src="https://unpkg.com/leaflet.icon.glyph@0.2.0/Leaflet.Icon.Glyph.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="./lib/leaflet-routing-machine.js"></script>
+    <script src="./lib/Control.Geocoder.js"></script>
+    <script src="./lib/leaflet-sidebar.min.js"></script>
+    <script src="./lib/leaflet.contextmenu.js"></script>
+    <script src="../../../leaflet-xserver/NonTiledLayer.js"></script>
+    <script src="../../../leaflet-xserver/NonTiledLayer.WMS.js"></script>
+	<script src="./Control.Geocoder-xs1.js"></script>
+    <script src="./routing-machine-xs1.js"></script>
+    <script src="../../../token.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
