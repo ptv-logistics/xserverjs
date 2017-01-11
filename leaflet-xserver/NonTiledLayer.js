@@ -274,7 +274,6 @@ L.NonTiledLayer = (L.Layer || L.Class).extend({
 
             var scale = size.x / mSize.x;
             image._sscale = scale;
-            console.log(image._sscale);
 
             L.DomUtil.setTransform(image, bounds.min, scale);
     },
