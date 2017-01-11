@@ -179,7 +179,7 @@ L.Routing.Ptv = L.Class.extend({
 				exit: undefined,
 				index: station.polyIdx,
 				time: station.accTime,
-				type: (i === stations.length - 1) ? 'DestinationReached' : (i === 0) ? 'Straight' : 'WaypointReached',
+				type: (i === stations.length - 1) ? 'DestinationReached' : (i === 0) ? 'Head' : 'WaypointReached',
 				text: (i === stations.length - 1) ? 'Destination' : (i === 0) ? 'Start' : 'WayPoint ' + i
 			});
 		}
