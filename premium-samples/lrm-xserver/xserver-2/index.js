@@ -1,3 +1,50 @@
+// "vitual FeatureLayer implementation"
+L.FeatureLayer = L.Layer.extend({
+	initialize: function (name, tag) {
+		this.name = name;
+		this.tag = tag;
+	},
+
+	visible: false,
+
+	onAdd: function (map) {
+		this.visible = true;
+		map.on('layeradd', this._onLayerAdd, this)
+
+		map.eachLayer(function (layer) {
+			if (layer.options.type === 'flHost') {
+				layer.options[this.tag] = '+' + this.name;
+				layer.redraw();
+			}
+		}, this);
+	},
+
+	_onLayerAdd(e) {
+		if (e.layer.options.type === 'flHost') {
+			var layerTag = this.visible ? '+' + this.name : '';
+			if(e.layer.options[this.tag] !== layerTag) {
+				e.layer.options[this.tag] = layerTag;
+				e.layer.redraw();
+			};
+		}
+	},
+
+	onRemove: function (map) {
+		this.visible = false;
+
+		map.eachLayer(function (layer) {
+			if (layer.options.type === 'flHost') {
+				layer.options[this.tag] = '';
+				layer.redraw();
+			}
+		}, this);
+	}
+});
+
+L.featureLayer = function (name, tag) {
+	return new L.FeatureLayer(name, tag);
+};
+
 var cluster = 'eu';
 var itineraryLanguage = 'EN';
 var routingProfile = 'truckfast';
@@ -65,20 +112,24 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
+	var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
 		'?xtok=' + token, {
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			maxZoom: 22,
-			subdomains: '124'
+			subdomains: '1234'
 		});
 
-	var fg = L.tileLayer('https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
-		'?xtok=' + token, {
+	var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
+		'{fl1}{fl2}{fl3}/json?xtok=' + token, {
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 			maxZoom: 22,
-			subdomains: '124',
-			pane: 'shadowPane',
-			zIndex: 1
+			subdomains: '1234',
+			pane: 'labels',
+			zIndex: 1,
+			fl1: '',
+			fl2: '',
+			fl3: '',
+			type: 'flHost'
 		});
 
 	return L.layerGroup([bg, fg]);
@@ -101,7 +152,7 @@ var setCluster = function () {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					serviceUrl: 'https://xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XLocate/experimental/locations/',
+					serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations/',
 					token: token
 				}),
 				reverseWaypoints: true
@@ -117,7 +168,7 @@ var setCluster = function () {
 			]
 		},
 		router: L.Routing.ptv({
-			serviceUrl: 'https://xserver2-europe-eu-test.cloud.ptvgroup.com/services/rs/XRoute/experimental/',
+			serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
 			token: token, supportsHeadings: true,
 			numberOfAlternatives: 0
 		}),
@@ -161,23 +212,15 @@ var baseLayers = {
 	"PTV gravelpit": getXMapBaseLayers('gravelpit'),
 	"PTV sandbox": getXMapBaseLayers('sandbox'),
 	"PTV silkysand": getXMapBaseLayers('silkysand').addTo(map),
-	"Empty": empty
 };
 
+var truckAttributesLayer = L.featureLayer('PTV_TruckAttributes', 'fl1').addTo(map);
+var restrictionZonesLayer = L.featureLayer('PTV_RestrictionZones', 'fl2');
 
-var truckAttributesLayer = L.TileLayer.clickableTiles(
-	'https://s0{s}-xserver2-europe-eu-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-	'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
-	{
-		attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-		subdomains: '124',
-		maxZoom: 22,
-		zIndex: 1000,
-		pane: 'shadowPane'
-	});
-
-
-L.control.layers(baseLayers, { "Truck Attributes": truckAttributesLayer },
+L.control.layers(baseLayers, {
+	"Truck Attributes": truckAttributesLayer,
+	"Restriction Zones": restrictionZonesLayer
+},
 	{ position: 'bottomleft', autoZIndex: false }).addTo(map);
 
 // update the map cluster
