@@ -1,30 +1,41 @@
 ﻿L.TileLayer.ClickableTiles = L.TileLayer.extend({
     includes: L.Mixin.Events,
-	
-	initialize: function(url, options) {
+
+    initialize: function (url, options) {
         L.TileLayer.prototype.initialize.call(this, url, options);
     },
-	
-    onAdd: function(map) {
+
+    onAdd: function (map) {
         this._resetQueue();
 
         L.TileLayer.prototype.onAdd.call(this, map);
 
-		L.DomEvent
-            .on(map._container, 'mousemove', this._onMouseMove, this) //L.Util.throttle(this._onMouseMove, 32, tile), tile)
-            .on(map._container, 'mousedown', this._onMouseDown, this)
-//            .on(map._container, 'mouseup', this._onMouseDown, this)
-            .on(map._container, 'click', this._onClick, this)
-            .on(map, 'zoomstart', this._reset, this);
-    },  
+        var cont = map._container;
+    
+        cont.addEventListener('mousemove', L.bind(this._onMouseMove, this), true);
+        cont.addEventListener('mousedown', L.bind(this._onMouseDown, this), true);
+        cont.addEventListener('mouseup', L.bind(this._onMouseDown, this), true);
+    
+        map._mapPane.addEventListener('click', L.bind(this._onClick, this), true);
+        map.addEventListener('click', L.bind(this._onMapClick, this), false);
+    },
 
-    onRemove: function(map) {
+    onRemove: function (map) {
         this._resetQueue();
+
+        var cont = map._container;
+    
+        cont.removeEventListener('mousemove', L.bind(this._onMouseMove, this), true);
+        cont.removeEventListener('mousedown', L.bind(this._onMouseDown, this), true);
+        cont.removeEventListener('mouseup', L.bind(this._onMouseDown, this), true);
+    
+        map._mapPane.removeEventListener('click', L.bind(this._onClick, this), true);
+        map.removeEventListener('click', L.bind(this._onMapClick, this), false);
 
         L.TileLayer.prototype.onRemove.call(this, map);
     },
-	
-	maxConcurrentRequests: 8,
+
+    maxConcurrentRequests: 8,
 
     requestQueue: [],
 
@@ -32,11 +43,28 @@
 
     queueId: 0,
 
-    _reset: function() {
-        this._resetQueue();
+	_setView: function (center, zoom, noPrune, noUpdate) {
+		var tileZoom = Math.round(zoom);
+		if ((this.options.maxZoom !== undefined && tileZoom > this.options.maxZoom) ||
+		    (this.options.minZoom !== undefined && tileZoom < this.options.minZoom)) {
+			tileZoom = undefined;
+		}
+
+		var tileZoomChanged = this.options.updateWhenZooming && (tileZoom !== this._tileZoom);
+
+        if(tileZoomChanged)
+            this._resetQueue();
+
+        L.TileLayer.prototype._setView.call(this, center, zoom, noPrune, noUpdate);
     },
 
-    _resetQueue: function() {
+    redraw: function() {
+        this._resetQueue();
+
+        L.TileLayer.prototype.redraw.call(this);        
+    },
+
+    _resetQueue: function () {
         this.requestQueue = [];
         this.queueId = this.queueId + 1;
 
@@ -47,7 +75,7 @@
         this.activeRequests = [];
     },
 
-    runRequestQ: function(url, handleSuccess, force) {
+    runRequestQ: function (url, handleSuccess, force) {
         if (!force && this.activeRequests.length >= this.maxConcurrentRequests) {
             this.requestQueue.push({
                 url: url,
@@ -59,39 +87,39 @@
         var that = this;
         var queueId = this.queueId;
 
-        var request = corslite(url, 
-            function(err, resp) {
+        var request = corslite(url,
+            function (err, resp) {
                 that.activeRequests.splice(that.activeRequests.indexOf(request), 1);
                 if (that.queueId == queueId && that.requestQueue.length) {
                     var pendingRequest = that.requestQueue.shift();
                     that.runRequestQ(pendingRequest.url, pendingRequest.handleSuccess, true);
                 }
-                
+
                 handleSuccess(err, resp);
             }
-			, true); // cross origin?
+            , true); // cross origin?
 
         this.activeRequests.push(request);
     },
 
-    findElement: function(e, container) {
+    findElement: function (e, container) {
         // this. is the image!
         var mp = L.DomEvent.getMousePosition(e, container);
 
         for (var i = container._layers.length - 1; i >= 0; i--) {
             var layer = container._layers[i];
-				var width = Math.abs(layer.pixelBoundingBox.right - layer.pixelBoundingBox.left);
-				var height = Math.abs(layer.pixelBoundingBox.top - layer.pixelBoundingBox.bottom);
-                if ((layer.referencePixelPoint.x - width/2 <= mp.x) && (layer.referencePixelPoint.x + width/2 >= mp.x) &&
-                    (layer.referencePixelPoint.y - height/2 <= mp.y) && (layer.referencePixelPoint.y + height/2 >= mp.y)) {
-                    return layer;
-                }
+            var width = Math.abs(layer.pixelBoundingBox.right - layer.pixelBoundingBox.left);
+            var height = Math.abs(layer.pixelBoundingBox.top - layer.pixelBoundingBox.bottom);
+            if ((layer.referencePixelPoint.x - width / 2 <= mp.x) && (layer.referencePixelPoint.x + width / 2 >= mp.x) &&
+                (layer.referencePixelPoint.y - height / 2 <= mp.y) && (layer.referencePixelPoint.y + height / 2 >= mp.y)) {
+                return layer;
+            }
         }
 
         return null;
     },
 
-    findElement: function(e, container) {
+    findElement: function (e, container) {
         if (!container)
             return null;
 
@@ -104,10 +132,10 @@
 
             for (var j = tile._layers.length - 1; j >= 0; j--) {
                 var layer = tile._layers[j];
-				var width = Math.abs(layer.pixelBoundingBox.right - layer.pixelBoundingBox.left);
-				var height = Math.abs(layer.pixelBoundingBox.top - layer.pixelBoundingBox.bottom);
-                if ((layer.referencePixelPoint.x - width/2 <= mp.x) && (layer.referencePixelPoint.x + width/2 >= mp.x) &&
-                    (layer.referencePixelPoint.y - height/2 <= mp.y) && (layer.referencePixelPoint.y + height/2 >= mp.y)) {
+                var width = Math.abs(layer.pixelBoundingBox.right - layer.pixelBoundingBox.left);
+                var height = Math.abs(layer.pixelBoundingBox.top - layer.pixelBoundingBox.bottom);
+                if ((layer.referencePixelPoint.x - width / 2 <= mp.x) && (layer.referencePixelPoint.x + width / 2 >= mp.x) &&
+                    (layer.referencePixelPoint.y - height / 2 <= mp.y) && (layer.referencePixelPoint.y + height / 2 >= mp.y)) {
                     return layer;
                 }
             }
@@ -116,7 +144,7 @@
         return null;
     },
 
-    _onMouseMove: function(e) {
+    _onMouseMove: function (e) {
         if (!this._map || this._map.dragging._draggable._moving || this._map._animatingZoom) {
             return;
         }
@@ -124,15 +152,15 @@
         if (this.findElement(e, this._container)) {
             e.preventDefault();
 
-			this._map._container.style.cursor = "pointer";
-            
+            this._map._container.style.cursor = "pointer";
+
             e.stopPropagation();
         } else {
-			this._map._container.style.cursor = "";
+            this._map._container.style.cursor = "";
         }
     },
 
-     _onMouseDown: function(e) {
+    _onMouseDown: function (e) {
         var found = this.findElement(e, this._container);
         if (found) {
             e.preventDefault();
@@ -142,7 +170,7 @@
         }
     },
 
-    _onClick: function(e) {
+    _onClick: function (e) {
         var found = this.findElement(e, this._container);
         if (found) {
             e.preventDefault();
@@ -154,7 +182,7 @@
                     attribute.key.replace(/[A-Z]/g, " $&") + ': ' +
                     attribute.value.replace("_", " ") + '<br>');
             }
-            
+
             L.popup()
                 .setLatLng(found.latLng)
                 .setContent(description
@@ -165,8 +193,29 @@
             return false;
         }
     },
-	
-    pixToLatLng: function(tileKey, point) {
+
+    _onMapClick: function (e) {
+        var found = this.findElement(e.originalEvent, this._container);
+        if (found) {
+            var description = '';
+            for (var i = 0; i < found.attributes.length; i++) {
+                var attribute = found.attributes[i];
+                description = description.concat(
+                    attribute.key.replace(/[A-Z]/g, " $&") + ': ' +
+                    attribute.value.replace("_", " ") + '<br>');
+            }
+
+            L.popup()
+                .setLatLng(found.latLng)
+                .setContent(description
+                    .toLowerCase())
+                .openOn(map);
+
+            return false;
+        }
+    },
+
+    pixToLatLng: function (tileKey, point) {
         var earthHalfCircum = Math.PI;
         var earthCircum = earthHalfCircum * 2.0
         var arc = earthCircum / Math.pow(2, tileKey.z);
@@ -178,45 +227,45 @@
             (180.0 / Math.PI) * x);
     },
 
-	createTile: function (coords, done) {
-		var tile = document.createElement('img');
+    createTile: function (coords, done) {
+        var tile = document.createElement('img');
 
-		L.DomEvent.on(tile, 'load', L.bind(this._tileOnLoad, this, done, tile));
-		L.DomEvent.on(tile, 'error', L.bind(this._tileOnError, this, done, tile));
+        L.DomEvent.on(tile, 'load', L.bind(this._tileOnLoad, this, done, tile));
+        L.DomEvent.on(tile, 'error', L.bind(this._tileOnError, this, done, tile));
 
-		if (this.options.crossOrigin) {
-			tile.crossOrigin = '';
-		}
+        if (this.options.crossOrigin) {
+            tile.crossOrigin = '';
+        }
 
 		/*
 		 Alt tag is set to empty string to keep screen readers from reading URL and for compliance reasons
 		 http://www.w3.org/TR/WCAG20-TECHS/H67
 		*/
-		tile.alt = '';
+        tile.alt = '';
 
 		/*
 		 Set role="presentation" to force screen readers to ignore this
 		 https://www.w3.org/TR/wai-aria/roles#textalternativecomputation
 		*/
-		tile.setAttribute('role', 'presentation');
-		
-		url = this.getTileUrl(coords);
-		
-		tile._map = this._map;
+        tile.setAttribute('role', 'presentation');
+
+        url = this.getTileUrl(coords);
+
+        tile._map = this._map;
         tile._layers = [];
 
         this.runRequestQ(url,
-            L.bind(function(error, response) {
+            L.bind(function (error, response) {
                 if (!this._map)
                     return;
 
-				if(error) {
-					tile.src = '';
-					return;
-				}
+                if (error) {
+                    tile.src = '';
+                    return;
+                }
 
-				var resp = JSON.parse(response.responseText)
-				
+                var resp = JSON.parse(response.responseText)
+
                 var prefixMap = {
                     "iVBOR": "data:image/png;base64,",
                     "R0lGO": "data:image/gif;base64,",
@@ -238,11 +287,11 @@
                 }
             }, this));
 
-		return tile;
-   }
+        return tile;
+    }
 });
 
-L.TileLayer.clickableTiles = function(url, options) {
+L.TileLayer.clickableTiles = function (url, options) {
     return new L.TileLayer.ClickableTiles(url, options);
 };
 
@@ -256,7 +305,7 @@ function corslite(url, callback, cors) {
     if (typeof cors === 'undefined') {
         var m = url.match(/^\s*https?:\/\/[^\/]*/);
         cors = m && (m[0] !== location.protocol + '//' + location.hostname +
-                (location.port ? ':' + location.port : ''));
+            (location.port ? ':' + location.port : ''));
     }
 
     var x = new window.XMLHttpRequest();
@@ -273,12 +322,12 @@ function corslite(url, callback, cors) {
         // x.send() returns (this has been observed in the wild).
         // See https://github.com/mapbox/mapbox.js/issues/472
         var original = callback;
-        callback = function() {
+        callback = function () {
             if (sent) {
                 original.apply(this, arguments);
             } else {
                 var that = this, args = arguments;
-                setTimeout(function() {
+                setTimeout(function () {
                     original.apply(that, args);
                 }, 0);
             }
@@ -311,20 +360,20 @@ function corslite(url, callback, cors) {
     x.onerror = function error(evt) {
         // XDomainRequest provides no evt parameter
         callback.call(this, evt || true, null);
-        callback = function() { };
+        callback = function () { };
     };
 
     // IE9 must have onprogress be set to a unique function.
-    x.onprogress = function() { };
+    x.onprogress = function () { };
 
-    x.ontimeout = function(evt) {
+    x.ontimeout = function (evt) {
         callback.call(this, evt, null);
-        callback = function() { };
+        callback = function () { };
     };
 
-    x.onabort = function(evt) {
+    x.onabort = function (evt) {
         callback.call(this, evt, null);
-        callback = function() { };
+        callback = function () { };
     };
 
     // GET is the only supported HTTP Verb by XDomainRequest and is the
