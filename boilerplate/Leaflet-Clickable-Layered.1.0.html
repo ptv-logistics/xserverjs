@@ -1,6 +1,6 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Clickable Tiles Example</title>
     <meta charset="utf-8" />
@@ -22,6 +22,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="map"></div>
 
@@ -35,31 +36,47 @@
         var map = L.map('map').setView(coordinate, 14);
 
         var basemapLayer = L.tileLayer(
-		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-		'silkysand?xtok=' + token,
-		{
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-			subdomains: '1234',
-            maxZoom: 22,
-			pane: 'tilePane'
-        }).addTo(map);
+            'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+            'silkysand?xtok=' + token,
+            {
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                subdomains: '1234',
+                maxZoom: 22,
+                pane: 'tilePane'
+            }).addTo(map);
 
         var circle = L.circle(coordinate, radius / Math.cos(coordinate.lng / 2 / Math.PI), {
-			color: 'red',
-			fillColor: 'orange',
-			fillOpacity: 0.5,
+            color: 'red',
+            fillColor: 'orange',
+            fillOpacity: 0.5,
             pane: 'overlayPane'
-		}).addTo(map).bindPopup("I am a circle.");
+        }).addTo(map).bindPopup("I am a circle.");
+
+        // create a new pane for our layer
+        map.createPane('clickableTiles');
+        map.getPane('clickableTiles').style.zIndex = 500;
 
         var truckAttributesLayer = L.TileLayer.clickableTiles(
-		'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-		'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
-		{
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-			subdomains: '1234',
-            maxZoom: 22,
-			pane: 'shadowPane'
-        }).addTo(map);
+            'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+            'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
+            {
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                subdomains: '1234',
+                maxZoom: 22,
+                pane: 'clickableTiles'
+            }).addTo(map);
+
+
+        var layers = {
+            "Base Map": basemapLayer,
+            "Circle": circle,
+            "Truck Attributes": truckAttributesLayer
+        };
+
+        L.control.layers({}, layers,
+            { position: 'bottomleft', autoZIndex: false }).addTo(map);
+
     </script>
 </body>
+
 </html>

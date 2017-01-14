@@ -45,7 +45,7 @@ L.featureLayer = function (name, tag) {
 	return new L.FeatureLayer(name, tag);
 };
 
-var cluster = 'eu';
+var cluster = 'hh';
 var itineraryLanguage = 'EN';
 var routingProfile = 'truckfast';
 var alternativeRoutes = 0;
@@ -211,7 +211,7 @@ var empty = L.layerGroup([]);
 var baseLayers = {
 	"PTV gravelpit": getXMapBaseLayers('gravelpit'),
 	"PTV sandbox": getXMapBaseLayers('sandbox'),
-	"PTV silkysand": getXMapBaseLayers('silkysand').addTo(map),
+	"PTV silkysand": getXMapBaseLayers('silkysand').addTo(map)
 };
 
 var truckAttributesLayer = L.featureLayer('PTV_TruckAttributes', 'fl1').addTo(map);
