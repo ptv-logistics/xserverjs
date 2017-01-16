@@ -30,7 +30,7 @@
 
 <body>
     <div id="map"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet-src.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="./leaflet-pip.js"></script>
     <script src="./lunr.min.js"></script>
@@ -59,7 +59,7 @@
         var mapLocation = new L.LatLng(49, 8.4);
 
         // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation, 12);
+        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation,12);
 
         // insert xMap back- and forground layers with sandbox-style
         L.tileLayer(xMapTileUrl + '?xtok=' + token, {

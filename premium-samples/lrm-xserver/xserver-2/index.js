@@ -79,14 +79,14 @@ var getPlan = function() {
 
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function(style) {
-    var bg = L.tileLayer('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
+    var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
         '?xtok=' + token, {
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
             subdomains: '1234'
         });
 
-    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
+    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
         '{vl1}{vl2}{vl3}/json?xtok=' + token, {
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
@@ -115,7 +115,7 @@ routingControl = L.Routing.control({
             });
         },
         geocoder: L.Control.Geocoder.ptv({
-            serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+            serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/',
             token: token
         }),
         reverseWaypoints: true
@@ -143,7 +143,7 @@ routingControl = L.Routing.control({
         ]
     },
     router: L.Routing.ptv({
-        serviceUrl: 'https://xserver2-dev.cloud.ptvgroup.com/services/rs/XRoute/',
+        serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
         token: token,
         supportsHeadings: true,
         beforeSend: function(request) {
