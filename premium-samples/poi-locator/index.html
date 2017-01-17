@@ -18,7 +18,7 @@
         #map {
             height: 100%;
         }
-
+        #myForm > div {margin-bottom: 4px;}
         .info {
             padding: 6px 8px;
             font: 14px/16px Arial, Helvetica, sans-serif;
@@ -39,7 +39,7 @@
     <script type="text/javascript">
         'use strict';
         // url we're sending the request to
-        var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
+        var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
         var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
         var isoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
         var searchForReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
@@ -49,6 +49,7 @@
         var highlightedPois = [];
         var isBusy = false;
         var marker;
+        var circle;
         var horizon = 600;
         var searchMethod = 0;
         var index;
@@ -59,7 +60,7 @@
         var mapLocation = new L.LatLng(49, 8.4);
 
         // create a map in the "map" div, set the view to a given place and zoom
-        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation,12);
+        var map = new L.Map('map', { preferCanvas: true }).setView(mapLocation, 12);
 
         // insert xMap back- and forground layers with sandbox-style
         L.tileLayer(xMapTileUrl + '?xtok=' + token, {
@@ -80,31 +81,35 @@
         var info = L.control();
         info.onAdd = function (map) {
             var container = L.DomUtil.create('div', 'info leaflet-bar leaflet-control leaflet-control-custom');
-            var clickcmd = "if(!isBusy)findByAddress(document.getElementById('f1').value);";
-            var fuzzySearchCmd = "if(!isBusy)findFuzzy(document.getElementById('f2').value);";
+            var geocodeCmd = "if(!isBusy)findByAddress(document.getElementById('f1').value);";
+            var geolocateCmd = "if(!isBusy)findByGeolocation();";
+            var fulltextSearchCmd = "if(!isBusy)findFulltext(document.getElementById('f2').value);";
             var html =
                 '<form id="myForm">' +
                 '<div>Click map or find nearby address</div>' +
-                '<div>' +
+                '</div><div>' +
                 '<input type="text" id="f1" value="Karlsruhe, Haid-und-Neu-Straße 15">' +
-                '<input type="button" value="Find" onClick="' + clickcmd + '">' +
-                '</div><br>' +
+                '<input type="button" align="right" value="Geocode" onClick="' + geocodeCmd + '">' +
+                '</div>' +
+                '<div>Or find by geo-location' +
+                '<input type="button" align="right" value="Geolocate" onClick="' + geolocateCmd + '">' +
+                '</div>' +
                 '<div>Search method</div>' +
                 '<div>' +
                 '<input type="radio" name="searchmethod" checked="true" onclick="setSearchMethod(0);">airline' +
                 '<input type="radio" name="searchmethod" onclick="setSearchMethod(1);">route' +
                 '<input type="radio" name="searchmethod" onclick="setSearchMethod(2);">isochrone' +
-                '</div><br>' +
+                '</div>' +
                 '<div>Horizon</div>' +
                 '<div>' +
                 '<input type="radio" name="horizon" checked="true" onclick="setHorizon(1200);">20 min' +
                 '<input type="radio" name="horizon" onclick="setHorizon(2400);">40 min' +
                 '<input type="radio" name="horizon" onclick="setHorizon(3600);">60 min' +
-                '</div><br>' +
+                '</div>' +
                 '<div>Or find stores by name</div>' +
                 '<div>' +
                 '<input type="text" id="f2" value="OBI">' +
-                '<input type="button" value="Find" onClick="' + fuzzySearchCmd + '">' +
+                '<input type="button" value="Find" onClick="' + fulltextSearchCmd + '">' +
                 '</div>' + '</form>';
             container.innerHTML = html;
 
@@ -155,11 +160,11 @@
             $("#myForm :input").prop("disabled", busy);
         }
 
-        function findNearestObjects() {
+        function findNearestObjects(keepCircle) {
             if (!searchLocation)
                 return;
 
-            cleanupMarkers();
+            cleanupMarkers(keepCircle);
 
             var c = 'marker-red';
             marker = L.marker(searchLocation, {
@@ -198,7 +203,7 @@
             findNearestObjects();
         }
 
-        function findFuzzy(name) {
+        function findFulltext(name) {
             cleanupMarkers();
 
             var res = index.search(name);
@@ -227,6 +232,26 @@
                     setBusy(false);
                 });
         }
+
+        function findByGeolocation(adr) {
+            setBusy(true);
+            map.locate({ setView: true, maxZoom: 16 });
+        }
+
+        map.on('locationfound', function (e) {
+            // correct accuracy for mercator projection
+            var circleRadius = e.accuracy / Math.cos(e.latlng.lat / 180 * Math.PI);
+
+            circle = L.circle(e.latlng, circleRadius).addTo(map);
+
+            searchLocation = e.latlng;
+            findNearestObjects(true);
+        });
+
+        map.on('locationerror', function (e) {
+            alert(e.message);
+            setBusy(false);
+        });
 
         function findByIso(latlng, hor) {
             setBusy(true);
@@ -435,7 +460,7 @@
             }
         }
 
-        function cleanupMarkers() {
+        function cleanupMarkers(keepCircle) {
             for (var i = 0; i < highlightedPois.length; i++) {
                 map.removeLayer(highlightedPois[i]);
             }
@@ -446,6 +471,9 @@
 
             if (marker)
                 map.removeLayer(marker);
+
+            if (!keepCircle && circle)
+                map.removeLayer(circle);
         }
 
         function highlightPoi(feature, c, additionalInfo, drawSpiderLine) {

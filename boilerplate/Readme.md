@@ -12,7 +12,7 @@ This section contains templates to initialize a basic xMapServer-2 base map.
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var baseMapLayer = L.tileLayer(
-    'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
+    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand' +
     '?xtok=' + token
 	{
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
@@ -43,10 +43,10 @@ var baseMapLayer = L.tileLayer(
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
-            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
-            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
-            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token
+            'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token,
+            'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}/silkysand?xtok=' + token
         ], {
             sphericalMercator: true
         }
@@ -75,10 +75,10 @@ var raster = new OpenLayers.Layer.XYZ(
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
         urls: [
-            'https://s01-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
-            'https://s02-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
-            'https://s03-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
-            'https://s04-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token
+            'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token,
+            'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand?xtok=' + token
         ],
         layer: 'xmap', maxZoom: 22
     })

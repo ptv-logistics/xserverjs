@@ -11,7 +11,7 @@ Create a new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_T
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var interactiveTileLayer = L.TileLayer.clickableTiles(
-    'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand+PTV_TruckAttributes/json?xtok=' + token,
     {
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
@@ -32,7 +32,7 @@ var radius = 250; // m
 var map = L.map('map').setView(coordinate, 14);
 
 var basemapLayer = L.tileLayer(
-    'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand?xtok=' + token,
     {
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
@@ -49,7 +49,7 @@ var circle = L.circle(coordinate, radius / Math.cos(coordinate.lng / 2 / Math.PI
     }).addTo(map).bindPopup("I am a circle.");
 
 var truckAttributesLayer = L.TileLayer.clickableTiles(
-    'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
     'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
     {
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
