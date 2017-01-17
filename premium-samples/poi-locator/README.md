@@ -31,7 +31,7 @@ var mapLocation = new L.LatLng(53.550556, 9.993333); // HH
 var map = new L.Map('map').setView(mapLocation, 14);
 
 // initialize xServer-internet basemap with silkysand-style
-        var xMapTileUrl = 'https://s0{s}-xserver2-dev.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
+        var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
 L.tileLayer(xMapTileUrl + '?xtok=' + token, { 
 	    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
 		subdomains: '1234'

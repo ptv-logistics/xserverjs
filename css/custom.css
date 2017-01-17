@@ -1,17 +1,27 @@
 /* Shared
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .button {
-  border-radius: 100px;
+ border-radius: 10px;
+}
+
+.button-primary {
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.5);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.5);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 /* Sections
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.section-heading
+ {
+	margin: 1rem auto 1rem;
+}
 .section {
-	padding: 6	rem 0;
+	margin: 2rem auto 1rem;
   text-align: center;
 }
-.section-heading,
 .section-description {
+margin: 0rem auto 1rem
 }
 
 /* Hero
@@ -20,13 +30,21 @@
   position: relative;
 }
 .phone {
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
   position: relative;
   max-width: 70%;
   margin: 3rem auto 3rem;
+ border: 2px solid;
+ border-radius: 10px;
 }
 
 
   .hero-heading {
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 	margin: 2rem auto 1rem;
     background-color: #fff; 
  border: 2px solid;
@@ -36,7 +54,6 @@
 /* Bigger than 550 */
 @media (min-width: 550px) {
   .section {
-	padding: 2rem 0;
   }
   .hero {
 /*  background-image: url('../images/bg_page.png'); */
@@ -54,6 +71,8 @@
   }
   .hero-heading {
     font-size: 2.4rem;
+      margin: 3rem auto 3rem;
+
   }
 }
 

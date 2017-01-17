@@ -37,8 +37,7 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
         opacity: 1.0,
         noWrap: false,
         attribution: xMapAttribution,
-        subdomains: '1234',
-        zIndex: 1
+        subdomains: '1234'
     }).addTo(map);
 
     // add (non-tiled) label layer. Insert at tile pane
@@ -50,7 +49,7 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
         format: 'image/png',
         transparent: true,
         attribution: xMapAttribution,
-        pane: 'tilePane',
+        pane: 'tilePane'
         zIndex:3
     }).addTo(map);
 </script>
