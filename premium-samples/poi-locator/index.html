@@ -244,6 +244,8 @@
             // correct accuracy for mercator projection
             var circleRadius = e.accuracy / Math.cos(e.latlng.lat / 180 * Math.PI);
 
+            cleanupMarkers();
+
             circle = L.circle(e.latlng, circleRadius, {zIndex: 1000}).addTo(map);
 
             searchLocation = e.latlng;
