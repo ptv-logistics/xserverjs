@@ -17,7 +17,6 @@ The PTV xLocate-2 implementation of the geocoder for routing-machine.
 Supported options:
 * *serviceUrl* - The url for PTV xLocate. Default: ''https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/''
 * *token* - The token for xServer internet access. Default: ''
-* *fixedCountry* - A country that can be predefined for single-field search
 
 ## L.Routing.Ptv
 The PTV xRoute-2 implementation of the router for routing-machine.
