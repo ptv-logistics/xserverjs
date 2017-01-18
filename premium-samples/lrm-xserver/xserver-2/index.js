@@ -80,7 +80,7 @@ var getPlan = function () {
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function (style) {
     var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-labels' +
-        '?xtok={token}', {
+        '?xtok={token}', 
          {
             profile: 'silkysand',
             token: token,
@@ -90,7 +90,8 @@ var getXMapBaseLayers = function (style) {
         });
 
     var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-background-transport' +
-        '{vl1}{vl2}{vl3}/json?xtok={token}', {
+        '{vl1}{vl2}{vl3}/json?xtok={token}', 
+         {
             profile: 'silkysand',
             token: token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
