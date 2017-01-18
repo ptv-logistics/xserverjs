@@ -3,7 +3,7 @@ xserver.js
 
 JavaScript APIs for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
-Go to http://ptv-logistics.github.io/xserverjs/ 
+Go to https://ptv-logistics.github.io/xserverjs/ 
 
 To run the project locally:
 * Clone it or download the zip file
