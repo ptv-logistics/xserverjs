@@ -13,9 +13,10 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var baseMapLayer = L.tileLayer(
     'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}' +
-    '?xtok={token}',
-	{
-        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+    '?xtok={token}', {
+        token: window.token,
+        profile: profile,
+      	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22
     }).addTo(map);  
@@ -27,8 +28,8 @@ var baseMapLayer = L.tileLayer(
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var baseMapLayer = L.tileLayer(
-    'http://127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}/{profile}',
-	{
+    'http://127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}/{profile}', {	
+        token: window.token,
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         maxZoom: 22
     }).addTo(map);
