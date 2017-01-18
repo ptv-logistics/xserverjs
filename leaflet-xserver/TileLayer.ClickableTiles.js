@@ -14,6 +14,9 @@
     
         cont.addEventListener('mousemove', L.bind(this._onMouseMove, this), true);
         cont.addEventListener('mousedown', L.bind(this._onMouseDown, this), true);
+        // cont.addEventListener('mouseup', L.bind(this._onMouseDown, this), true);
+    
+        map._mapPane.addEventListener('click', L.bind(this._onClick, this), true);
         map.addEventListener('click', L.bind(this._onMapClick, this), false);
     },
 
@@ -24,6 +27,9 @@
     
         cont.removeEventListener('mousemove', L.bind(this._onMouseMove, this), true);
         cont.removeEventListener('mousedown', L.bind(this._onMouseDown, this), true);
+        // cont.removeEventListener('mouseup', L.bind(this._onMouseDown, this), true);
+    
+        map._mapPane.removeEventListener('click', L.bind(this._onClick, this), true);
         map.removeEventListener('click', L.bind(this._onMapClick, this), false);
 
         L.TileLayer.prototype.onRemove.call(this, map);
