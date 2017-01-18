@@ -8,14 +8,15 @@ Administrative regions are polygons defined by the borders of administrative uni
 * Create thematic (Choropleth) maps. These visualize quntitative data, like population density, purchasing power or individual sales per region.
 * Define custom regions by merging underlyig admin regions.
 
-Our partner [digital data services gmbh](http://www.ddsgeo.de/) provides both geography and the corresponding socio-economic data in various formats. The most popular format is [GeoJSON](http://geojson.org/). GeoJSON can be processed directly in JavaScript and Leaflet, 
-and also [directly displayed on GitHub](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data/municipalities.json),
+Our partner [digital data services gmbh](http://www.ddsgeo.de/) provides both geography and the corresponding socio-economic data in various formats. The most popular format is [GeoJSON](http://geojson.org/). GeoJSON can be processed directly in JavaScript and Leaflet, and also [directly displayed on GitHub](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data/municipalities.json),
 
 ### Add admininstrative regions as GeoJSON to the map
 
 Required services:
 
 * PTV xMapServer2
+
+Note: The sample loads the region data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
 
 [Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
 
