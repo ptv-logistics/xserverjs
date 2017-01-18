@@ -100,7 +100,7 @@ function onMapClick(e) {
 ### Set the search location by geocoding
 If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which das a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
-var findAddressUrl = 'https://xserver2-dev.cloud.ptvgroup.com/services/rest/XLocate/locations';
+var findAddressUrl = 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
 function findByAddress(adr) {
     setBusy(true);
