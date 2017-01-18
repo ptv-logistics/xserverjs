@@ -10,7 +10,7 @@
     <meta name="description" content="Client-side Drawing of Administrative Regions(Leaflet)" />
     <meta name="level" content="1" />
     <meta name="documentation" content="./doc.html" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -40,11 +40,11 @@
 <body>
     <div id="map"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
-<script src="../../token.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
+    <script src="../../token.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
     // initialize the map
     var map = L.map('map').setView([49.611389, 6.130833], 12); // go to Luxemburg
@@ -54,26 +54,26 @@
     var info = L.control();
     info.onAdd = function (map) {
         var container = L.DomUtil.create('div', 'info-panel leaflet-bar leaflet-control leaflet-control-custom');
-        var html = 
-          '<div>' +
-          '  <div>' +
-          '      <h4>This sample displays administrative regions on PTV xMap Server.</h4>' +
-          '      <p>You see two additional layers: communes and postcode areas. The communes are colored by the 12 cantons of' +
-          '          Luxembourg.' +
-          '      </p>' +
-          '      <p>If you hover over a postcode area, the area is highlighted and the postcode is displayed on this panel.</p>' +
-          '      <p>Click or tap on a postcode to focus the map on it.</p>' +
-          '      <div>' +
-          '          <h4>Layers</h4>' +
-          '          <div class="check"><label><input id="basemap" type="checkbox" checked /> Base Map </label></div>' +
-          '          <div class="check"><label><input id="municipalities" type="checkbox" disabled checked /> Communes </label></div>' +
-          '          <div class="check"><label><input id="postcode" type="checkbox" disabled checked /> Postcode Areas </label></div>' +
-          '      </div>' +
-          '      <div id="postCodeInfo"></div>' +
-          '  </div>' +
-          '  </div>' +
-          '</div>' ;
-  
+        var html =
+            '<div>' +
+            '  <div>' +
+            '      <h4>This sample displays administrative regions on PTV xMap Server.</h4>' +
+            '      <p>You see two additional layers: communes and postcode areas. The communes are colored by the 12 cantons of' +
+            '          Luxembourg.' +
+            '      </p>' +
+            '      <p>If you hover over a postcode area, the area is highlighted and the postcode is displayed on this panel.</p>' +
+            '      <p>Click or tap on a postcode to focus the map on it.</p>' +
+            '      <div>' +
+            '          <h4>Layers</h4>' +
+            '          <div class="check"><label><input id="basemap" type="checkbox" checked /> Base Map </label></div>' +
+            '          <div class="check"><label><input id="municipalities" type="checkbox" disabled checked /> Communes </label></div>' +
+            '          <div class="check"><label><input id="postcode" type="checkbox" disabled checked /> Postcode Areas </label></div>' +
+            '      </div>' +
+            '      <div id="postCodeInfo"></div>' +
+            '  </div>' +
+            '  </div>' +
+            '</div>';
+
         container.innerHTML = html;
 
         L.DomEvent.disableClickPropagation(container);
@@ -93,8 +93,10 @@
     // create a basemap layer using the xMap Tile api
     var background = L.tileLayer(
         'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-        'silkysand-labels?xtok=' + token,
+        '{profile}-labels?xtok={token}',
         {
+            profile: 'silkysand',
+            token: window.token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             subdomains: '1234',
             maxZoom: 22,
@@ -103,8 +105,10 @@
 
     var foreground = L.tileLayer(
         'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-        'silkysand-background-transport?xtok=' + token,
+        '{profile}-background-transport?xtok={token}',
         {
+            profile: 'silkysand',
+            token: window.token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             subdomains: '1234',
             maxZoom: 22,

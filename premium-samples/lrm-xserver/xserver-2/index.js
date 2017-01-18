@@ -12,7 +12,7 @@ var map = L.map('map', {
     contextmenuWidth: 200,
     contextmenuItems: [{
         text: 'Add Waypoint At Start',
-        callback: function(ev) {
+        callback: function (ev) {
             if (routingControl._plan._waypoints[0].latLng) {
                 routingControl.spliceWaypoints(0, 0, ev.latlng);
             } else {
@@ -21,7 +21,7 @@ var map = L.map('map', {
         }
     }, {
         text: 'Add Waypoint At End',
-        callback: function(ev) {
+        callback: function (ev) {
             if (routingControl._plan._waypoints[routingControl._plan._waypoints.length - 1].latLng) {
                 routingControl.spliceWaypoints(routingControl._plan._waypoints.length, 0, ev.latlng);
             } else {
@@ -37,7 +37,7 @@ map.getPane('tileOverlayPane').style.zIndex = 500;
 map.getPane('tileOverlayPane').style.pointerEvents = 'none';
 
 // get the start and end coordinates for a scenario
-var getPlan = function() {
+var getPlan = function () {
     switch (scenario) {
         case 'm':
             {
@@ -78,16 +78,21 @@ var getPlan = function() {
 };
 
 // returns a layer group for xmap back- and foreground layers
-var getXMapBaseLayers = function(style) {
-    var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-labels' +
-        '?xtok=' + token, {
+var getXMapBaseLayers = function (style) {
+    var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-labels' +
+        '?xtok={token}', {
+         {
+            profile: 'silkysand',
+            token: token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
             subdomains: '1234'
         });
 
-    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' + style + '-background-transport' +
-        '{vl1}{vl2}{vl3}/json?xtok=' + token, {
+    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-background-transport' +
+        '{vl1}{vl2}{vl3}/json?xtok={token}', {
+            profile: 'silkysand',
+            token: token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
             subdomains: '1234',
@@ -106,7 +111,7 @@ routingControl = L.Routing.control({
     plan: L.Routing.plan(getPlan(), {
         routeWhileDragging: false,
         routeDragInterval: 3000,
-        createMarker: function(i, wp) {
+        createMarker: function (i, wp) {
             return L.marker(wp.latLng, {
                 draggable: true,
                 icon: L.icon.glyph({
@@ -146,7 +151,7 @@ routingControl = L.Routing.control({
         serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
         token: token,
         supportsHeadings: true,
-        beforeSend: function(request) {
+        beforeSend: function (request) {
             request.storedProfile = routingProfile;
             request.requestProfile = {
                 "featureLayerProfile": {
@@ -171,7 +176,7 @@ routingControl = L.Routing.control({
     })
 }).addTo(map);
 
-routingControl.on('routingerror', function(e) {});
+routingControl.on('routingerror', function (e) { });
 
 L.Routing.errorControl(routingControl).addTo(map);
 //	routingControl.hide();
@@ -208,13 +213,13 @@ L.control.layers(baseLayers, {
     "Truck Attributes": truckAttributesLayer,
     "Restriction Zones": restrictionZonesLayer
 }, {
-    position: 'bottomleft',
-    autoZIndex: false
-}).addTo(map);
+        position: 'bottomleft',
+        autoZIndex: false
+    }).addTo(map);
 
 var indSelf = false;
 
-var _onLayerAdd = function(e) {
+var _onLayerAdd = function (e) {
     if (indSelf) // event was triggered by panel
         return;
 
@@ -229,7 +234,7 @@ var _onLayerAdd = function(e) {
     routingControl.route();
 };
 
-var _onLayerRemove = function(e) {
+var _onLayerRemove = function (e) {
     if (indSelf) // event was triggered by panel
         return;
 
@@ -248,13 +253,13 @@ map.on('layeradd', _onLayerAdd, this)
 map.on('layerremove', _onLayerRemove, this)
 
 // update the map scenario
-var updateScenario = function() {
+var updateScenario = function () {
     scenario = $('#scenarioSelect option:selected').val();
     updateParams(true);
 };
 
 // update the routing params
-var updateParams = function(updateWayPoints) {
+var updateParams = function (updateWayPoints) {
     routingProfile = $('#vehicleType').val();
 
     enableRestrictionZones = $('#enableRestrictionZones').is(':checked');

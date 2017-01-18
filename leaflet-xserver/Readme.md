@@ -12,8 +12,10 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var interactiveTileLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-    'silkysand+PTV_TruckAttributes/json?xtok=' + token,
-    {
+    '{profile}+PTV_TruckAttributes/json?xtok={token},
+    {       
+        profile: 'silkysand',
+        token: token,       
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22
@@ -32,9 +34,11 @@ var radius = 250; // m
 var map = L.map('map').setView(coordinate, 14);
 
 var basemapLayer = L.tileLayer(
-    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-    'silkysand?xtok=' + token,
-    {
+      'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
+      '{profile}-background-transport-labels+PTV_TruckAttributes/json?xtok={token}',
+      {
+        profile: 'silkysand',
+        token: token,
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22,
@@ -50,8 +54,10 @@ var circle = L.circle(coordinate, radius / Math.cos(coordinate.lng / 2 / Math.PI
 
 var truckAttributesLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-    'silkysand-background-transport-labels+PTV_TruckAttributes/json?xtok=' + token,
+    '{profile}-background-transport-labels+PTV_TruckAttributes/json?xtok={token}',
     {
+        profile: 'silkysand',
+        token: token,
         attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
         subdomains: '1234',
         maxZoom: 22,
