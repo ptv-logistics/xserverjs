@@ -1,7 +1,7 @@
 # leaflet-routing-machine for PTV xServer
 This project shows how to use http://www.liedman.net/leaflet-routing-machine/ with PTV xServer.
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/lrm-xserver/xserver-1/)
+[Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/lrm-xserver/xserver-1/)
 
 Required services:
 

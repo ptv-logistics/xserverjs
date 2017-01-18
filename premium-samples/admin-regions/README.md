@@ -18,7 +18,7 @@ Required services:
 
 Note: The sample loads the region data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
+[Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/index.html)
 
@@ -37,7 +37,7 @@ After loading we can add styling and interactions to the polygons.
 
 ### Reduce the size with TopoJSON
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-topo)
+[Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-topo)
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-topo.html)
 
@@ -56,7 +56,7 @@ $.getJSON("./data/municipalities.json", function (data) {
 
 ### Create custom regions by merging admin regions with D3
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-merge)
+[Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/admin-regions-merge)
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-merge.html)
 
