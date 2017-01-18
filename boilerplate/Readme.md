@@ -4,7 +4,7 @@ This section contains templates to initialize a basic xMapServer-2 base map.
 
 #### Leaflet Basic Setup
 
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet.1.0.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet.1.0.html)
 
 ##### xserver-internet
 
@@ -37,7 +37,7 @@ var baseMapLayer = L.tileLayer(
 
 #### OpenLayers2 Basic Setup
 
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/OpenLayers2.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/OpenLayers2.html)
 
 ##### xserver-internet
 
@@ -68,7 +68,7 @@ var raster = new OpenLayers.Layer.XYZ(
 
 #### OpenLayers3 Basic Setup
 
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/OpenLayers3.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/OpenLayers3.html)
 
 ##### xserver-internet
 

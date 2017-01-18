@@ -3,7 +3,7 @@
 leaflet-xserver provides a new layer class `L.TileLayer.ClickableTiles` that can be used to make xServer elements clickable. To use this layer, include the file `TileLayer.ClickableTiles.js` for the corresponding Leaflet version.
 
 #### As single map
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable.1.0.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable.1.0.html)
 
 Create a new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_TruckAttirbues`) to the profile, the symbols of the layer can now be clicked to display the object information. The options are the same as for `L.TileLayer`
 
@@ -23,7 +23,7 @@ var interactiveTileLayer = L.TileLayer.clickableTiles(
 ```
 
 #### As layered map
-[Demo](http://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable-Layered.1.0.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable-Layered.1.0.html)
 
 It's also possible to split the xMapServer map into separate Leaflet layers. This sample creates a standard xMapServer basemap-layer and a clickable truck attributes overlay. A client-side layer `L.Circle`can then be added between the two xMapServer layers by assigning them to different panes (`tilePane`, `overlayPane` and  `shadowPane`).
 

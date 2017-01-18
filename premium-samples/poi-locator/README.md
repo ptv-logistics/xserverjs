@@ -3,7 +3,7 @@ PoiLocator
 
 A  tutorial on building mobile-friendly Web Apps to search on user-POIs by proximity or full text, using only plain JavaScript and PTV xServer. 
 
-[Demo](http://ptv-logistics.github.io/xserverjs/premium-samples/poi-locator)
+[Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/poi-locator)
 
 Required services:
 
