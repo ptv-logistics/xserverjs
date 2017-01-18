@@ -1,4 +1,4 @@
-xserver.js
+xServer.js
 ==========
 
 JavaScript APIs for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
