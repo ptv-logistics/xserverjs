@@ -31,11 +31,14 @@ var mapLocation = new L.LatLng(53.550556, 9.993333); // HH
 var map = new L.Map('map').setView(mapLocation, 14);
 
 // initialize xServer-internet basemap with silkysand-style
-        var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand';
-L.tileLayer(xMapTileUrl + '?xtok=' + token, { 
-	    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
-		subdomains: '1234'
-    }).addTo(map);
+var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}?xtok={token}';
+L.tileLayer(xMapTileUrl, {
+    profile: 'silkysand',
+    token: window.token,
+    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+    maxZoom: 22,
+    subdomains: '1234'
+}).addTo(map);
 ```
 
 ## Prepare your data

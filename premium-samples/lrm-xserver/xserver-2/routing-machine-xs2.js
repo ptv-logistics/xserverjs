@@ -1,7 +1,7 @@
 L.Routing.Ptv = L.Class.extend({
 	options: {
 		// xRoute url
-		serviceUrl: 'https://xroute-eu-n-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
+		serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
 		// token for xServer internet
 		token: '',
 		// delegate to manipulate the request before send
