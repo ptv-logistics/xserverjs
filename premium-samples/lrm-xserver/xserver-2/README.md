@@ -5,9 +5,9 @@ This project shows how to use http://www.liedman.net/leaflet-routing-machine/ wi
 
 Required services:
 
-* PTV xMapServer-1
-* PTV xLocateServer-1
-* PTV xRouteServer-1
+* PTV xMapServer-2
+* PTV xLocateServer-2
+* PTV xRouteServer-2
 
 The additional classes required to use PTV xServer with leaflet-routing-machine:
 
