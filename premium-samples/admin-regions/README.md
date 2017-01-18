@@ -60,7 +60,7 @@ $.getJSON("./data/municipalities.json", function (data) {
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/admin-regions-merge.html)
 
-One benefit of TopoJSON is the ability to merge neighbouring regions by removing their common border. The library [D3](https://d3js.org/) has a merge function for topoloy regions. We can filter the merge function for a specific set of ids. The result can be added to our layer containing the custom regions.
+One benefit of TopoJSON is the ability to merge neighbouring regions by removing their common border. The library [D3](https://d3js.org/) has a merge function for topology regions. We can filter the merge function for a specific set of ids. The result can be added to our layer containing the custom regions.
 
 ```javascript
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.0/d3.min.js"></script>
