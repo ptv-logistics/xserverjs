@@ -4,12 +4,13 @@ xserverjs also supports templates to add an xMapServer-1 map to JavaScript widge
 
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
-[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
+[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
+[Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.0.7.html)
 
-The optimal configuration for xMapServer-1 is the use of the WMS adapter. For this purpose xserverjs contains the files `NonTiledLayer.js` and `NonTiledLayer.WMS.js` which you can add to your project:
+The recommended configuration for xMapServer-1 is the use of the WMS adapter. For this purpose xserverjs contains the files `NonTiledLayer.js` and `NonTiledLayer.WMS.js` which you can add to your project:
 
 ```javascript
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
 <script src="./NonTiledLayer.js"></script>
 <script src="./NonTiledLayer.WMS.js"></script>
 <script src="./token.js"></script>
@@ -41,7 +42,7 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
     }).addTo(map);
 
     // add (non-tiled) label layer. Insert at tile pane
-    var labels = new L.NonTiledLayer.WMS(xMapWmsUrl, {
+    var labels = L.nonTiledLayer.wms(xMapWmsUrl, {
         maxZoom: 19,
         minZoom: 0,
         opacity: 1.0,
@@ -54,3 +55,7 @@ The optimal configuration for xMapServer-1 is the use of the WMS adapter. For th
     }).addTo(map);
 </script>
 ```
+
+#### OpenLayers2
+
+#### OpenLayers3

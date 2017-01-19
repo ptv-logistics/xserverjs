@@ -30,7 +30,7 @@
         // initialize leaflet
         var map = new L.Map('map', {
             worldCopyJump: true,
-            zoomSnap: 0.25,
+            zoomSnap: 0.5,
             zoomDelta: 0.5
         });
         
@@ -57,7 +57,7 @@
         });
 
         // add (non-tiled) label layer. Insert at tile pane
-        var labels = new L.NonTiledLayer.WMS(xMapWmsUrl, {
+        var labels = L.nonTiledLayer.wms(xMapWmsUrl, {
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
