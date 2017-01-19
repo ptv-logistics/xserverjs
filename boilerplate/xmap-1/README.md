@@ -59,8 +59,12 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 
 #### OpenLayers 2
 
-[Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayersv2.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayers2.html)
+
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/OpenLayers2.html)
 
 #### OpenLayers 3
 
-[Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayersv3.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayers3.html)
+
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/OpenLayers3.html)
