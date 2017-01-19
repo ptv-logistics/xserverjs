@@ -1,6 +1,6 @@
 ## leaflet-xserver
 
-leaflet-xserver provides classes that can be used to use xMapServer specific features with Leaflet.
+leaflet-xserver provides classes to add xMapServer specific features to Leaflet.
 
 ### L.TileLayer.ClickableTiles
 
