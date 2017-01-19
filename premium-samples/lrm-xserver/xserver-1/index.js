@@ -65,7 +65,7 @@ function getXMapBaseLayers(style, token, labelPane) {
         subdomains: '1234'
     });
 
-    var foreground = new L.NonTiledLayer.WMS('https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token, {
+    var foreground = L.nonTiledLayer.wms('https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token, {
         minZoom: 0, maxZoom: 19, opacity: 1.0,
         layers: 'xmap-' + style + 'fg',
         format: 'image/png', transparent: true,

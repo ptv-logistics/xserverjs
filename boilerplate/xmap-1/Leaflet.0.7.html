@@ -55,7 +55,7 @@
         });
 
         // add (non-tiled) label layer. Insert at tile pane
-        var labels = new L.NonTiledLayer.WMS(xMapWmsUrl, {
+        var labels = L.nonTiledLayer.wms(xMapWmsUrl, {
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
