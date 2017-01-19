@@ -81,7 +81,7 @@ You can use this layer to add the xMapServer-1 base map to Leaflet via the xMapS
 
 [Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
-Get detailed information about the recommended xMapServer-1 integration at the [xMapServer-1 section](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/).
+Get detailed information about the recommended xMapServer-1 integration at the [xMapServer-1 section](https://github.com/ptv-logistics/xserverjs/boilerplate/xmap-1/).
 
 #### The options of L.NonTiledLayer:
 
