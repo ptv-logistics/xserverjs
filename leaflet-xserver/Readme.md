@@ -9,7 +9,7 @@ The Layer class `L.TileLayer.ClickableTiles` can be used to make xServer element
 #### As single map
 [Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable.1.0.html)
 
-The easiest way to add a clickable layer is to use the new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_TruckAttirbues`) to the profile. The icons of the layer can now be clicked to display the object information. The options are the same as for `L.TileLayer`
+The easiest way to add a clickable layer is to use the new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_TruckAttributes`) to the profile. The icons of the layer can now be clicked to display the object information. The options are the same as for `L.TileLayer`
 
 ```javascript
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
