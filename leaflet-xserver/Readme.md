@@ -1,6 +1,6 @@
 ## leaflet-xserver
 
-leaflet-xserver provides classes that can be used to access xMapServer specific functions to Leaflet.
+leaflet-xserver provides classes that can be used to use xMapServer specific features with Leaflet.
 
 ### L.TileLayer.ClickableTiles
 
@@ -16,7 +16,7 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var interactiveTileLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-    '{profile}+PTV_TruckAttributes/json?xtok={token},
+    '{profile}+PTV_TruckAttributes/json?xtok={token}',
     {       
         profile: 'silkysand',
         token: token,       
@@ -77,8 +77,9 @@ Leaflet.NonTiledLayer.WMS is the implementation that makes WMS requests, similar
 
 You can use this layer to add the xMapServer-1 base map to Leaflet via the xMapServer WMS adapter. 
 
-[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 [Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.0.7.html)
+
+[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
 Get detailed information about the recommended xMapServer-1 integration at the [xMapServer-1 section](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/).
 
