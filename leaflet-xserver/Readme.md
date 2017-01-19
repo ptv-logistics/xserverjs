@@ -39,7 +39,7 @@ var map = L.map('map').setView(coordinate, 14);
 
 var basemapLayer = L.tileLayer(
       'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-      '{profile}-background-transport-labels+PTV_TruckAttributes/json?xtok={token}',
+      '{profile}?xtok={token}',
       {
         profile: 'silkysand',
         token: token,
