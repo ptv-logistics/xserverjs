@@ -82,7 +82,7 @@ var getXMapBaseLayers = function (style) {
     var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-labels' +
         '?xtok={token}', 
          {
-            profile: 'silkysand',
+            profile: style,
             token: token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
@@ -92,7 +92,7 @@ var getXMapBaseLayers = function (style) {
     var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-background-transport' +
         '{vl1}{vl2}{vl3}/json?xtok={token}', 
          {
-            profile: 'silkysand',
+            profile: style,
             token: token,
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
             maxZoom: 22,
@@ -131,19 +131,19 @@ routingControl = L.Routing.control({
             // Shadow
             {
                 color: 'black',
-                opacity: 0.8,
+                opacity: 1,
                 weight: 11
             },
             // Outline
             {
-                color: 'green',
+                color: 'blue',
                 opacity: 0.8,
                 weight: 8
             },
             // Center
             {
-                color: 'orange',
-                opacity: 1,
+                color: 'cyan',
+                opacity: 0.8,
                 weight: 4
             }
         ]
