@@ -5,6 +5,7 @@ xserverjs also supports templates to add an xMapServer-1 map to JavaScript widge
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
 [Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
+
 [Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.0.7.html)
 
 The recommended configuration for xMapServer-1 is the use of the WMS adapter. For this purpose xserverjs contains the files `NonTiledLayer.js` and `NonTiledLayer.WMS.js` which you can add to your project:
@@ -56,6 +57,14 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 </script>
 ```
 
-#### OpenLayers2
+#### OpenLayers 2
 
-#### OpenLayers3
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayers2.html)
+
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/OpenLayers2.html)
+
+#### OpenLayers 3
+
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/OpenLayers3.html)
+
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/OpenLayers3.html)
