@@ -2,7 +2,7 @@
   "name": "leaflet-xserver",
   "version": "0.9.0",
   "description": "Advanced Leaflet classes for PTV xServer",
-  "main": "./leaflet-xserver.js",
+  "main": "./leaflet-xserver/TilelLayer.ClickableTiles.js",
   "directories": {
     "dist": "dist"
   },
