@@ -1,6 +1,6 @@
 ## leaflet-xserver
 
-leaflet-xserver provides classes that can be used to access xMapServer specific functions to Leaflet.
+leaflet-xserver provides classes to add xMapServer specific features to Leaflet.
 
 ### L.TileLayer.ClickableTiles
 
@@ -9,14 +9,14 @@ The Layer class `L.TileLayer.ClickableTiles` can be used to make xServer element
 #### As single map
 [Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/Leaflet-Clickable.1.0.html)
 
-The easiest way to add a clickable layer is to use the new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_TruckAttirbues`) to the profile. The icons of the layer can now be clicked to display the object information. The options are the same as for `L.TileLayer`
+The easiest way to add a clickable layer is to use the new `ClickableTiles` layer and append a clickable xServer-Layer (`PTV_TruckAttributes`) to the profile. The icons of the layer can now be clicked to display the object information. The options are the same as for `L.TileLayer`
 
 ```javascript
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var interactiveTileLayer = L.TileLayer.clickableTiles(
     'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-    '{profile}+PTV_TruckAttributes/json?xtok={token},
+    '{profile}+PTV_TruckAttributes/json?xtok={token}',
     {       
         profile: 'silkysand',
         token: token,       
@@ -39,7 +39,7 @@ var map = L.map('map').setView(coordinate, 14);
 
 var basemapLayer = L.tileLayer(
       'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/' +
-      '{profile}-background-transport-labels+PTV_TruckAttributes/json?xtok={token}',
+      '{profile}?xtok={token}',
       {
         profile: 'silkysand',
         token: token,
@@ -77,10 +77,11 @@ Leaflet.NonTiledLayer.WMS is the implementation that makes WMS requests, similar
 
 You can use this layer to add the xMapServer-1 base map to Leaflet via the xMapServer WMS adapter. 
 
-[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 [Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.0.7.html)
 
-Get detailed information about the recommended xMapServer-1 integration at the [xMapServer-1 section](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/).
+[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
+
+Get detailed information about the recommended xMapServer-1 integration at the [xMapServer-1 section](https://github.com/ptv-logistics/xserverjs/tree/master/boilerplate/xmap-1/).
 
 #### The options of L.NonTiledLayer:
 
