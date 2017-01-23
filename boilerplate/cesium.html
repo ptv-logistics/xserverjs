@@ -63,7 +63,7 @@
         var getXMapViewModel = function (profile) {
             return new Cesium.ProviderViewModel({
                 name: 'PTV_' + profile,
-                iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/openStreetMap.png'),
+                iconUrl: '../images/xmap_logo.png',
                 tooltip: 'PTV ' + profile + ' style',
                 creationFunction: function () {
                     return new Cesium.UrlTemplateImageryProvider({
@@ -89,7 +89,7 @@
             geocoder: false
         });
 
-        viewer.scene.fog.enabled = false
+        viewer.scene.fog.enabled = false;
 
     function terrainChanged(element){
         var idx = element.checked? 1 : 0;
