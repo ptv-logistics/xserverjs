@@ -122,7 +122,7 @@ routingControl = L.Routing.control({
             { color: 'white', opacity: 1, weight: 4 }
         ],
     },
-    //    showAlternatives: true,		
+    showAlternatives: true,		
     router: L.Routing.ptv({
         serviceUrl: 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
         token: token,
