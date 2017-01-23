@@ -3,8 +3,8 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		browserify: {
 			control: {
-				src: ['leaflet-xserver/TileLayer.ClickableTiles.js'],
-				dest: 'dist/leaflet-xserver.js',
+				src: ['leaflet-xserver/src/TileLayer.ClickableTiles.js'],
+				dest: 'leaflet-xserver/dist/TileLayer.ClickableTiles-src.js',
 				options: {
 					transform: [
 						[
@@ -26,8 +26,8 @@ module.exports = function(grunt) {
 				'<%= grunt.template.today("yyyy-mm-dd") %> */\n\n'
 			},
 			build: {
-				src: 'dist/leaflet-xserver.js',
-				dest: 'dist/leaflet-xesrver.min.js'
+				src: 'leaflet-xserver/dist/TileLayer.ClickableTiles-src.js',
+				dest: 'leaflet-xserver/dist/TileLayer.ClickableTiles.js'
 			}
 		}
 	});
