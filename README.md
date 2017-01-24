@@ -15,7 +15,7 @@ Go to https://ptv-logistics.github.io/xserverjs/
 * To use samples with your on-premise xServer, replace the urls in the corresponding index.html file for your xServer url.
 * **Note:** Some samples need to access local files via ajax. Chrome and IE block this. Either use FireFox or run the sample from a WebServer folder.
 
-## Direct Links to Documentation
+## Direct Links to the Documentation
 * Templates
   * [Basic map integration for xMap-2](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/)
   * [Basic map integration for xMap-1](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/)
