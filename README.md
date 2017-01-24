@@ -4,6 +4,9 @@ xserver.js
 [![Build status](https://travis-ci.org/ptv-logistics/xserverjs.svg)](https://travis-ci.org/ptv-logistics/xserverjs)
 ![Leaflet 0.7.x compatible!](https://img.shields.io/badge/Leaflet%200.7.x-%E2%9C%93-1EB300.svg?style=flat)
 ![Leaflet 1.0.0 compatible!](https://img.shields.io/badge/Leaflet%201.0.0-%E2%9C%93-1EB300.svg?style=flat)
+![xServer 1 compatible!](https://img.shields.io/badge/xServer%201.18+-%E2%9C%93-1EB300.svg?style=flat)
+![xServer 2.1 compatible!](https://img.shields.io/badge/xServer%202.1-%E2%9C%93-1EB300.svg?style=flat)
+![xserver-internet compatible!](https://img.shields.io/badge/xserverinternet-%E2%9C%93-1EB300.svg?style=flat)
 
 JavaScript APIs for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
