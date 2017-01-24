@@ -1,16 +1,21 @@
-# xserver.js [![Build status](https://travis-ci.org/ptv-logistics/xserverjs.svg)](https://travis-ci.org/ptv-logistics/xserverjs)![xServer compatible!](https://img.shields.io/badge/xServer-1.18%2B%2F2.1-blue.svg?style=flat)![Leaflet compatible!](https://img.shields.io/badge/Leaflet-0.7.7%2F1.0.2-blue.svg?style=flat)
+# xserver.js 
+
+[![Build status](https://travis-ci.org/ptv-logistics/xserverjs.svg)](https://travis-ci.org/ptv-logistics/xserverjs)
+![xServer compatible!](https://img.shields.io/badge/xServer-1.18%2B%2F2.1-blue.svg?style=flat)
+![Leaflet compatible!](https://img.shields.io/badge/Leaflet-0.7.7%2F1.0.2-blue.svg?style=flat)
 
 JavaScript APIs for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
 Go to https://ptv-logistics.github.io/xserverjs/ 
 
-To run the project locally:
-* Clone it or download the zip file
+## Usage
+
+* Clone the repository or download the zip file
 * Add your xserver-internet token at token.js
 * To use samples with your on-premise xServer, replace the urls in the corresponding index.html file for your xServer url.
-* Some samples need to access local files via ajax. Chrome and IE block this. Either use FireFox or run the sample from a WebServer folder.
+* **Note:** Some samples need to access local files via ajax. Chrome and IE block this. Either use FireFox or run the sample from a WebServer folder.
 
-You can jump to to the documentation
+## Direct Links to Documentation
 * Templates
   * [Basic map integration for xMap-2](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/)
   * [Basic map integration for xMap-1](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/)
