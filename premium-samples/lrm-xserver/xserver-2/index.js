@@ -79,8 +79,8 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function (style) {
-    var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-labels' +
-        '?xtok={token}', 
+    var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=background,transport' +
+        '&xtok={token}', 
          {
             profile: style,
             token: token,
@@ -89,8 +89,8 @@ var getXMapBaseLayers = function (style) {
             subdomains: '1234'
         });
 
-    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}-background-transport' +
-        '{vl1}{vl2}{vl3}/json?xtok={token}', 
+    var fg = L.TileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels{vl1}{vl2}{vl3}&contentType=json' +
+        '&xtok={token}', 
          {
             profile: style,
             token: token,
@@ -202,8 +202,8 @@ var baseLayers = {
     "PTV silkysand": getXMapBaseLayers('silkysand').addTo(map)
 };
 
-var truckAttributesLayer = L.virtualLayer('+PTV_TruckAttributes', 'vl1');
-var restrictionZonesLayer = L.virtualLayer('+PTV_RestrictionZones', 'vl2');
+var truckAttributesLayer = L.virtualLayer(',PTV_TruckAttributes', 'vl1');
+var restrictionZonesLayer = L.virtualLayer(',PTV_RestrictionZones', 'vl2');
 
 if (enableTruckAttributes)
     map.addLayer(truckAttributesLayer);
