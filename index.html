@@ -7,13 +7,13 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>xServer.js</title>
-  <meta name="description" content="JavaScript APIs for PTV xServer">
+  <meta name="description" content="JavaScript Samples for PTV xServer">
   <meta name="author" content="PTV Group">
 
 
 <!-- Schema.org markup for Google+ -->
 <meta itemprop="name" content="xServer.js">
-<meta itemprop="description" content="JavaScript APIs for PTV xServer">
+<meta itemprop="description" content="JavaScript Samples for PTV xServer">
 <meta itemprop="image" content="./images/thumbnail.png">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ptv-logistics.github.io/xserverjs/" />
 <meta property="og:image" content="./images/thumbnail.png" />
-<meta property="og:description" content="JavaScript APIs for PTV xServer" />
+<meta property="og:description" content="JavaScript Samples for PTV xServer" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -60,7 +60,7 @@
 <div style="z-index:10000" class="container">
 <div class="row">
   <div class="four columns">
-    <h4 class="hero-heading">xserver.js: JavaScript APIs for PTV xServer</h4>
+    <h4 class="hero-heading">xserver.js: JavaScript Samples for PTV xServer</h4>
     <a class="button button-primary" href="https://github.com/ptv-logistics/xserverjs">Fork me on GitHub</a>
   </div>
   <div class="eight columns phones">
@@ -104,8 +104,9 @@
   <div class="container">
     <h3 class="section-heading">leaflet-xserver</h3>
     <p class="section-description">leaflet-xserver is an extension for Leaflet to display extended Map content. Specific layer classes let you add styleable
-      and clickable Feature-Layers.
-      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/leaflet-xserver/">Read here for more.</a>
+      and clickable Feature-Layers. leaflet-xserver is available as <a href="https://www.npmjs.com/package/leaflet-xserver">npm package</a>
+      and via <a href="https://unpkg.com/leaflet-xserver">unpkg cdn</a>. Read
+      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/leaflet-xserver/">here</a> for more.
     </p>
     <div class="row">
       <iframe height="450" width="100%" src="./boilerplate/Leaflet-Clickable-Layered.1.0.html" allowfullscreen></iframe>
@@ -182,13 +183,13 @@ lrm.init()
   }
   ).setView([0, 0], 3);
 
-  L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/silkysand-labels?xtok=' + token, {
+  L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token, {
       subdomains: '1234'
     }).addTo(map);
 
   map._handlers.forEach(function (handler) {
     handler.disable();
-  })
+  })  
 
   var filter = "blur(7px)";
   map.getPanes().tilePane.style.webkitFilter = filter;
