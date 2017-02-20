@@ -54,9 +54,9 @@
             pane: map.getPanes().overlayPane
         }).addTo(map).bindPopup("I am a circle.");
 
-        var truckAttributesLayer = L.TileLayer.clickableTiles07(
+        var truckAttributesLayer = L.tileLayer.clickableTiles07(
             'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
-            '?storedProfile={profile}&layers=PTV_TruckAttributes&contentType=json&xtok={token}',
+            '?storedProfile={profile}&layers=PTV_TruckAttributes&contentType=JSON&xtok={token}',
             {
                 profile: 'silkysand',
                 token: window.token,
