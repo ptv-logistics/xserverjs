@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Vector Layer</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v3.14.2/css/ol.css" type="text/css">
+    <script src="https://openlayers.org/en/v3.14.2/build/ol.js"></script>
+    <script src="../../token.js"></script>
+  </head>
+  <body>
+    <div id="info">&nbsp;</div>
+    <div id="map" class="map"></div>
+    <script>
+        var raster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                urls: [
+                    'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token,
+                    'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token,
+                    'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token,
+                    'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token
+                ],
+                layer: 'xmap', maxZoom: 22
+            })
+        });
+
+		var rasterfg = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                urls: [
+                    'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=' + token,
+                    'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=' + token,
+                    'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=' + token,
+                    'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=' + token
+                ],
+                layer: 'fg', maxZoom: 22
+            })
+        });
+
+		// lux
+        var c = ol.proj.transform([6.130833, 49.611389], 'EPSG:4326', 'EPSG:3857');
+
+		var map = new ol.Map({
+        layers: [
+          raster,
+          new ol.layer.Image({
+            source: new ol.source.ImageVector({
+              source: new ol.source.Vector({
+                url: './data/postcode-topo.json',
+                format: new ol.format.TopoJSON()
+              }),
+              style: new ol.style.Style({	
+                fill: new ol.style.Fill({
+                  color: 'rgba(255, 255, 255, 0.6)'
+                }),
+                stroke: new ol.style.Stroke({
+                  color: '#319FD3',
+                  width: 1
+                })
+              })
+            })
+          }),
+		  rasterfg
+        ],
+        target: 'map',
+        view: new ol.View({
+          center: c,
+          zoom: 12
+        })
+      });
+
+      var featureOverlay = new ol.layer.Vector({
+        source: new ol.source.Vector(),
+        map: map,
+        style: new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: '#f00',
+            width: 1
+          }),
+          fill: new ol.style.Fill({
+            color: 'rgba(255,0,0,0.1)'
+          })
+        })
+      });
+
+      var highlight;
+      var displayFeatureInfo = function(pixel) {
+
+        var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
+          return feature;
+        });
+
+        var info = document.getElementById('info');
+        if (feature) {
+          info.innerHTML = /* feature.getId() + */ feature.get('id');
+        } else {
+          info.innerHTML = '&nbsp;';
+        }
+
+        if (feature !== highlight) {
+          if (highlight) {
+            featureOverlay.getSource().removeFeature(highlight);
+          }
+          if (feature) {
+            featureOverlay.getSource().addFeature(feature);
+          }
+          highlight = feature;
+        }
+
+      };
+
+	  // hit-testing is too slow for mouse-move
+      map.on('ffpointermove', function(evt) {
+        if (evt.dragging) {
+          return;
+        }
+        var pixel = map.getEventPixel(evt.originalEvent);
+        displayFeatureInfo(pixel);
+      });
+
+      map.on('click', function(evt) {
+        displayFeatureInfo(evt.pixel);
+      });
+    </script>
+  </body>
+</html>

@@ -12,7 +12,7 @@
     <title>Example page for xMap2 @Cesium</title>
 
     <!-- For debugging client-side code, use the "Unminified" Cesium.js.  -->
-    <script src="https://cesiumjs.org/releases/1.29/Cesium.js"></script>
+    <script src="https://cesiumjs.org/releases/1.30/Cesium.js"></script>
     <!--  <script src="http://cesiumjs.org/releases/1.22.1/Unminified/Cesium.js"></script> -->
     <script src="../../token.js"></script>
     <link rel="stylesheet" href="https://cesiumjs.org/releases/1.29/Widgets/widgets.css" />
@@ -79,38 +79,14 @@
             geocoder: false
         });
 
-        viewer.scene.fog.enabled = false;
-
-        var promise = Cesium.GeoJsonDataSource.load('./data/districts-de-topo.json');
-        promise.then(function(dataSource) {
-            viewer.dataSources.add(dataSource);
-
-            //Get the array of entities
-            var entities = dataSource.entities.values;
-
-            for (var i = 0; i < entities.length; i++) {
-                //For each entity, create a random color based on the state name.
-                //Some states have multiple entities, so we store the color in a
-                //hash so that we use the same color for the entire state.
-                var entity = entities[i];
-
-                var color = Cesium.Color.fromHsl(0.4 - 0.4 * Math.pow(entity.properties.popdens / 4000.0, 0.25), 1.0, 0.5);
-
-                //Set the polygon material to our color.
-                entity.polygon.material = color;
-                //Remove the outlines.
-                entity.polygon.outline = false;
-
-                entity.polygon.opacity = 0.2;
-
-                //Extrude the polygon based on the state's population.  Each entity
-                //stores the properties for the GeoJSON feature it was created from
-                //Since the population is a huge number, we divide by 50.
-                entity.polygon.extrudedHeight = Math.sqrt(entity.properties.pop * 1000.0);
-            }
-        });
+		viewer.dataSources.add(Cesium.GeoJsonDataSource.load('./data/postcode-topo.json', {
+			stroke: Cesium.Color.CYAN,
+			fill: Cesium.Color.WHITE.withAlpha(0.6),
+			strokeWidth: 3
+		}));
+	
         //Set the camera to a US centered tilted view and switch back to moving in world coordinates.
-        viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(10.0, 50.0), new Cesium.Cartesian3(0.0, -479000.0, 393000.0));
+        viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(6.130833, 49.611389), new Cesium.Cartesian3(0.0, -479000.0, 393000.0));
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 
         function terrainChanged(element) {
