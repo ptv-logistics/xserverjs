@@ -129,15 +129,15 @@ function latFormatter(num) {
     };
 
 
-     proto = L.CircleMarker.prototype;
+     var xproto = L.CircleMarker.prototype;
 
     // https://github.com/Leaflet/Leaflet/issues/1886
     // Workaround: https://github.com/mapbox/mapbox.js/issues/470
-     prev = proto._containsPoint;
+     var xprev = xproto._containsPoint;
 
-    proto._containsPoint = function (pp) {
+    xproto._containsPoint = function (pp) {
         if(!this.options.renderFast) {
-            return prev.call(this, layer);        
+            return xprev.call(this, pp);        
         }
 
        var p = L.point(this._point.x, this._point.y),
