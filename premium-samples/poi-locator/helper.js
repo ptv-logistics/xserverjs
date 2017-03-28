@@ -85,7 +85,7 @@ function latFormatter(num) {
 
         if (!this._drawing || layer._empty()) { return; }
 
-        var p = layer._point,
+        var p = {x: layer._point.x, y:layer._point.y},
             ctx = this._ctx,
             r = layer._radius,
             s = (layer._radiusY || r) / r;
@@ -103,19 +103,53 @@ function latFormatter(num) {
             ctx.restore();
         }
 
+        var zoomScale;
+        var scale = Math.pow(this._map.getZoom(), 1.75) * 256 / Math.PI / 6371000;
+        var rscale = scale * 1000;
+        r = r*rscale;
+        p.y = p.y - 2*r;
+
         var options = layer.options;
 
-        if (options.stroke && options.weight !== 0) {
-            ctx.arc(p.x, p.y / s, r + options.weight, 0, Math.PI * 2, false);
-            ctx.fillStyle = options.color;
-            ctx.fill(options.fillRule || 'evenodd');
-        }
+        // if (options.stroke && options.weight !== 0) {
+        //     ctx.arc(p.x, p.y / s, r + options.weight, 0, Math.PI * 2, false);
+        //     ctx.fillStyle = options.color;
+        //     ctx.fill(options.fillRule || 'evenodd');
+        // }
 
         if (options.fill) {
+            var grd=ctx.createRadialGradient(p.x-r, p.y-r, 0, p.x, p.y, 2*r);
+            grd.addColorStop(0,options.fillColor);
+            grd.addColorStop(1,  options.color);
             ctx.beginPath();
-            ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
-            ctx.fillStyle = options.fillColor || options.color;
+            ctx.fillStyle=grd;
+            ctx.arc(p.x, p.y / s, 2*r, 0, Math.PI * 2, false);
             ctx.fill(options.fillRule || 'evenodd');
         }
+    };
+
+
+     proto = L.CircleMarker.prototype;
+
+    // https://github.com/Leaflet/Leaflet/issues/1886
+    // Workaround: https://github.com/mapbox/mapbox.js/issues/470
+     prev = proto._containsPoint;
+
+    proto._containsPoint = function (pp) {
+        if(!this.options.renderFast) {
+            return prev.call(this, layer);        
+        }
+
+       var p = L.point(this._point.x, this._point.y),
+            r = this._radius,
+            s = (this._radiusY || r) / r;
+
+        var zoomScale;
+        var scale = Math.pow(this._map.getZoom(), 1.75) * 256 / Math.PI / 6371000;
+        var rscale = scale * 1000;
+        r = r*rscale;
+        p.y = p.y - 2*r;
+
+        return p.distanceTo(pp) <= r + this._clickTolerance();
     };
 })();
