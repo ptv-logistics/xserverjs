@@ -1,6 +1,6 @@
 ### Basic Setups for Map Widgets
 
-xserverjs also supports templates to add an xMapServer-1 map to JavaScript widgets.
+This section contains templates to add an xMapServer-1 map to JavaScript widgets.
 
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
