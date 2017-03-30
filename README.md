@@ -18,7 +18,7 @@ Go to https://ptv-logistics.github.io/xserverjs/
 * Templates
   * [Basic map integration for xMap-2](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/)
   * [Basic map integration for xMap-1](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/)
-  * [xMap-2 clickable tiles](https://github.com/ptv-logistics/xserverjs/tree/master/leaflet-xserver/)
+  * [leaflet-xserver](https://github.com/ptv-logistics/leaflet-xserver)
 * Premium Samples
   * [premium sample lrm-xserver](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/lrm-xserver/)
   * [premium sample poi-locator](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/poi-locator/)
