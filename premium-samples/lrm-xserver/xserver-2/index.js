@@ -89,7 +89,7 @@ var getXMapBaseLayers = function (style) {
             subdomains: '1234'
         });
 
-    var fg = L.tileLayer.clickableTiles('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels{vl1}{vl2}{vl3}&contentType=JSON' +
+    var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels{vl1}{vl2}{vl3}&contentType=JSON' +
         '&xtok={token}', 
          {
             profile: style,
