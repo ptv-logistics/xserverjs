@@ -23,9 +23,11 @@ L.Routing.Ptv = L.Class.extend({
 			type: 'POST',
 			data: JSON.stringify(request),
 
-			headers: function() {
-				var h = {'Content-Type': 'application/json'}; 
-				if(token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+			headers: function () {
+				var h = {
+					'Content-Type': 'application/json'
+				};
+				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
 				return h;
 			}(),
 
@@ -50,7 +52,7 @@ L.Routing.Ptv = L.Class.extend({
 			responses = currentResponses;
 		}
 
-		var request = this._buildRouteRequest(waypoints, options, responses);
+		var request = this._buildRouteRequest(waypoints, options, responses)
 
 		var geometryOnly = options && options.geometryOnly;
 
@@ -68,10 +70,10 @@ L.Routing.Ptv = L.Class.extend({
 			}, this),
 
 			function (xhr) {
-					callback.call(context || callback, {
-						status: xhr.status,
-						message: xhr.responseJSON? xhr.responseJSON.errorMessage : xhr.responseText
-					});
+				callback.call(context || callback, {
+					status: xhr.status,
+					message: xhr.responseJSON ? xhr.responseJSON.errorMessage : xhr.responseText
+				});
 			}
 		);
 	},
@@ -92,12 +94,12 @@ L.Routing.Ptv = L.Class.extend({
 				waypointIndices: this._buildWaypointIndices(response.stations)
 			});
 		}
-		
+
 		callback.call(context, null, alts);
-		
-		if (typeof this.options.routesCalculated === "function") {
-            this.options.routesCalculated(alts, responses);
-        }	
+
+		if (typeof this.options.routesCalculated === 'function') {
+			this.options.routesCalculated(alts, responses);
+		}
 	},
 
 	_buildWaypointIndices: function (stations) {
@@ -112,7 +114,8 @@ L.Routing.Ptv = L.Class.extend({
 			return '';
 		}
 
-		switch (manoeuvre.manoeuvreType) {
+		switch (manoeuvre.manoeuvreType) 
+		{
 			case 'UTURN':
 				return 'TurnAround';
 			case 'ENTER_RA':
@@ -152,7 +155,7 @@ L.Routing.Ptv = L.Class.extend({
 		}
 	},
 
-	_bulidInstructions: function(manoeuvres, segments, stations) {
+	_bulidInstructions: function (manoeuvres, segments, stations) {
 		var instructions = [];
 
 		if (!manoeuvres) {
@@ -162,13 +165,13 @@ L.Routing.Ptv = L.Class.extend({
 		for (var i = 0; i < manoeuvres.length; i++) {
 			var manoeuvre = manoeuvres[i];
 			instructions.push({
-			    distance: segments[manoeuvre.routeListSegmentIdx].accDist,
-			    exit: undefined,
-			    index: segments[manoeuvre.routeListSegmentIdx].firstPolyIdx,
-			    time: segments[manoeuvre.routeListSegmentIdx].accTime,
-			    type: this._drivingDirectionType(manoeuvre),
+				distance: segments[manoeuvre.routeListSegmentIdx].accDist,
+				exit: undefined,
+				index: segments[manoeuvre.routeListSegmentIdx].firstPolyIdx,
+				time: segments[manoeuvre.routeListSegmentIdx].accTime,
+				type: this._drivingDirectionType(manoeuvre),
 				modifier: this._drivingDirectionType(manoeuvre),
-			    text: manoeuvre.manoeuvreDesc
+				text: manoeuvre.manoeuvreDesc
 			});
 		}
 
@@ -221,8 +224,7 @@ L.Routing.Ptv = L.Class.extend({
 		var exceptionPaths = [];
 		if (currentResponses) {
 			for (var i = 0; i < currentResponses.length; i++) {
-				exceptionPaths.push(
-				{
+				exceptionPaths.push({
 					binaryPathDesc: currentResponses[i].binaryPathDesc,
 					relMalus: 1000
 				});
@@ -258,11 +260,10 @@ L.Routing.Ptv = L.Class.extend({
 				segments: !geometryOnly
 			},
 			callerContext: {
-				properties: [
-				  {
-					  key: 'CoordFormat',
-					  value: 'OG_GEODECIMAL'
-				  }]
+				properties: [{
+					key: 'CoordFormat',
+					value: 'OG_GEODECIMAL'
+				}]
 			}
 		};
 
