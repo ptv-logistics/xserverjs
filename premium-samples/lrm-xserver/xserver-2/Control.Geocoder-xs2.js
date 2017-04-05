@@ -13,8 +13,8 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 	runRequest: function (url, request, token, handleSuccess, handleError) {
 		$.ajax({
 			url: url + encodeURIComponent(request.address) + '?xtok=' + token,
-			type: 'GET'
-			,
+			type: 'GET',
+
 			success: function (data, status, xhr) {
 				handleSuccess(data);
 			},
@@ -66,11 +66,9 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 
 		if (!street) {
 			return city;
-		}
-		else if (!city) {
+		} else if (!city) {
 			return street;
-		}
-		else {
+		} else {
 			return street + ', ' + city;
 		}
 	},

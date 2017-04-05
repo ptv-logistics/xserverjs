@@ -92,11 +92,11 @@ L.Routing.Ptv = L.Class.extend({
 		var wpCoords = [];
 		for (i = 0; i < waypoints.length; i++) {
 			wpCoords.push({
-				"$type": "OffRoadWaypoint",
-				"location": {
-					"offRoadCoordinate": {
-						"x": waypoints[i].latLng.lng,
-						"y": waypoints[i].latLng.lat
+				'$type': 'OffRoadWaypoint',
+				'location': {
+					'offRoadCoordinate': {
+						'x': waypoints[i].latLng.lng,
+						'y': waypoints[i].latLng.lat
 					}
 				}
 			});
@@ -107,9 +107,9 @@ L.Routing.Ptv = L.Class.extend({
 		var numAlts = geometryOnly ? 0 : this.options.numberOfAlternatives;
 
 		var request = {
-			"waypoints": wpCoords,
-			"resultFields": {
-				"polyline": "true"
+			'waypoints': wpCoords,
+			'resultFields': {
+				'polyline': 'true'
 			}
 		};
 
