@@ -43,11 +43,9 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 
 		if (!street) {
 			return city;
-		}
-		else if (!city) {
+		} else if (!city) {
 			return street;
-		}
-		else {
+		} else {
 			return street + ', ' + city;
 		}
 	},
@@ -62,15 +60,15 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			sorting: [],
 			additionalFields: [],
 			callerContext: {
-				properties: [
-				{
-					  key: 'CoordFormat',
-					  value: 'OG_GEODECIMAL'
-				},
-				{
-					  key: 'Profile',
-					  value: 'default'
-				}]
+				properties: [{
+						key: 'CoordFormat',
+						value: 'OG_GEODECIMAL'
+					},
+					{
+						key: 'Profile',
+						value: 'default'
+					}
+				]
 			}
 		};
 
@@ -111,15 +109,15 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			sorting: [],
 			additionalFields: [],
 			callerContext: {
-				properties: [
-				{
-					key: 'CoordFormat',
-					value: 'OG_GEODECIMAL'
-				},
-				{
-					key: 'Profile',
-					value: 'default'
-				}]
+				properties: [{
+						key: 'CoordFormat',
+						value: 'OG_GEODECIMAL'
+					},
+					{
+						key: 'Profile',
+						value: 'default'
+					}
+				]
 			}
 		};
 
