@@ -7,6 +7,7 @@ var searchForReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/r
 
 var searchLocation;
 var isoFeature;
+var highlightedPois = [];
 var isBusy = false;
 var marker;
 var circle;
