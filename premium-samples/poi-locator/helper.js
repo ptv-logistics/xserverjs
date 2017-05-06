@@ -19,42 +19,13 @@ function replaceAll(find, replace, str) {
 }
 
 // runRequest executes a json request on PTV xServer internet,
-// given the url endpoint, the token and th e callbacks to be called
-// upon completion. The error callback is parameterless, the success
-// callback is called with the object returned by the server.
-function runRequest(url, request, token, handleSuccess, handleError) {
-	$.ajax({
-		url: url,
-		type: 'POST',
-		data: JSON.stringify(request),
-
-		headers: {
-			'Authorization': 'Basic ' + btoa('xtok:' + token),
-			'Content-Type': 'application/json'
-		},
-
-		success: function (data, status, xhr) {
-			handleSuccess(data);
-		},
-
-		error: function (xhr, status, error) {
-			handleError(xhr);
-		}
-	});
-}
-
-function runGetRequest(url, input, token, handleSuccess, handleError) {
-	$.ajax({
-		url: url + '/' + encodeURIComponent(input) + (token ? '?xtok=' + token : ''),
-
-		success: function (data, status, xhr) {
-			handleSuccess(data);
-		},
-
-		error: function (xhr, status, error) {
-			handleError(xhr);
-		}
-	});
+// given the url endpoint, the token and the callback to be called
+// upon completion. 
+function runRequest(url, request, token, handleSuccess) {
+	d3.request(url)
+		.header('Authorization', 'Basic ' + btoa('xtok:' + token))
+		.header('Content-Type', 'application/json')
+		.post(JSON.stringify(request), handleSuccess);
 }
 
 function lngFormatter(num) {
@@ -69,6 +40,7 @@ function latFormatter(num) {
 	return formatted;
 }
 
+// override Leaflet implementation for fast symbol rendering
 (function () {
 	'use strict';
 

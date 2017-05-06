@@ -49,7 +49,7 @@ info.onAdd = function (map) {
 	var geolocateCmd = 'if(!isBusy)findByGeolocation();';
 	var fulltextSearchCmd = 'if(!isBusy)findFulltext(document.getElementById(\'f2\').value);';
 	var html =
-		'<form id="myForm">' +
+		'<form><fieldset id="myFieldSet">' +
 		'<div>Click map or find nearby address</div>' +
 		'</div><div>' +
 		'<input type="text" id="f1" value="Karlsruhe, Haid-und-Neu-Straße 15">' +
@@ -74,7 +74,7 @@ info.onAdd = function (map) {
 		'<div>' +
 		'<input type="text" id="f2" value="OBI">' +
 		'<input type="button" value="Find" onClick="' + fulltextSearchCmd + '">' +
-		'</div>' + '</form>';
+		'</div>' + '</fieldset></form>';
 	container.innerHTML = html;
 
 	L.DomEvent.disableClickPropagation(container);
@@ -84,13 +84,14 @@ info.addTo(map);
 
 setBusy(true);
 
-$.getJSON('./inobas.json', initialize);
+// $.getJSON('./inobas.json', initialize);
+d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initialize);
 
 function initialize(pd) {
 	// store our data
 	poiData = pd;
 
-	// tip: sort the features by latitued, so they overlap nicely on the map!
+	// tip: sort the features by latitue, so they overlap nicely on the map!
 	// poiData.features.sort(function (a, b) {
 	//  return b.geometry.coordinates[1] - a.geometry.coordinates[1];
 	// });
@@ -118,10 +119,9 @@ function initialize(pd) {
 }
 
 function setBusy(busy) {
-
 	isBusy = busy;
 
-	$('#myForm :input').prop('disabled', busy);
+	document.getElementById('myFieldSet').disabled = busy; 
 }
 
 function findNearestObjects(keepCircle) {
@@ -182,18 +182,16 @@ function findFulltext(name) {
 function findByAddress(adr) {
 	setBusy(true);
 
-	runGetRequest(
-		findAddressUrl,
-		'D ' + adr, // use Germany as fixed country
-		token,
-		function (response) {
+	d3.json(findAddressUrl + '/' + encodeURIComponent(adr) + (token ? '?xtok=' + token : ''),
+		function (error, response) {
+			setBusy(false);
+		
+			if(error) {
+				throw error;
+			}
 			var firstResult = response.results[0].location;
 			searchLocation = new L.LatLng(firstResult.referenceCoordinate.y, firstResult.referenceCoordinate.x);
 			findNearestObjects();
-		},
-		function (xhr) {
-			alert(xhr.responseJSON.errorMessage);
-			setBusy(false);
 		});
 }
 
@@ -266,7 +264,12 @@ function findByIso(latlng, hor) {
 		isoUrl,
 		request,
 		token,
-		function (response) {
+		function (error, response) {
+			setBusy(false);
+			if(error)
+				throw (error);
+
+			response = JSON.parse(response.responseText);
 			var x = isoToPoly(response.isochrones[0].polys.wkt);
 
 			var feature = {
@@ -303,13 +306,8 @@ function findByIso(latlng, hor) {
 			}
 
 			map.fitBounds(isoFeature.getBounds());
-
-			setBusy(false);
-		},
-		function (xhr) {
-			alert(xhr.responseJSON.errorMessage);
-			setBusy(false);
-		});
+		}
+	);
 }
 
 function filterByAirline(latlng, hor) {
@@ -399,8 +397,14 @@ function findByReachableObjects(latlng, hor) {
 		searchForReachableObjectsUrl,
 		request,
 		token,
-		function (response) {
+		function (error, response) {
 			setBusy(false);
+			if(error) {
+				setBounds([], latlng);			
+				throw error;	
+			}
+
+			response = JSON.parse(response.responseText);
 			for (var i = 0; i < response.reachInfo.length; i++) {
 				if (response.reachInfo[i].reachable) {
 					highlightPoi(candidates[i].data, 'marker-green', response.reachInfo[i].routeInfo.distance + 'm', true);
@@ -408,11 +412,6 @@ function findByReachableObjects(latlng, hor) {
 			}
 
 			setBounds(highlightedPois, latlng);
-		},
-		function (xhr) {
-			alert(xhr.responseJSON.errorMessage);
-			setBounds([], latlng);
-			setBusy(false);
 		});
 }
 
