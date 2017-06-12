@@ -11,38 +11,40 @@
   <meta name="author" content="PTV Group">
 
 
-<!-- Schema.org markup for Google+ -->
-<meta itemprop="name" content="xServer.js">
-<meta itemprop="description" content="JavaScript Samples for PTV xServer">
-<meta itemprop="image" content="./images/thumbnail.png">
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="xServer.js">
+  <meta itemprop="description" content="JavaScript Samples for PTV xServer">
+  <meta itemprop="image" content="./images/thumbnail.png">
 
 
-<!-- Open Graph data -->
-<meta property="og:title" content="xServer.js" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ptv-logistics.github.io/xserverjs/" />
-<meta property="og:image" content="./images/thumbnail.png" />
-<meta property="og:description" content="JavaScript Samples for PTV xServer" />
+  <!-- Open Graph data -->
+  <meta property="og:title" content="xServer.js" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://ptv-logistics.github.io/xserverjs/" />
+  <meta property="og:image" content="./images/thumbnail.png" />
+  <meta property="og:description" content="JavaScript Samples for PTV xServer" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/custom.css">
-  <link rel="stylesheet" href="css/ajaxtabs.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+  <link rel="stylesheet" href="css/marketing.css">
+  <!--[if lt IE 9]>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+    <![endif]-->
 
-  <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/ajaxtabs.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -56,168 +58,182 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <div style="z-index:10000" id="map" class="section hero">
-<div style="z-index:10000" class="container">
-<div class="row">
-  <div class="four columns">
-    <h4 class="hero-heading">xserver.js: JavaScript Samples for PTV xServer</h4>
-    <a class="button button-primary" href="https://github.com/ptv-logistics/xserverjs">Fork me on GitHub</a>
-  </div>
-  <div class="eight columns phones">
-    <img class="phone" src="images/PTV_Group_Vision_EN_4C.png">
-  </div>
-</div>
-</div>
-</div>
+  <div class="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+      <a class="pure-menu-heading" href="">xserver.js</a>
 
-<div class="section">
-  <div class="container">
-    <h3 class="section-heading">Use PTV xServer with your favourite map widgets</h3>
-    <p class="section-description">The xMapServer tile api lets you add an xServer map to virtually every existing map widget. Templates for the most common
-      widgets show how to initialize them for optimal performance on both cloud and on-premise.
-      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/">Read here for more.</a>
-    </p>
-    <div class="row">
-      <div class="one-half column">
-        <h5 class="section-heading">Leaflet</h5>
-        <iframe height="300" width="100%" src="./boilerplate/Leaflet.1.0.html" allowfullscreen></iframe>
-      </div>
-      <div class="one-half column">
-        <h5 class="section-heading">Cesium</h5>
-        <iframe height="300" width="100%" src="./boilerplate/cesium.html" allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="row">
-      <div class="one-half column">
-        <h5 class="section-heading">OpenLayers v2</h5>
-        <iframe height="300" width="100%" src="./boilerplate/OpenLayers2.html" allowfullscreen></iframe>
-      </div>
-      <div class="one-half column">
-        <h5 class="section-heading">OpenLayers v3</h5>
-        <iframe height="300" width="100%" src="./boilerplate/OpenLayers3.html" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="container">
-    <h3 class="section-heading">leaflet-xserver</h3>
-    <p class="section-description">leaflet-xserver is an extension for Leaflet to display extended Map content. Specific layer classes let you add styleable
-      and clickable Feature-Layers. leaflet-xserver is available as <a href="https://www.npmjs.com/package/leaflet-xserver">npm package</a>
-      and via <a href="https://unpkg.com/leaflet-xserver">unpkg cdn</a>.
-    </p>
-    <div class="row">
-      <iframe height="450" width="100%" src="./boilerplate/Leaflet-Clickable-Layered.1.0.html" allowfullscreen></iframe>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <h3 class="section-heading">Premium code samples</h3>
-  <p class="section-description">Take one of our pre-fabricated reference implementations to jump-start your application.</p>
-  <div class="container">
-    <h5 class="section-heading">Leaflet-Routing-Machine</h5>
-    <p class="section-description">Build an interactive route planner with xMap-, xRoute- and xLocate-server.
-      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/lrm-xserver/">Read here for more.</a>
-    </p>
-    <div class="row">
-      <ul id="lrmtabs" class="shadetabs">
-        <li><a href="./premium-samples/lrm-xserver/xserver-1/index.html"  class="selected" rel="#iframe">xServer-1</a></li>
-        <li><a href="./premium-samples/lrm-xserver/xserver-2/index.html" rel="#iframe">xServer-2</a></li>
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
+        <li class="pure-menu-item"><a href="#boilerplate" class="pure-menu-link">Widgets</a></li>
+        <li class="pure-menu-item"><a href="#leaflet-xserver" class="pure-menu-link">leaflet-xserver</a></li>
+        <li class="pure-menu-item"><a href="#premium-samples" class="pure-menu-link">Premium Samples</a></li>
       </ul>
-      <div id="lrmdivcontainer" style="border:1px solid gray; width:100%; height:500px; margin-bottom: 1em; padding: 1px"></div>
-    </div>
-
-  </div>
-</div>
-
-<div class="section">
-  <div class="container">
-    <h5 class="section-heading">POI Locator</h5>
-    <p class="section-description">Display and search your locations with PTV xServer.
-      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/">Read here for more.</a>
-    </p>
-    <div class="row">
-      <iframe height="500" width="100%" src="./premium-samples/poi-locator/index.html" allowfullscreen></iframe>
     </div>
   </div>
-</div>
 
-<div class="section">
-  <div class="container">
-    <h5 class="section-heading">Administrative Regions</h5>
-    <p class="section-description">Add new data and functions to the map.
-      <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/">Read here for more.</a>
-    </p>
-    <div class="row">
-      <ul id="countrytabs" class="shadetabs">
-        <li><a href="./premium-samples/admin-regions/index.html"  class="selected" rel="#iframe">GeoJSON</a></li>
-        <li><a href="./premium-samples/admin-regions/admin-regions-merge.html" rel="#iframe">TopoJSON</a></li>
-        <!--<li><a href="./premium-samples/admin-regions/admin-3d-choropleth.html" rel="#iframe">3D-Choropleth</a></li>-->
-      </ul>
-      <div id="countrydivcontainer" style="border:1px solid gray; width:100%; height:500px; margin-bottom: 1em; padding: 1px"></div>
+  <div class="splash-container" id="map">
+    <div class="splash" style="z-index:10000">
+      <div class="pure-g">
+        <div class="l-box pure-u-1 pure-u-sm-1-2">
+          <h1 class="splash-head">xserver.js</h1>
+          <p class="splash-subhead">
+            JavaScript Samples for PTV xServer
+          </p>
+          <a class="pure-button pure-button-primary" href="https://github.com/ptv-logistics/xserverjs">Fork me on GitHub</a>
+        </div>
+        <div class="l-box pure-u-1 pure-u-sm-1-2">
+          <img class="pure-img-responsive" src="images/PTV_Group_Vision_EN_4C.png">
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet-src.js"></script>
-<script src="./css/ajaxtabs.js"></script>
-<script src="token.js"></script>
-<script>
-var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
-countries.setpersist(false)
-countries.setselectedClassTarget("link") //"link" or "linkparent"
-countries.init()
-
-var lrm=new ddajaxtabs("lrmtabs", "lrmdivcontainer")
-lrm.setpersist(false)
-lrm.setselectedClassTarget("link") //"link" or "linkparent"
-lrm.init()
 
 
-  var map = L.map('map', {
-    zoomControl: false,
-    attributionControl: false
-  }
-  ).setView([0, 0], 3);
+   <div class="content-wrapper">
+    <div id="boilerplate" class="content">
+      <h2 class="content-head is-center">Use PTV xServer with your favourite map widgets</h2>
+      <p class="content">The xMapServer tile api lets you add an xServer map to virtually every existing map widget. Templates for the most
+        common widgets show how to initialize them for optimal performe on both cloud and on-premise.
+        <a href="https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/">Read here for more.</a>
+      </p>
+      <div class="pure-g">
+        <div class="l-box pure-u-1 pure-u-md-1-2">
+          <h3 class="content-subhead is-center">Leaflet</h3>
+          <iframe height="300" width="100%" src="./boilerplate/Leaflet.1.0.html" allowfullscreen></iframe>
+        </div>
+        <div class="l-box pure-u-1 pure-u-md-1-2">
+          <h3 class="content-subhead is-center">Cesium</h3>
+          <iframe height="300" width="100%" src="./boilerplate/cesium.html" allowfullscreen></iframe>
+        </div>
+        <div class="l-box pure-u-1 pure-u-md-1-2">
+          <h3 class="content-subhead is-center">OpenLayers v2</h3>
+          <iframe height="300" width="100%" src="./boilerplate/OpenLayers2.html" allowfullscreen></iframe>
+        </div>
+        <div class="l-box pure-u-1 pure-u-md-1-2">
+          <h3 class="content-subhead is-center">OpenLayers v3</h3>
+          <iframe height="300" width="100%" src="./boilerplate/OpenLayers3.html" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
 
-  L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' + token, {
-      subdomains: '1234'
-    }).addTo(map);
+    <div id="leaflet-xserver" class="content">
+      <h2 class="content-head is-center">leaflet-xserver</h2>
+      <p class="content">leaflet-xserver is an extension for Leaflet to display extended Map content. Specific layer classes let you add styleable
+        and clickable Feature-Layers. leaflet-xserver is available as <a href="https://www.npmjs.com/package/leaflet-xserver">npm package</a>        and via <a href="https://unpkg.com/leaflet-xserver">unpkg cdn</a>.
+      </p>
+      <div class="l-box">
+        <iframe height="450" width="100%" src="./boilerplate/Leaflet-Clickable-Layered.1.0.html" allowfullscreen></iframe>
+      </div>
+    </div>
 
-  map._handlers.forEach(function (handler) {
-    handler.disable();
-  })  
+    <div id="premium-samples" class="content">
+      <h2 class="content-head is-center">Premium code samples</h2>
+      <p class="content">Take one of our pre-fabricated reference implementations to jump-start your application.
+      </p>
+      <div class="content">
+        <h3 class="content-head is-center">Leaflet-Routing-Machine</h3>
+        <p class="content">Build an interactive route planner with xMap-, xRoute- and xLocate-server.
+          <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/lrm-xserver/">Read here for more.</a>
+        </p>
+        <div class="l-box">
+          <ul id="lrmtabs" class="shadetabs">
+            <li><a href="./premium-samples/lrm-xserver/xserver-1/index.html" class="selected" rel="#iframe">xServer-1</a></li>
+            <li><a href="./premium-samples/lrm-xserver/xserver-2/index.html" rel="#iframe">xServer-2</a></li>
+          </ul>
+          <div id="lrmdivcontainer" style="height:500px"></div>
+        </div>
+      </div>
 
-  var filter = "brightness(105%) grayscale(75%) blur(7px)";
-  map.getPanes().tilePane.style.webkitFilter = filter;
-  map.getPanes().tilePane.style.filter = filter;
+      <div class="content">
+        <h3 class="content-head is-center">POI Locator</h3>
+        <p class="content">Display and search your locations with PTV xServer.
+          <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/">Read here for more.</a>
+        </p>
+        <div class="l-box">
+          <iframe height="500" width="100%" src="./premium-samples/poi-locator/index.html" allowfullscreen></iframe>
+        </div>
+      </div>
 
-  var positions = [
-    [49.01405, 8.4044, 16, 45], // KA
-    [48.856667, 2.351667, 12, 25], // Paris
-    [51.50939, -0.11832, 12, 15], // Lonodn
-    // [40.712778, -74.005833, 15, 25], // NY
-    // [-35.3075, 149.124417, 14, 35] // Canberra
-  ]; 
+      <div class="content">
+        <h3 class="content-head is-center">Administrative Regions</h3>
+        <p class="content">Add new data and functions to the map.
+          <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/">Read here for more.</a>
+        </p>
+        <div class="l-box">
+          <ul id="countrytabs" class="shadetabs">
+            <li><a href="./premium-samples/admin-regions/index.html" class="selected" rel="#iframe">GeoJSON</a></li>
+            <li><a href="./premium-samples/admin-regions/admin-regions-merge.html" rel="#iframe">TopoJSON</a></li>
+            <!--<li><a href="./premium-samples/admin-regions/admin-3d-choropleth.html" rel="#iframe">3D-Choropleth</a></li>-->
+          </ul>
+          <div id="countrydivcontainer" style="border:1px solid gray; width:100%; height:500px; margin-bottom: 3em; padding: 1px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer l-box is-center darklink">
+      Samples powered by <a href="https://xserver.ptvgroup.com/en-uk/products/ptv-xserver-internet/">PTV xServer internet</a>
+    </div>
 
-  var i = 0;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet-src.js"></script>
+    <script src="./css/ajaxtabs.js"></script>
+    <script src="token.js"></script>
+    <script>
+      var countries = new ddajaxtabs("countrytabs", "countrydivcontainer")
+      countries.setpersist(false)
+      countries.setselectedClassTarget("link") //"link" or "linkparent"
+      countries.init()
 
-  window.setTimeout(function () {
-    var p = positions[i];
-    map.flyTo([p[0], p[1]], p[2], { duration: p[3] });
+      var lrm = new ddajaxtabs("lrmtabs", "lrmdivcontainer")
+      lrm.setpersist(false)
+      lrm.setselectedClassTarget("link") //"link" or "linkparent"
+      lrm.init()
 
-    map.on('moveend', function (e) {
-      this.i = ++this.i % positions.length;
-      p = positions[i];
 
-      map.flyTo([p[0], p[1]], p[2], { duration: p[3] });
-    }, this);
-  }, 4000);
+      var map = L.map('map', {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([0, 0], 3);
 
-</script>
-<!-- End Document
+      L.tileLayer(
+        'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=background,transport&xtok=' +
+        token, {
+          subdomains: '1234'
+        }).addTo(map);
+
+      map._handlers.forEach(function (handler) {
+        handler.disable();
+      })
+
+      var filter = "brightness(105%) grayscale(75%) blur(7px)";
+      map.getPanes().tilePane.style.webkitFilter = filter;
+      map.getPanes().tilePane.style.filter = filter;
+
+      var positions = [
+        [49.01405, 8.4044, 16, 45], // KA
+        [48.856667, 2.351667, 12, 25], // Paris
+        [51.50939, -0.11832, 12, 15], // Lonodn
+        // [40.712778, -74.005833, 15, 25], // NY
+        // [-35.3075, 149.124417, 14, 35] // Canberra
+      ];
+
+      var i = 0;
+
+      window.setTimeout(function () {
+        var p = positions[i];
+        map.flyTo([p[0], p[1]], p[2], {
+          duration: p[3]
+        });
+
+        map.on('moveend', function (e) {
+          this.i = ++this.i % positions.length;
+          p = positions[i];
+
+          map.flyTo([p[0], p[1]], p[2], {
+            duration: p[3]
+          });
+        }, this);
+      }, 2000);
+    </script>
+    <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 

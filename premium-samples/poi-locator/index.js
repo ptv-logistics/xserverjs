@@ -44,42 +44,14 @@ map.on('click', onMapClick);
 // add input control
 var info = L.control();
 info.onAdd = function (map) {
-	var container = L.DomUtil.create('div', 'info leaflet-bar leaflet-control leaflet-control-custom');
-	var geocodeCmd = 'if(!isBusy)findByAddress(document.getElementById(\'f1\').value);';
-	var geolocateCmd = 'if(!isBusy)findByGeolocation();';
-	var fulltextSearchCmd = 'if(!isBusy)findFulltext(document.getElementById(\'f2\').value);';
-	var html =
-		'<form><fieldset id="myFieldSet">' +
-		'<div>Click map or find nearby address</div>' +
-		'</div><div>' +
-		'<input type="text" id="f1" value="Karlsruhe, Haid-und-Neu-Straße 15">' +
-		'<input type="button" align="right" value="Geocode" onClick="' + geocodeCmd + '">' +
-		'</div>' +
-		'<div>Or find by geo-location' +
-		'<input type="button" align="right" value="Geolocate" onClick="' + geolocateCmd + '">' +
-		'</div>' +
-		'<div>Search method</div>' +
-		'<div>' +
-		'<input type="radio" name="searchmethod" checked="true" onclick="setSearchMethod(0);">airline' +
-		'<input type="radio" name="searchmethod" onclick="setSearchMethod(1);">route' +
-		'<input type="radio" name="searchmethod" onclick="setSearchMethod(2);">isochrone' +
-		'</div>' +
-		'<div>Horizon</div>' +
-		'<div>' +
-		'<input type="radio" name="horizon" checked="true" onclick="setHorizon(1200);">20 min' +
-		'<input type="radio" name="horizon" onclick="setHorizon(2400);">40 min' +
-		'<input type="radio" name="horizon" onclick="setHorizon(3600);">60 min' +
-		'</div>' +
-		'<div>Or find stores by name</div>' +
-		'<div>' +
-		'<input type="text" id="f2" value="OBI">' +
-		'<input type="button" value="Find" onClick="' + fulltextSearchCmd + '">' +
-		'</div>' + '</fieldset></form>';
-	container.innerHTML = html;
+	var container = document.getElementById('time-consideration-control')
 
 	L.DomEvent.disableClickPropagation(container);
+	L.DomEvent.disableScrollPropagation(container);
+
 	return container;
 };
+
 info.addTo(map);
 
 setBusy(true);
@@ -121,7 +93,7 @@ function initialize(pd) {
 function setBusy(busy) {
 	isBusy = busy;
 
-	document.getElementById('myFieldSet').disabled = busy; 
+	document.getElementById('myFieldSet').disabled = busy;
 }
 
 function findNearestObjects(keepCircle) {
@@ -185,8 +157,8 @@ function findByAddress(adr) {
 	d3.json(findAddressUrl + '/' + encodeURIComponent(adr) + (token ? '?xtok=' + token : ''),
 		function (error, response) {
 			setBusy(false);
-		
-			if(error) {
+
+			if (error) {
 				throw error;
 			}
 			var firstResult = response.results[0].location;
@@ -266,7 +238,7 @@ function findByIso(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
-			if(error)
+			if (error)
 				throw (error);
 
 			response = JSON.parse(response.responseText);
@@ -399,9 +371,9 @@ function findByReachableObjects(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
-			if(error) {
-				setBounds([], latlng);			
-				throw error;	
+			if (error) {
+				setBounds([], latlng);
+				throw error;
 			}
 
 			response = JSON.parse(response.responseText);

@@ -179,7 +179,8 @@
         };
 
         // load the postcode json and create the layers
-        d3.json("./data/postcode-topo.json", function (error, data) {
+//        d3.json("./data/postcode-topo.json", function (error, data) {
+        d3.json("https://cdn.rawgit.com/ptv-logistics/xserverjs/0f3a1a92/premium-samples/admin-regions/data/postcode-topo.json", function (error, data) {
             // store
             topoData = data;
 

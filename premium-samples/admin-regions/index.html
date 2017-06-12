@@ -134,7 +134,8 @@
         };
 
         // load the municipalties json and create the layer
-        $.getJSON("./data/municipalities.json", function (data) {
+//        $.getJSON("./data/municipalities.json", function (data) {
+        $.getJSON("https://cdn.rawgit.com/ptv-logistics/xserverjs/0f3a1a92/premium-samples/admin-regions/data/municipalities.json", function (data) {
             municipalitiesLayer = L.geoJson(data, {
                 attribution: ddsAttribution,
                 style: municipalityStyle
@@ -181,7 +182,8 @@
         };
 
         // load the postcode json and create the layer
-        $.getJSON("./data/postcode.json", function (data) {
+//        $.getJSON("./data/postcode.json", function (data) {
+        $.getJSON("https://cdn.rawgit.com/ptv-logistics/xserverjs/0f3a1a92/premium-samples/admin-regions/data/postcode.json", function (data) {
             postcodeLayer = L.geoJson(data, {
                 style: postCodeStyle,
                 onEachFeature: onEachPostCode
