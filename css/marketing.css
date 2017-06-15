@@ -144,6 +144,10 @@ a.pure-button-primary {
     background: #e02129;
 }
 
+.pure-menu.pure-menu-horizontal {
+    white-space: inherit;
+}
+
 .pure-menu.pure-menu-fixed {
     /* Fixed menus normally have a border at the bottom. */
     border-bottom: none;
