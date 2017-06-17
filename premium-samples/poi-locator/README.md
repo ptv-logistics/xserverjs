@@ -13,7 +13,7 @@ Required services:
 
 The JavaScript libraries used:
 
-* [jQuery](https://jquery.com/) - to make ajax requests on PTV xServer
+* [d3](https://jquery.com/) - a library we use to load and transform our data
 * [Leaflet](http://leafletjs.com/) - a JavaScript library for mobile-friendly interactive maps 
 * [Leaflet-pip](https://github.com/mapbox/leaflet-pip) - a simple point-in-polygon function in JavaScript to find all POIs within an isochrone 
 * [lunr.js](http://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.

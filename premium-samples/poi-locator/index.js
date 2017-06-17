@@ -44,7 +44,7 @@ map.on('click', onMapClick);
 // add input control
 var info = L.control();
 info.onAdd = function (map) {
-	var container = document.getElementById('time-consideration-control')
+	var container = document.getElementById('panel-control')
 
 	L.DomEvent.disableClickPropagation(container);
 	L.DomEvent.disableScrollPropagation(container);
@@ -57,16 +57,17 @@ info.addTo(map);
 setBusy(true);
 
 // $.getJSON('./inobas.json', initialize);
-d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initialize);
+//d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initialize);
+readCsv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initialize);
 
 function initialize(pd) {
 	// store our data
 	poiData = pd;
 
 	// tip: sort the features by latitue, so they overlap nicely on the map!
-	// poiData.features.sort(function (a, b) {
-	//  return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-	// });
+	poiData.features.sort(function (a, b) {
+	 return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+	});
 
 	L.geoJson(poiData, {
 		attribution: 'DDS, Inobas',
@@ -451,10 +452,27 @@ function highlightPoi(feature, c, additionalInfo, drawSpiderLine) {
 	highlightedPois.push(highlightedPoi);
 }
 
+var colors = {
+	'DIY': '#8dd3c7',
+	'RET': '#ffffb3',
+	'DRG': '#bebada',
+	'FRN': '#fb8072',
+	'FIN': '#80b1d3', 
+	'COM': '#fdb462',
+	'EAT': '#b3de69',
+	'PHA': '#fccde5',
+	'KFZ': '#d9d9d9', 
+	'CLO': '#bc80bd',
+	'FOD': '#ccebc5', 
+	'LEH': '#ccebc5',
+	'TVL': '#fb8072',
+	'LSR': '#ffffb3',
+	'GAS': '#d9d9d9'};
+
 function poiStyle(feature, latlng) {
 	var style =
 		L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-			fillColor: '#fff',
+			fillColor: colors[feature.properties.category],
 			fillOpacity: 1,
 			stroke: true,
 			color: '#000',
