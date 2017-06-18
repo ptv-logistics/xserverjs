@@ -179,7 +179,7 @@ function readCsv(url, callback) {
 		r = r * rscale;
 		p.y = p.y - 2 * r;
 
-		return p.distanceTo(pp) <= r + this._clickTolerance();
+		return p.distanceTo(pp) <= r + L.Browser.touch ? 10 : 0;
 	};
 
 	var cproto = L.Layer.prototype;
