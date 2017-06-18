@@ -477,7 +477,7 @@ function poiStyle(feature, latlng) {
 			stroke: true,
 			color: '#000',
 			weight: 2,
-			renderFast: true // our special optimization for fast-rendering
+			onSteroids: true // our special optimization for fast-rendering
 		}).setRadius(6);
 	style.bindPopup(feature.properties.description);
 	return style;

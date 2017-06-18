@@ -78,7 +78,7 @@ function poiStyle(feature, latlng) {
         stroke: true,
         color: '#000',
         weight: 2,
-        renderFast: true
+        onSteroids: true
     }).setRadius(6);
     style.bindPopup(feature.properties.description);
     return style;

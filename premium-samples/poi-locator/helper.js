@@ -106,7 +106,7 @@ function readCsv(url, callback) {
 	var prev = proto._updateCircle;
 
 	proto._updateCircle = function (layer) {
-		if (!layer.options.renderFast) {
+		if (!layer.options.onSteroids) {
 			return prev.call(this, layer);
 		}
 
@@ -165,7 +165,7 @@ function readCsv(url, callback) {
 	var xprev = xproto._containsPoint;
 
 	xproto._containsPoint = function (pp) {
-		if (!this.options.renderFast) {
+		if (!this.options.onSteroids) {
 			return xprev.call(this, pp);
 		}
 
@@ -187,7 +187,7 @@ function readCsv(url, callback) {
 	cproto._openPopup = function (e) {
 		var layer = e.layer || e.target;
 
-		if (!layer instanceof L.CircleMarker && !layer.options.renderFast)
+		if (!layer instanceof L.CircleMarker && !layer.options.onSteroids)
 			return cprev(e);
 
 		if (!this._popup) {
@@ -209,4 +209,21 @@ function readCsv(url, callback) {
 			this.openPopup(layer, layer._latlng);
 		}
 	};
+
+	var pproto = L.Popup.prototype;
+	var pprev = pproto._getAnchor;
+	pproto._getAnchor = function () {
+		if (!this._source instanceof L.CircleMarker && !this._source.options.onSteroids)
+			return cprev(e);
+
+		var r = this._source._radius;
+		var zoomScale;
+		var scale = Math.pow(this._map.getZoom(), 1.75) * 256 / Math.PI / 6371000;
+		var rscale = scale * 1000;
+		r = 3 * r * rscale;
+
+		// Where should we anchor the popup on the source layer?
+		return L.point(this._source && this._source._getPopupAnchor ? this._source._getPopupAnchor() : [0, -r]);
+	};
+
 })();
