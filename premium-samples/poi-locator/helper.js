@@ -86,8 +86,10 @@ function readCsv(url, callback) {
 					coordinates: ptvMercatorToWgs(d.X, d.Y)
 				},
 				properties: {
+					id: d.ID,
 					category: d.CATEGORY,
-					description: d.STORE
+					www: d.WWW,
+					description: d.NAME
 				}
 			};
 
@@ -150,7 +152,7 @@ function readCsv(url, callback) {
 		// }
 
 		if (options.fill) {
-			var grd = ctx.createRadialGradient(p.x - r, p.y - r, 0, p.x, p.y, 2 * r);
+			var grd = ctx.createRadialGradient(p.x - r, p.y - r, 0, p.x, p.y, 2.5 * r);
 			grd.addColorStop(0, options.fillColor);
 			grd.addColorStop(1, options.color);
 			ctx.beginPath();
@@ -187,8 +189,8 @@ function readCsv(url, callback) {
 	cproto._openPopup = function (e) {
 		var layer = e.layer || e.target;
 
-		if (!layer instanceof L.CircleMarker && !layer.options.onSteroids)
-			return cprev(e);
+		if (!(layer instanceof L.CircleMarker) && !layer.options.onSteroids)
+			return cprev.call(this, e);
 
 		if (!this._popup) {
 			return;
@@ -201,20 +203,21 @@ function readCsv(url, callback) {
 		// prevent map click
 		L.DomEvent.stop(e);
 
-		// otherwise treat it like a marker and figure out
+		// treat it like a marker and figure out
 		// if we should toggle it open/closed
 		if (this._map.hasLayer(this._popup) && this._popup._source === layer) {
 			this.closePopup();
 		} else {
-			this.openPopup(layer, layer._latlng);
+			this.openPopup(layer || e.target, layer._latlng);
+			layer.on('preclick', L.DomEvent.stopPropagation);
 		}
 	};
 
 	var pproto = L.Popup.prototype;
-	var pprev = pproto._getAnchor;
+	var p_getAnchor = pproto._getAnchor;
 	pproto._getAnchor = function () {
 		if (!this._source instanceof L.CircleMarker && !this._source.options.onSteroids)
-			return cprev(e);
+			return p_getAnchor.call(this);
 
 		var r = this._source._radius;
 		var zoomScale;
@@ -226,4 +229,21 @@ function readCsv(url, callback) {
 		return L.point(this._source && this._source._getPopupAnchor ? this._source._getPopupAnchor() : [0, -r]);
 	};
 
+	var p_onAdd = pproto.onAdd;
+	pproto.onAdd = function (map) {
+		p_onAdd.call(this, map);
+
+		// stop propagation for steroid layer
+		if (this._source && this._source instanceof L.CircleMarker && this._source.options.onSteroids)
+			this._source.on('preclick', L.DomEvent.stopPropagation);
+	};
+
+	var p_onRemove = pproto.onRemove;
+	pproto.onRemove = function (map) {
+		p_onRemove.call(this, map);
+
+		// stop propagation for steroid layer
+		if (this._source && this._source instanceof L.CircleMarker && this._source.options.onSteroids)
+			this._source.off('preclick', L.DomEvent.stopPropagation);
+	};
 })();

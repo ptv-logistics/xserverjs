@@ -16,6 +16,24 @@ var searchMethod = 0;
 var index;
 var poiData;
 
+var colors = {
+	'DIY': '#8dd3c7',
+	'RET': '#ffffb3',
+	'DRG': '#bebada',
+	'FRN': '#fb8072',
+	'FIN': '#80b1d3',
+	'COM': '#fdb462',
+	'EAT': '#b3de69',
+	'PHA': '#fccde5',
+	'KFZ': '#d9d9d9',
+	'CLO': '#bc80bd',
+	'FOD': '#ccebc5',
+	'LEH': '#ccebc5',
+	'TVL': '#fb8072',
+	'LSR': '#ffffb3',
+	'GAS': '#d9d9d9'
+};
+
 // set up the map
 var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
 var mapLocation = new L.LatLng(49, 8.4);
@@ -54,6 +72,27 @@ info.onAdd = function (map) {
 
 info.addTo(map);
 
+// using legend code from http://leafletjs.com/examples/choropleth-example.html
+var legend = L.control({
+	position: 'bottomright'
+});
+
+legend.onAdd = function (map) {
+	var div = L.DomUtil.create('div', 'info legend');
+	div.innerHTML = '';
+
+	for (var key in colors) {
+		if (colors.hasOwnProperty(key)) {
+			div.innerHTML +=
+				'<i style="background:' + colors[key] + '"></i> ' + key + '<br>';
+		}
+	}
+
+	return div;
+};
+
+legend.addTo(map);
+
 setBusy(true);
 
 // $.getJSON('./inobas.json', initialize);
@@ -66,7 +105,7 @@ function initialize(pd) {
 
 	// tip: sort the features by latitue, so they overlap nicely on the map!
 	poiData.features.sort(function (a, b) {
-	 return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+		return b.geometry.coordinates[1] - a.geometry.coordinates[1];
 	});
 
 	L.geoJson(poiData, {
@@ -452,23 +491,6 @@ function highlightPoi(feature, c, additionalInfo, drawSpiderLine) {
 	highlightedPois.push(highlightedPoi);
 }
 
-var colors = {
-	'DIY': '#8dd3c7',
-	'RET': '#ffffb3',
-	'DRG': '#bebada',
-	'FRN': '#fb8072',
-	'FIN': '#80b1d3', 
-	'COM': '#fdb462',
-	'EAT': '#b3de69',
-	'PHA': '#fccde5',
-	'KFZ': '#d9d9d9', 
-	'CLO': '#bc80bd',
-	'FOD': '#ccebc5', 
-	'LEH': '#ccebc5',
-	'TVL': '#fb8072',
-	'LSR': '#ffffb3',
-	'GAS': '#d9d9d9'};
-
 function poiStyle(feature, latlng) {
 	var style =
 		L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
@@ -479,6 +501,13 @@ function poiStyle(feature, latlng) {
 			weight: 2,
 			onSteroids: true // our special optimization for fast-rendering
 		}).setRadius(6);
-	style.bindPopup(feature.properties.description);
+	var html = feature.properties.description;
+	if (feature.properties.www) {
+		var hRef = feature.properties.www;
+		if (!hRef.startsWith('http'))
+			hRef = 'http://' + hRef;
+		html = html + '<br><a target="_blank" href="' + hRef + '">' + feature.properties.www + '</a>';
+	}
+	style.bindPopup(html);
 	return style;
 }

@@ -183,7 +183,7 @@
 
         // load the postcode json and create the layer
 //        $.getJSON("./data/postcode.json", function (data) {
-        $.getJSON("https://cdn.rawgit.com/ptv-logistics/xserverjs/0f3a1a92/premium-samples/admin-regions/data/postcode.json", function (data) {
+        $.getJSON("https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/postcode.json", function (data) {
             postcodeLayer = L.geoJson(data, {
                 style: postCodeStyle,
                 onEachFeature: onEachPostCode
