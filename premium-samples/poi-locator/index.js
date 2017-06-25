@@ -2,8 +2,8 @@
 // url we're sending the request to
 var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok={token}';
 var findAddressUrl = 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
-var isoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
-var searchForReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
+var calcIsoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
+var calcReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
 
 var searchLocation;
 var isoFeature;
@@ -34,6 +34,9 @@ var colors = {
 	'GAS': '#d9d9d9'
 };
 
+if (!token)
+	alert('you need to configure your xServer internet token in token.js!')
+
 // set up the map
 var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
 var mapLocation = new L.LatLng(49, 8.4);
@@ -51,8 +54,8 @@ L.tileLayer(xMapTileUrl, {
 	subdomains: '1234'
 }).addTo(map);
 
-if (!token)
-	alert('you need to configure your xServer internet token in token.js!')
+// shim: implement missing startsWith();
+fixOldIE();
 
 // add scale control
 L.control.scale().addTo(map);
@@ -163,12 +166,12 @@ function findNearestObjects(keepCircle) {
 
 function setSearchMethod(method) {
 	searchMethod = method;
-	findNearestObjects(true);
+	findNearestObjects(false);
 }
 
 function setHorizon(hor) {
 	horizon = hor;
-	findNearestObjects(true);
+	findNearestObjects(false);
 }
 
 function onMapClick(e) {
@@ -177,6 +180,34 @@ function onMapClick(e) {
 
 	searchLocation = e.latlng;
 	findNearestObjects();
+}
+
+function readCsv(url, callback) {
+	ssv(url, function (rows) {
+		var json = {
+			type: 'FeatureCollection'
+		};
+
+		json.features = rows.map(function (d) {
+			var feature = {
+				type: 'Feature',
+				geometry: {
+					type: 'Point',
+					coordinates: ptvMercatorToWgs(d.X, d.Y)
+				},
+				properties: {
+					id: d.ID,
+					category: d.CATEGORY,
+					www: d.WWW,
+					description: d.NAME
+				}
+			};
+
+			return feature;
+		});
+
+		callback(json);
+	});
 }
 
 function findFulltext(name) {
@@ -199,8 +230,17 @@ function findByAddress(adr) {
 			setBusy(false);
 
 			if (error) {
-				throw error;
+				var message = JSON.parse(error.target.response).errorMessage;			
+				alert(message);
+				return;
 			}
+
+			if(respone.results.length === 0)
+			{
+				alert('nothing found!');
+				return;
+			}
+
 			var firstResult = response.results[0].location;
 			searchLocation = new L.LatLng(firstResult.referenceCoordinate.y, firstResult.referenceCoordinate.x);
 			findNearestObjects();
@@ -273,13 +313,16 @@ function findByIso(latlng, hor) {
 	};
 
 	runRequest(
-		isoUrl,
+		calcIsoUrl,
 		request,
 		token,
 		function (error, response) {
 			setBusy(false);
-			if (error)
-				throw (error);
+			if (error) {
+				var message = JSON.parse(error.target.response).errorMessage;			
+				alert(message);
+				return;
+			}	
 
 			response = JSON.parse(response.responseText);
 			var x = isoToPoly(response.isochrones[0].polys.wkt);
@@ -406,15 +449,16 @@ function findByReachableObjects(latlng, hor) {
 	};
 
 	runRequest(
-		searchForReachableObjectsUrl,
+		calcReachableObjectsUrl,
 		request,
 		token,
 		function (error, response) {
 			setBusy(false);
 			if (error) {
-				setBounds([], latlng);
-				throw error;
-			}
+				var message = JSON.parse(error.target.response).errorMessage;			
+				alert(message);
+				return;
+			}	
 
 			response = JSON.parse(response.responseText);
 			for (var i = 0; i < response.reachInfo.length; i++) {
@@ -444,7 +488,7 @@ function setBounds(features, center) {
 	}
 }
 
-function cleanupMarkers(keepCircle) {
+function cleanupMarkers(cleanupCirlcle) {
 	for (var i = 0; i < highlightedPois.length; i++) {
 		map.removeLayer(highlightedPois[i]);
 	}
@@ -456,7 +500,7 @@ function cleanupMarkers(keepCircle) {
 	if (marker)
 		map.removeLayer(marker);
 
-	if (!keepCircle && circle) {
+	if (cleanupCirlcle && circle) {
 		map.removeLayer(circle);
 		circle = null;
 	}
@@ -498,8 +542,10 @@ function poiStyle(feature, latlng) {
 			fillOpacity: 1,
 			stroke: true,
 			color: '#000',
-			weight: 2,
-			onSteroids: true // our special optimization for fast-rendering
+			boostType: 'ball',
+			boostScale: 2.5,
+			boostExp: 0.25,
+			weight: 2
 		}).setRadius(6);
 	var html = feature.properties.description;
 	if (feature.properties.www) {
