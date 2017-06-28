@@ -26,7 +26,7 @@ Leaflet has a layer to display GeoJSON data. We load the data with jquery $.getJ
 
 ```javascript
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
 
 $.getJSON("./data/municipalities.json", function (data) {
     municipalitiesLayer = L.geoJson(data).addTo(map);

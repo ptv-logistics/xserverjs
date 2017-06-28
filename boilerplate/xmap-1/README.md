@@ -11,8 +11,8 @@ This section contains templates to add an xMapServer-1 map to JavaScript widgets
 The recommended configuration for xMapServer-1 is the use of the WMS adapter. For this purpose we provide the package [leaflet.nontiledlayer](https://www.npmjs.com/package/leaflet.nontiledlayer), which you can add to your project.
 
 ```javascript
-<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.nontiledlayer@1.0.3/dist/NonTiledLayer.js"></script>
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.nontiledlayer@1.1.0/dist/NonTiledLayer.js"></script>
 <script src="./token.js"></script>
 <script>
     // initialize leaflet
