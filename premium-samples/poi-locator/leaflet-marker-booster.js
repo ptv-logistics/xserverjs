@@ -6,9 +6,9 @@
 	var prev = proto._updateCircle;
 
 	proto._updateCircle = function (layer) {
-		// if (!layer.options.boostType) {
-		// 	return prev.call(this, layer);
-		// }
+		// only circleMARKER, not the standard circle
+		if (layer instanceof L.Circle)
+			return prev.call(this, layer);
 
 		if (!this._drawing || layer._empty()) {
 			return;
@@ -19,21 +19,9 @@
 				y: layer._point.y
 			},
 			ctx = this._ctx,
-			r = layer._radius,
-			s = (layer._radiusY || r) / r;
+			r = layer._radius;
 
 		this._drawnLayers[layer._leaflet_id] = layer;
-
-		if (s !== 1) {
-			ctx.save();
-			ctx.scale(1, s);
-		}
-
-		ctx.beginPath();
-
-		if (s !== 1) {
-			ctx.restore();
-		}
 
 		var options = layer.options;
 
@@ -42,9 +30,14 @@
 		scale = Math.pow(scale, options.boostExp) * options.boostScale;
 		r = r * scale;
 
-		switch (options.boostType) {
-		case 'ball':
-			if (options.fill) {
+		if(!options.boostType) {
+			ctx.beginPath();
+			ctx.arc(p.x, p.y, r, 0, Math.PI * 2, false);
+			this._fillStroke(ctx, layer);
+		}
+		else switch (options.boostType) {
+			case 'ball':
+				if (options.fill) {
 					if(options.stroke && options.weight !== 0)
 						r = r + options.weight * 0.5 * scale;
 					var grd = ctx.createRadialGradient(p.x - r/2, p.y - r/2, 0, p.x, p.y, 1.5 * r);
@@ -52,12 +45,12 @@
 					grd.addColorStop(1, options.color);
 					ctx.beginPath();
 					ctx.fillStyle = grd;
-					ctx.arc(p.x, p.y / s,  r, 0, Math.PI * 2, false);
+					ctx.arc(p.x, p.y,  r, 0, Math.PI * 2, false);
 					ctx.fill(options.fillRule || 'evenodd');
 				}
-			break;
-		case 'balloon':
-			if (options.fill) {
+				break;
+			case 'balloon':
+				if (options.fill) {
 					if(options.stroke && options.weight !== 0)
 						r = r + options.weight * 0.5 * scale;
 					var grd = ctx.createRadialGradient(p.x - r/2, p.y - r/2 - 2*r, 0, p.x, p.y - 2*r, 2.5 * r);
@@ -69,21 +62,21 @@
 					ctx.lineTo(p.x - r, p.y-2*r);
 					ctx.lineTo(p.x + r, p.y-2*r);
 					ctx.lineTo(p.x, p.y);
-					ctx.arc(p.x, p.y / s - 2*r,  r, 0, Math.PI * 2, false);
+					ctx.arc(p.x, p.y - 2*r,  r, 0, Math.PI * 2, false);
 					ctx.closePath();
 					ctx.fill(options.fillRule = 'nonzero');
 				}
-			break;
-		default:
-			if (options.stroke && options.weight !== 0) {
-					ctx.arc(p.x, p.y / s, r + options.weight * 0.5 * scale, 0, Math.PI * 2, false);
+				break;
+			default:
+				if (options.stroke && options.weight !== 0) {
+					ctx.arc(p.x, p.y, r + options.weight * 0.5 * scale, 0, Math.PI * 2, false);
 					ctx.fillStyle = options.color;
 					ctx.fill(options.fillRule || 'evenodd');
 				}
 
-			ctx.beginPath();
-			if (options.fill) {
-					ctx.arc(p.x, p.y / s, r - ((options.stroke && options.weight !== 0) ? options.weight * 0.5 * scale : 0), 0, Math.PI * 2, false);
+				ctx.beginPath();
+				if (options.fill) {
+					ctx.arc(p.x, p.y, r - ((options.stroke && options.weight !== 0) ? options.weight * 0.5 * scale : 0), 0, Math.PI * 2, false);
 					ctx.fillStyle = options.fillColor || options.color;
 					ctx.fill(options.fillRule || 'evenodd');
 				}
@@ -100,7 +93,7 @@
 			var options = this.options;
 		
 			var scale = Math.pow(2, this._map.getZoom()) * 256 / Math.PI / 6378137;
-			scale = Math.pow(scale, options.boostExp) * options.boostScale;
+			scale = Math.pow(scale, options.boostEx) * options.boostScale;
 			r = r * scale;
 			r = r + (this.options.stroke ? this.options.weight * scale / 2 : 0);
 
@@ -144,7 +137,7 @@
 	var pproto = L.Popup.prototype;
 	var p_getAnchor = pproto._getAnchor;
 	pproto._getAnchor = function () {
-		if (!this._source instanceof L.CircleMarker)
+		if (!(this._source instanceof L.CircleMarker))
 			return p_getAnchor.call(this);
 
 		var r = this._source._radius;

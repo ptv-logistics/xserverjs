@@ -57,6 +57,22 @@ L.tileLayer(xMapTileUrl, {
 // shim: implement missing startsWith();
 fixOldIE();
 
+document.getElementById('f1')
+    .addEventListener('keyup', function(event) {
+	event.preventDefault();
+	if (event.keyCode == 13) {
+		document.getElementById('b1').click();
+	}
+});
+
+document.getElementById('f2')
+    .addEventListener('keyup', function(event) {
+	event.preventDefault();
+	if (event.keyCode == 13) {
+		document.getElementById('b2').click();
+	}
+});
+
 // add scale control
 L.control.scale().addTo(map);
 
@@ -98,7 +114,6 @@ legend.addTo(map);
 
 setBusy(true);
 
-// $.getJSON('./inobas.json', initialize);
 //d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initialize);
 readCsv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initialize);
 
@@ -131,6 +146,11 @@ function initialize(pd) {
 	}
 
 	setBusy(false);
+
+	// set Karlsruhe
+	searchLocation = new L.LatLng(49.013301829, 8.4277897486);
+	setMarker();
+	findNearestObjects();
 }
 
 function setBusy(busy) {
@@ -139,11 +159,15 @@ function setBusy(busy) {
 	document.getElementById('myFieldSet').disabled = busy;
 }
 
-function findNearestObjects(keepCircle) {
-	if (!searchLocation)
-		return;
+function setMarker(radius)
+{
+	cleanupMarkers(true);
 
-	cleanupMarkers(keepCircle);
+	if(radius) {
+		circle = L.circle(searchLocation, radius, {
+			zIndex: 1000
+		}).addTo(map);
+	}
 
 	var c = 'marker-red';
 	marker = L.marker(searchLocation, {
@@ -152,9 +176,21 @@ function findNearestObjects(keepCircle) {
 			imagePath: './icons/',
 			iconUrl: c + '.png',
 			iconRetinaUrl: c + '-2x.png'
-		})
-	}).addTo(map);
+		}),
+		draggable: true
+	}).addTo(map)
 	marker.bindPopup(latFormatter(searchLocation.lat) + ', ' + lngFormatter(searchLocation.lng));
+
+	marker.on('dragend', function(e) {
+		onMapClick(e.target);
+	});	
+}
+
+function findNearestObjects() {
+	if (!searchLocation)
+		return;
+
+	cleanupMarkers();
 
 	if (searchMethod == 0)
 		findByAirline(searchLocation, horizon);
@@ -166,19 +202,20 @@ function findNearestObjects(keepCircle) {
 
 function setSearchMethod(method) {
 	searchMethod = method;
-	findNearestObjects(false);
+	findNearestObjects();
 }
 
 function setHorizon(hor) {
 	horizon = hor;
-	findNearestObjects(false);
+	findNearestObjects();
 }
 
 function onMapClick(e) {
 	if (isBusy)
 		return;
 
-	searchLocation = e.latlng;
+	searchLocation = e.latlng || e._latlng;
+	setMarker();
 	findNearestObjects();
 }
 
@@ -215,9 +252,14 @@ function findFulltext(name) {
 
 	var res = index.search(name);
 
-	for (var i = 0; i < res.length; i++) {
-		highlightPoi(poiData.features[res[i].ref], 'marker-green');
-	}
+	var found = res.map(function(d) {
+		return {
+			feature: poiData.features[d.ref],
+			info: poiData.features[d.ref].name
+		};
+	});
+
+	highlightPois(found);
 
 	setBounds(highlightedPois);
 }
@@ -243,6 +285,7 @@ function findByAddress(adr) {
 
 			var firstResult = response.results[0].location;
 			searchLocation = new L.LatLng(firstResult.referenceCoordinate.y, firstResult.referenceCoordinate.x);
+			setMarker();
 			findNearestObjects();
 		});
 }
@@ -259,14 +302,10 @@ map.on('locationfound', function (e) {
 	// correct accuracy for mercator projection
 	var circleRadius = e.accuracy / Math.cos(e.latlng.lat / 180 * Math.PI);
 
-	cleanupMarkers();
-
-	circle = L.circle(e.latlng, circleRadius, {
-		zIndex: 1000
-	}).addTo(map);
-
 	searchLocation = e.latlng;
-	findNearestObjects(true);
+	setMarker(circleRadius);
+
+	findNearestObjects();
 });
 
 map.on('locationerror', function (e) {
@@ -318,6 +357,7 @@ function findByIso(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
+			
 			if (error) {
 				var message = JSON.parse(error.target.response).errorMessage;			
 				alert(message);
@@ -354,11 +394,18 @@ function findByIso(latlng, hor) {
 			isoFeature.on('click', onMapClick);
 			isoFeature.addTo(map);
 
-			for (var i = 0; i < poiData.features.length; i++) {
-				if (leafletPip.pointInLayer(poiData.features[i].geometry.coordinates, isoFeature).length > 0) {
-					highlightPoi(poiData.features[i], 'marker-green', null, true);
-				}
-			}
+			var pointsInPolygon = poiData.features
+				.filter(function(d) {
+					return leafletPip.pointInLayer(d.geometry.coordinates, isoFeature).length > 0;
+				})
+				.map(function(d) {
+					return {
+						feature: d,
+						info: d.name
+					}
+				});
+
+			highlightPois(pointsInPolygon, true);
 
 			map.fitBounds(isoFeature.getBounds());
 		}
@@ -366,31 +413,33 @@ function findByIso(latlng, hor) {
 }
 
 function filterByAirline(latlng, hor) {
-	var result = new Array();
 	var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */ ;
 
-	for (var i = 0; i < poiData.features.length; i++) {
-		var poiLocation = poiData.features[i].geometry.coordinates;
+	return poiData.features.map(function (d) {
+		var poiLocation = d.geometry.coordinates;
 		var p = L.latLng(poiLocation[1], poiLocation[0]);
 		var distance = latlng.distanceTo(p);
-		if (distance < range) {
-			result.push({
-				distance: distance,
-				data: poiData.features[i]
-			});
-		}
-	}
-
-	return result;
+			
+		return {
+			feature: d,
+			distance: distance
+		};
+	})
+	.filter(function (d) {
+		return d.distance < range;
+	});
 }
 
 function findByAirline(latlng, hor) {
-	setBusy(true);
-	var found = filterByAirline(latlng, hor);
+	var found = filterByAirline(latlng, hor)
+		.map(function(d) {
+			return {
+				feature: d.feature,
+				info: Math.round(d.distance) + 'm'
+			};
+		});
 
-	for (var i = 0; i < found.length; i++) {
-		highlightPoi(found[i].data, 'marker-green', Math.round(found[i].distance) + 'm', true);
-	}
+	highlightPois(found, true);
 
 	setBounds(highlightedPois, latlng);
 
@@ -401,7 +450,7 @@ function findByReachableObjects(latlng, hor) {
 	var candidates = filterByAirline(latlng, hor);
 	var locations = new Array();
 	for (var i = 0; i < candidates.length; i++) {
-		var location = candidates[i].data.geometry.coordinates;
+		var location = candidates[i].feature.geometry.coordinates;
 		locations.push({
 			'coords': [{
 				'point': {
@@ -454,6 +503,7 @@ function findByReachableObjects(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
+			
 			if (error) {
 				var message = JSON.parse(error.target.response).errorMessage;			
 				alert(message);
@@ -461,11 +511,22 @@ function findByReachableObjects(latlng, hor) {
 			}	
 
 			response = JSON.parse(response.responseText);
-			for (var i = 0; i < response.reachInfo.length; i++) {
-				if (response.reachInfo[i].reachable) {
-					highlightPoi(candidates[i].data, 'marker-green', response.reachInfo[i].routeInfo.distance + 'm', true);
-				}
-			}
+
+			var found = candidates.map(function(d, i) {
+				return {
+					feature: d.feature,
+					reachInfo: response.reachInfo[i]
+				};
+			}).filter(function(d) {
+				return d.reachInfo.reachable;
+			}).map(function(d) {
+				return {
+					feature: d.feature, 
+					info: d.reachInfo.routeInfo.distance + ' m'
+				};
+			});
+
+			highlightPois(found, true);
 
 			setBounds(highlightedPois, latlng);
 		});
@@ -494,11 +555,15 @@ function cleanupMarkers(cleanupCirlcle) {
 	}
 	highlightedPois = [];
 
-	if (isoFeature)
+	if (isoFeature) {
 		map.removeLayer(isoFeature);
+		isoFeature = null;
+	}
 
-	if (marker)
+	if (cleanupCirlcle && marker) {
 		map.removeLayer(marker);
+		marker = null;
+	}
 
 	if (cleanupCirlcle && circle) {
 		map.removeLayer(circle);
@@ -506,31 +571,48 @@ function cleanupMarkers(cleanupCirlcle) {
 	}
 }
 
-function highlightPoi(feature, c, additionalInfo, drawSpiderLine) {
+function drawSpiderLine(feature, additionalInfo) {
 	var latlon = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
 
 	var popUp = feature.properties.description;
 	if (additionalInfo)
 		popUp = popUp + '<br>' + additionalInfo;
 
-	var highlightedPoi = L.marker(latlon, {
-		zIndexOffset: c === 'marker-red' ? 1000 : 0,
-		icon: new L.Icon.Default({
-			imagePath: './icons/',
-			iconUrl: c + '.png',
-			iconRetinaUrl: c + '-2x.png'
-		})
-	}).addTo(map);
-	highlightedPoi.bindPopup(popUp);
+	var spidlerLineline = L.polyline([searchLocation, latlon], {
+		color: 'green',
+		weight: 1
+	}).addTo(map)
+	highlightedPois.push(spidlerLineline);
+	spidlerLineline.bindPopup(popUp);
+}
 
-	if (drawSpiderLine) {
-		var spidlerLineline = L.polyline([searchLocation, latlon], {
-			color: 'red',
-			weight: 1
-		}).addTo(map)
-		highlightedPois.push(spidlerLineline);
-		spidlerLineline.bindPopup(popUp);
-	}
+function highlightPois(featureInfo, spiderLine) {
+	if(spiderLine)
+		for(var i = 0; i < featureInfo.length; i++)
+			drawSpiderLine(featureInfo[i].feature, featureInfo[i].info);
+
+	for(var i = 0; i < featureInfo.length; i++)
+		highlightPoi(featureInfo[i].feature, featureInfo[i].info);
+}
+
+function highlightPoi(feature, additionalInfo) {
+	var latlon = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+
+	var popUp = feature.properties.description;
+	if (additionalInfo)
+		popUp = popUp + '<br>' + additionalInfo;
+
+	var highlightedPoi = L.circleMarker(latlon, {
+		fillColor: 'yellow',
+		fillOpacity: 1,
+		stroke: true,
+		color: '#000',
+		boostType: 'balloon',
+		boostScale: 1,
+		boostExp: 0,
+		weight: 2
+	}).setRadius(10).addTo(map);
+	highlightedPoi.bindPopup(popUp);
 
 	highlightedPois.push(highlightedPoi);
 }
@@ -545,7 +627,7 @@ function poiStyle(feature, latlng) {
 			boostType: 'ball',
 			boostScale: 2.5,
 			boostExp: 0.25,
-			weight: 2
+			weight: 2,
 		}).setRadius(6);
 	var html = feature.properties.description;
 	if (feature.properties.www) {
