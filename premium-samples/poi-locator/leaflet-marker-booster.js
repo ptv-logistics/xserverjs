@@ -138,7 +138,7 @@
 	var pproto = L.Popup.prototype;
 	var p_getAnchor = pproto._getAnchor;
 	pproto._getAnchor = function () {
-		if (!(this._source instanceof L.CircleMarker))
+		if (!(this._source instanceof L.CircleMarker) || this._source instanceof L.Circle) 
 			return p_getAnchor.call(this);
 
 		var r = this._source._radius;
@@ -163,7 +163,7 @@
 		p_onAdd.call(this, map);
 
 		// stop propagation for booster layer
-		if (this._source && this._source instanceof L.CircleMarker && !(this.source instanceof L.Cirlce))
+		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Cirlce))
 			this._source.on('preclick', L.DomEvent.stopPropagation);
 	};
 
@@ -172,7 +172,7 @@
 		p_onRemove.call(this, map);
 
 		// stop propagation for booster layer
-		if (this._source && this._source instanceof L.CircleMarker && !(this.source instanceof L.Cirlce))
+		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Cirlce))
 			this._source.off('preclick', L.DomEvent.stopPropagation);
 	};
 })();
