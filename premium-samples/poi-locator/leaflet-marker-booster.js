@@ -87,19 +87,20 @@
 	var xprev = xproto._containsPoint;
 
 	xproto._containsPoint = function (p) {
+		if (this instanceof L.Circle)
+			return prev.call(this, layer);
+
 		var r = this._radius;
 		
-		if (this.options.boostType) {
-			var options = this.options;
+		var options = this.options;
 		
-			var scale = Math.pow(2, this._map.getZoom()) * 256 / Math.PI / 6378137;
-			scale = Math.pow(scale, options.boostEx) * options.boostScale;
-			r = r * scale;
-			r = r + (this.options.stroke ? this.options.weight * scale / 2 : 0);
+		var scale = Math.pow(2, this._map.getZoom()) * 256 / Math.PI / 6378137;
+		scale = Math.pow(scale, options.boostExp) * options.boostScale;
+		r = r * scale;
+		r = r + (this.options.stroke ? this.options.weight * scale / 2 : 0);
 
-			if(options.boostType === 'balloon')
-				p = new L.Point(p.x, p.y + 2 * r);
-		}
+		if(options.boostType === 'balloon')
+			p = new L.Point(p.x, p.y + 2 * r);
 
 		// clickTolerance olny for mobile!
 		return p.distanceTo(this._point) <= r + ((L.Browser.touch && L.Browser.mobile) ? 10 : 0);
@@ -110,7 +111,7 @@
 	cproto._openPopup = function (e) {
 		var layer = e.layer || e.target;
 
-		if (!(layer instanceof L.CircleMarker))
+		if (!(layer instanceof L.CircleMarker) || (layer instanceof L.Circle))
 			return cprev.call(this, e);
 
 		if (!this._popup) {
@@ -161,8 +162,8 @@
 	pproto.onAdd = function (map) {
 		p_onAdd.call(this, map);
 
-		// stop propagation for steroid layer
-		if (this._source && this._source instanceof L.CircleMarker)
+		// stop propagation for booster layer
+		if (this._source && this._source instanceof L.CircleMarker && !(this.source instanceof L.Cirlce))
 			this._source.on('preclick', L.DomEvent.stopPropagation);
 	};
 
@@ -170,8 +171,8 @@
 	pproto.onRemove = function (map) {
 		p_onRemove.call(this, map);
 
-		// stop propagation for steroid layer
-		if (this._source && this._source instanceof L.CircleMarker)
+		// stop propagation for booster layer
+		if (this._source && this._source instanceof L.CircleMarker && !(this.source instanceof L.Cirlce))
 			this._source.off('preclick', L.DomEvent.stopPropagation);
 	};
 })();
