@@ -163,7 +163,7 @@
 		p_onAdd.call(this, map);
 
 		// stop propagation for booster layer
-		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Cirlce))
+		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Circle))
 			this._source.on('preclick', L.DomEvent.stopPropagation);
 	};
 
@@ -172,7 +172,7 @@
 		p_onRemove.call(this, map);
 
 		// stop propagation for booster layer
-		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Cirlce))
+		if (this._source && this._source instanceof L.CircleMarker && !(this._source instanceof L.Circle))
 			this._source.off('preclick', L.DomEvent.stopPropagation);
 	};
 })();
