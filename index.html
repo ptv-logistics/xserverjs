@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
     crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
-  <link rel="stylesheet" href="css/marketing.css">
+  <link rel="stylesheet" href="css/index.css">
   <!--[if lt IE 9]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
     <![endif]-->
@@ -65,7 +65,13 @@
         <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
         <li class="pure-menu-item"><a href="#boilerplate" class="pure-menu-link">Widgets</a></li>
         <li class="pure-menu-item"><a href="#leaflet-xserver" class="pure-menu-link">leaflet-xserver</a></li>
-        <li class="pure-menu-item"><a href="#premium-samples" class="pure-menu-link">Premium Samples</a></li>
+        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover"><a href="#premium-samples" class="pure-menu-link">Premium Samples</a>
+          <ul class="pure-menu-children">
+            <li class="pure-menu-item"><a href="#routing-machine" class="pure-menu-link">Routing Machine</a></li>
+            <li class="pure-menu-item"><a href="#poi-locator" class="pure-menu-link">POI Locator</a></li>
+            <li class="pure-menu-item"><a href="#admin-regions" class="pure-menu-link">Admin Regions</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
@@ -129,7 +135,7 @@
       <h2 class="content-head is-center">Premium code samples</h2>
       <p class="content">Take one of our pre-fabricated reference implementations to jump-start your application.
       </p>
-        <h3 class="content-head is-center">Leaflet-Routing-Machine</h3>
+        <h3 id="routing-machine" class="content-head is-center">Leaflet-Routing-Machine</h3>
         <p class="content">Build an interactive route planner with xMap-, xRoute- and xLocate-server.
           <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/lrm-xserver/">Read here for more.</a>
         </p>
@@ -141,14 +147,14 @@
           <div id="lrmdivcontainer" style="height:500px"></div>
         </div>
 
-        <h3 class="content-head is-center">POI Locator</h3>
+        <h3 id="poi-locator" class="content-head is-center">POI Locator</h3>
         <p class="content">Display and search your locations with PTV xServer.
           <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/">Read here for more.</a>
         </p>
         <div class="l-box">
           <iframe height="500" width="100%" src="./premium-samples/poi-locator/index.html" allowfullscreen></iframe>
         </div>
-        <h3 class="content-head is-center">Administrative Regions</h3>
+        <h3 id="admin-regions" class="content-head is-center">Administrative Regions</h3>
         <p class="content">Add new data and functions to the map.
           <a href="https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/">Read here for more.</a>
         </p>

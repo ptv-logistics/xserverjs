@@ -5,7 +5,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "file": "${workspaceRoot}/premium-samples/poi-locator/index.html",
+            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-1/index.html",
             "sourceMaps": false
           }    
     ]

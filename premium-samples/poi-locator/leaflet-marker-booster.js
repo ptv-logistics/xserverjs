@@ -69,13 +69,14 @@
 				break;
 			default:
 				if (options.stroke && options.weight !== 0) {
+					ctx.beginPath();
 					ctx.arc(p.x, p.y, r + options.weight * 0.5 * scale, 0, Math.PI * 2, false);
 					ctx.fillStyle = options.color;
 					ctx.fill(options.fillRule || 'evenodd');
 				}
 
-				ctx.beginPath();
 				if (options.fill) {
+					ctx.beginPath();
 					ctx.arc(p.x, p.y, r - ((options.stroke && options.weight !== 0) ? options.weight * 0.5 * scale : 0), 0, Math.PI * 2, false);
 					ctx.fillStyle = options.fillColor || options.color;
 					ctx.fill(options.fillRule || 'evenodd');

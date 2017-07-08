@@ -140,8 +140,9 @@ a.pure-button-primary {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10);
 }
 
-.home-menu {
-    background: #e02129;
+.home-menu,
+.home-menu li {
+    background: #b51920;
 }
 
 .pure-menu.pure-menu-horizontal {
@@ -277,7 +278,7 @@ a.pure-button-primary {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin: 0 0;
-    padding: 3em 0 0.5em;
+    padding: 3.5em 0 0.5em;
 }
 
 
@@ -314,7 +315,7 @@ a.pure-button-primary {
     position: fixed;
     bottom: 0;
     width: 100%;
-    z-index: 3;
+    z-index: 5;
 }
 
 
