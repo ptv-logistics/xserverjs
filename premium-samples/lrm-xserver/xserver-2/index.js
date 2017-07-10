@@ -83,7 +83,7 @@ var getXMapBaseLayers = function (style) {
 		'&xtok={token}', {
 			profile: style,
 			token: token,
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234'
 		});
@@ -92,7 +92,7 @@ var getXMapBaseLayers = function (style) {
 		'&xtok={token}', {
 			profile: style,
 			token: token,
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234',
 			pane: 'tileOverlayPane',

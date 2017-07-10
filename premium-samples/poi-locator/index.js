@@ -38,7 +38,7 @@ if (!token)
 	alert('you need to configure your xServer internet token in token.js!')
 
 // set up the map
-var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM';
+var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE';
 var mapLocation = new L.LatLng(49, 8.4);
 
 // create a map in the "map" div, set the view to a given place and zoom
@@ -49,7 +49,7 @@ var map = new L.Map('map', {
 // insert xMap back- and forground layers with sandbox-style
 L.tileLayer(xMapTileUrl, {
 	token: window.token,
-	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 	maxZoom: 22,
 	subdomains: '1234'
 }).addTo(map);

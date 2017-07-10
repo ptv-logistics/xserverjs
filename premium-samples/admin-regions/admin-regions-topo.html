@@ -94,7 +94,7 @@
             "#b3de69", "#fccde5", "#d9d9d9", "#bc80bd", "#ccebc5", "#ffed6f"];
 
         var tokenSuffix = ''; // token in case of xServer internet '?xtok=...'
-        var ptvAttribution = '&copy; <a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TomTom';
+        var ptvAttribution = '&copy; <a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE';
         var ddsAttribution = '&copy; 2012 GfK Geomarketing GmbH';
 
         // create a basemap layer using the xMap Tile api
@@ -102,7 +102,7 @@
             'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?layers=background,transport&xtok=' + token,
             {
-                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
                 pane: 'tilePane'
@@ -112,7 +112,7 @@
             'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?layers=labels&xtok=' + token,
             {
-                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
                 pane: 'shadowPane'

@@ -35,7 +35,7 @@ var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/service
 L.tileLayer(xMapTileUrl, {
     profile: 'silkysand',
     token: window.token,
-    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
     maxZoom: 22,
     subdomains: '1234'
 }).addTo(map);

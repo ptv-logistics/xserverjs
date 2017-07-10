@@ -16,7 +16,7 @@ var baseMapLayer = L.tileLayer(
     '&xtok={token}', {
         token: window.token,
         profile: 'silkysand',
-      	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+      	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
         subdomains: '1234',
         maxZoom: 22
     }).addTo(map);  
@@ -30,7 +30,7 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 var baseMapLayer = L.tileLayer(
     'http://127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}', {	
         profile: 'silkysand',
-        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, TOMTOM',
+        attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
         maxZoom: 22
     }).addTo(map);
 ```
@@ -97,4 +97,42 @@ var raster = new ol.layer.Tile({
         layer: 'xmap', maxZoom: 22
     })
 });
+```
+
+
+#### KendoUI Basic Setup
+
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/KendoUI.html)
+
+##### xserver-internet
+
+```javascript
+function createMap() {
+    $("#map").kendoMap({
+        center: [49.01405, 8.4044],
+        zoom: 10,
+        layers: [{
+            type: 'tile',
+            urlTemplate: 'https://s0#= subdomain #-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/' +
+            '#= zoom #/#= x #/#= y #?xtok=' + token,
+            subdomains: ['1', '2', '3', '4'],
+            attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE'
+        }]
+    });
+}
+```
+
+##### on-premise
+```javascript
+function createMap() {
+    $("#map").kendoMap({
+       center: [49.01405, 8.4044],
+        zoom: 10,
+        layers: [{
+            type: 'tile',
+            urlTemplate: 'http://127.0.0.1:50000/services/rest/XMap/tile/#= zoom #/#= x #/#= y #',
+            attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE'
+        }]
+    });
+}
 ```
