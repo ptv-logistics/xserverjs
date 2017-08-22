@@ -20,7 +20,7 @@ function ddajaxtabs(tabinterfaceid, contentdivid){
 	this.currentTabIndex=0 //Index of currently selected hot tab (tab with sub content) within hottabspositions[] array
 	this.contentdivid=contentdivid
 	this.defaultHTML=""
-	this.defaultIframe='<iframe src="about:blank" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0" class="tabcontentiframe" style="width:100%; height:100%; min-height: 100px"></iframe>'
+	this.defaultIframe='<iframe src="about:blank" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0" class="tabcontentiframe" style="width:100%; height:100%; min-height: 100px" allowfullscreen></iframe>'
 	this.defaultIframe=this.defaultIframe.replace(/<iframe/i, '<iframe name="'+"_ddajaxtabsiframe-"+contentdivid+'" ')
 this.revcontentids=[] //Array to store ids of arbitrary contents to expand/contact as well ("rev" attr values)
 	this.selectedClassTarget="link" //keyword to indicate which target element to assign "selected" CSS class ("linkparent" or "link")
