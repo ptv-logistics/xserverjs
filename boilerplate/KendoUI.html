@@ -50,26 +50,6 @@
                 }]
             });
         }
- function createMap() {
-            $("#map").kendoMap({
-                center: [49.01405, 8.4044],
-                zoom: 10,
-                layers: [{
-                    type: 'tile',
-                    urlTemplate: 'https://s0#= subdomain #-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/' +
-                        '#= zoom #/#= x #/#= y #?xtok=' + token,
-                    subdomains: ['1', '2', '3', '4'],
-                    attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE'
-                }],
-                markers: [{
-                    location: [49.01405, 8.4044],
-                    shape: "pinTarget",
-                    tooltip: {
-                        content: "Karlsruhe, BW"
-                    }
-                }]
-            });
-        }
 
         $(document).ready(createMap);
     </script>

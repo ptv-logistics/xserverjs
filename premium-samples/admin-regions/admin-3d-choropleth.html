@@ -11,11 +11,9 @@
     <!-- This single-page Cesium application demonstrates the ability to request CZML from the server. -->
     <title>Example page for xMap2 @Cesium</title>
 
-    <!-- For debugging client-side code, use the "Unminified" Cesium.js.  -->
-    <script src="https://cesiumjs.org/releases/1.29/Cesium.js"></script>
-    <!--  <script src="http://cesiumjs.org/releases/1.22.1/Unminified/Cesium.js"></script> -->
+    <script src="https://cesiumjs.org/releases/1.36/Build/Cesium/Cesium.js"></script>
     <script src="../../token.js"></script>
-    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.29/Widgets/widgets.css" />
+    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.36/Build/Cesium/Widgets/widgets.css" />
     <style>
         body,
         #viewerContainer {
@@ -81,7 +79,8 @@
 
         viewer.scene.fog.enabled = false;
 
-        var promise = Cesium.GeoJsonDataSource.load('./data/districts-de-topo.json');
+        // var promise = Cesium.GeoJsonDataSource.load('./data/districts-de-topo.json');
+        var promise = Cesium.GeoJsonDataSource.load('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/districts-de-topo.json');
         promise.then(function(dataSource) {
             viewer.dataSources.add(dataSource);
 
