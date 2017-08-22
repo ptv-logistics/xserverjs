@@ -10,7 +10,8 @@
     <meta name="description" content="Client-side Drawing of Administrative Regions(Leaflet)" />
     <meta name="level" content="1" />
     <meta name="documentation" content="./doc.html" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />    <style>
     <style>
         body {
             padding: 0;
@@ -42,12 +43,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="../../token.js"></script>
 
     <script type="text/javascript">
 
         // initialize the map
-        var map = L.map('map').setView([49.611389, 6.130833], 12); // go to Luxemburg
+        var map = L.map('map', {fullscreenControl: true}).setView([49.611389, 6.130833], 12); // go to Luxemburg
 
         map.zoomControl.setPosition('bottomright'); // move the zoom control
 

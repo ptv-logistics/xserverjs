@@ -11,6 +11,7 @@
     <meta name="level" content="1" />
     <meta name="documentation" content="./doc.html" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
     <style>
         body {
             padding: 0;
@@ -42,6 +43,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/2.2.0/topojson.min.js"></script>
     <script src="./L.TopoJSON.js"></script>
     <script src="../../token.js"></script>
@@ -50,6 +52,7 @@
 
         // initialize the map
         var map = L.map('map', {
+            fullscreenControl: true,
             worldCopyJump: true,
             zoomSnap: 0.25,
             zoomDelta: 0.5,

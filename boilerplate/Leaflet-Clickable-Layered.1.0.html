@@ -9,7 +9,7 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
-    <style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />    <style>
         body {
             padding: 0;
             margin: 0;
@@ -27,13 +27,14 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://unpkg.com/leaflet-xserver@1.0.2/dist/leaflet-xserver.js"></script>
     <script src="../token.js"></script>
     <script>
         var coordinate = L.latLng(49.01405, 8.4044); // KA
         var radius = 250; // m
 
-        var map = L.map('map').setView(coordinate, 14);
+        var map = L.map('map', {fullscreenControl: true}).setView(coordinate, 14);
 
         var basemapLayer = L.tileLayer(
             'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +

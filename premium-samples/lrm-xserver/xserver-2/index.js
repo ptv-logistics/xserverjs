@@ -8,6 +8,10 @@ var routingControl;
 
 // initialize the map
 var map = L.map('map', {
+	fullscreenControl: true,
+	fullscreenControlOptions: {
+		fullscreenElement: document.getElementById('map-container').parentNode // needed for sidebar!
+	},
 	contextmenu: true,
 	contextmenuWidth: 200,
 	contextmenuItems: [{

@@ -43,6 +43,7 @@ var mapLocation = new L.LatLng(49, 8.4);
 
 // create a map in the "map" div, set the view to a given place and zoom
 var map = new L.Map('map', {
+	fullscreenControl: true,
 	preferCanvas: true
 }).setView(mapLocation, 12);
 
