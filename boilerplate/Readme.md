@@ -1,6 +1,6 @@
 ### Basic Setups for Map Widgets
 
-This section contains templates to initialize a basic xMapServer-2 base map.
+This section contains templates to initialize a basic xMapServer-2 base map. Read [here](https://github.com/ptv-logistics/xserverjs/tree/master/boilerplate/xmap-1) for xMapServer-1 samples.
 
 #### Leaflet Basic Setup
 
