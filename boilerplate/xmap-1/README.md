@@ -1,6 +1,9 @@
 ### Basic Setups for Map Widgets
 
-This section contains templates to add an xMapServer-1 map to JavaScript widgets.
+This section contains templates to add an xMap-1 basemap to JavaScript widgets. For advanced samples with additional xMap-1 content, you can also check these external projects:
+
+* https://github.com/ptv-logistics/Leaflet.PtvLayer (Pois, TILoader-Layer, RoadEditor-Layer)
+* https://github.com/ptv-logistics/fl-labs (Feature Layers)
 
 #### Leaflet Basic Setup (for 0.7 and 1.0)
 
