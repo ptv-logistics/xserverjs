@@ -1,6 +1,6 @@
 'use strict';
 // url we're sending the request to
-var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok={token}';
+var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&xtok={token}';
 var findAddressUrl = 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 var calcIsoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
 var calcReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
@@ -15,23 +15,26 @@ var horizon = 600;
 var searchMethod = 0;
 var index;
 var poiData;
+var csvRows;
+var filter;
+var poiLayer;
 
 var colors = {
-	'DIY': '#8dd3c7',
-	'RET': '#ffffb3',
-	'DRG': '#bebada',
-	'FRN': '#fb8072',
-	'FIN': '#80b1d3',
-	'COM': '#fdb462',
-	'EAT': '#b3de69',
-	'PHA': '#fccde5',
-	'KFZ': '#d9d9d9',
-	'CLO': '#bc80bd',
-	'FOD': '#ccebc5',
-	'LEH': '#ccebc5',
-	'TVL': '#fb8072',
-	'LSR': '#ffffb3',
-	'GAS': '#d9d9d9'
+	'DIY': '#114477',
+	'RET': '#4477AA',
+	'DRG': '#77AADD',
+	'FRN': '#117755',
+	'FIN': '#44AA88',
+	'COM': '#99CCBB',
+	'EAT': '#777711',
+	'PHA': '#AAAA44',
+	'KFZ': '#DDDD77',
+	'CLO': '#771111',
+	'FOD': '#AA4444',
+	'LEH': '#DD7777',
+	'TVL': '#771144',
+	'LSR': '#AA4477',
+	'GAS': '#DD77AA'
 };
 
 if (!token)
@@ -50,6 +53,7 @@ var map = new L.Map('map', {
 // insert xMap back- and forground layers with sandbox-style
 L.tileLayer(xMapTileUrl, {
 	token: window.token,
+	profile: 'gravelpit',
 	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 	maxZoom: 22,
 	subdomains: '1234'
@@ -59,20 +63,20 @@ L.tileLayer(xMapTileUrl, {
 fixOldIE();
 
 document.getElementById('f1')
-    .addEventListener('keyup', function(event) {
-	event.preventDefault();
-	if (event.keyCode == 13) {
-		document.getElementById('b1').click();
-	}
-});
+	.addEventListener('keyup', function (event) {
+		event.preventDefault();
+		if (event.keyCode == 13) {
+			document.getElementById('b1').click();
+		}
+	});
 
 document.getElementById('f2')
-    .addEventListener('keyup', function(event) {
-	event.preventDefault();
-	if (event.keyCode == 13) {
-		document.getElementById('b2').click();
-	}
-});
+	.addEventListener('keyup', function (event) {
+		event.preventDefault();
+		if (event.keyCode == 13) {
+			document.getElementById('b2').click();
+		}
+	});
 
 // add scale control
 L.control.scale().addTo(map);
@@ -99,14 +103,22 @@ var legend = L.control({
 
 legend.onAdd = function (map) {
 	var div = L.DomUtil.create('div', 'info legend');
-	div.innerHTML = '';
 
+	var str = '';
+	var i = 0;
+	str += '<div class="pure-g">';
 	for (var key in colors) {
 		if (colors.hasOwnProperty(key)) {
-			div.innerHTML +=
-				'<i style="background:' + colors[key] + '"></i> ' + key + '<br>';
+			str +=
+				'<div class="pure-u-1-3"><i style="background:' + colors[key] + '"></i> ' + key + '</div>';
+			if ((i + 1) % 3 === 0 && i > 0 && i < Object.keys(colors).length - 1)
+				str += '</div><div class="pure-g">';
+			i++;
 		}
 	}
+	str += '</div>';
+
+	div.innerHTML = str;
 
 	return div;
 };
@@ -115,43 +127,20 @@ legend.addTo(map);
 
 setBusy(true);
 
-//d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initialize);
-readCsv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initialize);
+//d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initializeMap);
+ssv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initializeMap);
 
-function initialize(pd) {
-	// store our data
-	poiData = pd;
-
-	// tip: sort the features by latitue, so they overlap nicely on the map!
-	poiData.features.sort(function (a, b) {
-		return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-	});
-
-	L.geoJson(poiData, {
-		attribution: 'DDS, Inobas',
-		pointToLayer: poiStyle
-	}).addTo(map);
-
-	// create full text index
-	index = lunr(function () {
-		this.field('description', {
-			boost: 10
-		})
-		this.ref('id')
-	})
-	for (var i = 0; i < poiData.features.length; i++) {
-		index.add({
-			id: i,
-			description: poiData.features[i].properties.description
-		});
-	}
-
+function initializeMap(rows) {
 	setBusy(false);
+
+	// store our data
+	csvRows = rows;
 
 	// set Karlsruhe
 	searchLocation = new L.LatLng(49.013301829, 8.4277897486);
 	setMarker();
-	findNearestObjects();
+
+	filterPois();
 }
 
 function setBusy(busy) {
@@ -160,11 +149,10 @@ function setBusy(busy) {
 	document.getElementById('myFieldSet').disabled = busy;
 }
 
-function setMarker(radius)
-{
+function setMarker(radius) {
 	cleanupMarkers(true);
 
-	if(radius) {
+	if (radius) {
 		circle = L.circle(searchLocation, radius, {
 			zIndex: 1000
 		}).addTo(map);
@@ -182,9 +170,9 @@ function setMarker(radius)
 	}).addTo(map)
 	marker.bindPopup(latFormatter(searchLocation.lat) + ', ' + lngFormatter(searchLocation.lng));
 
-	marker.on('dragend', function(e) {
+	marker.on('dragend', function (e) {
 		onMapClick(e.target);
-	});	
+	});
 }
 
 function findNearestObjects() {
@@ -220,32 +208,92 @@ function onMapClick(e) {
 	findNearestObjects();
 }
 
-function readCsv(url, callback) {
-	ssv(url, function (rows) {
-		var json = {
-			type: 'FeatureCollection'
+function filterPois() {
+	var e = document.getElementById('type');
+	var value = e.options[e.selectedIndex].value;
+	if (value === '---')
+		filter = null;
+	else
+		filter = value;
+
+	poiData = createJsonFromRows(csvRows);
+
+	if (filter) {
+		poiData.features = poiData.features.filter(function (d) {
+			return d.properties.category === filter;
+		});
+	}
+
+	// tip: sort the features by latitue, so they overlap nicely on the map!
+	poiData.features.sort(function (a, b) {
+		return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+	});
+
+	if (poiLayer)
+		map.removeLayer(poiLayer);
+
+	poiLayer = L.geoJson(poiData, {
+		attribution: 'DDS, Inobas',
+		pointToLayer: poiStyle
+	}).addTo(map);
+
+	// create full text index
+	index = lunr(function () {
+		this.field('description', {
+			boost: 10
+		})
+		this.ref('id')
+	})
+	for (var i = 0; i < poiData.features.length; i++) {
+		index.add({
+			id: i,
+			description: poiData.features[i].properties.description
+		});
+	}
+
+	findNearestObjects();
+}
+
+/**
+ * Loads a semicolon separated text file
+ * @param {} url
+ * @param {} callback
+ */
+function ssv(url, callback) {
+	var ssvParse = d3.dsvFormat(';');
+	d3.request(url)
+		.mimeType('text/csv')
+		.response(function (xhr) {
+			return ssvParse.parse(xhr.responseText);
+		})
+		.get(callback);
+}
+
+
+function createJsonFromRows(rows) {
+	var json = {
+		type: 'FeatureCollection'
+	};
+
+	json.features = rows.map(function (d) {
+		var feature = {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: ptvMercatorToWgs(d.X, d.Y)
+			},
+			properties: {
+				id: d.ID,
+				category: d.CATEGORY,
+				www: d.WWW,
+				description: d.NAME
+			}
 		};
 
-		json.features = rows.map(function (d) {
-			var feature = {
-				type: 'Feature',
-				geometry: {
-					type: 'Point',
-					coordinates: ptvMercatorToWgs(d.X, d.Y)
-				},
-				properties: {
-					id: d.ID,
-					category: d.CATEGORY,
-					www: d.WWW,
-					description: d.NAME
-				}
-			};
-
-			return feature;
-		});
-
-		callback(json);
+		return feature;
 	});
+
+	return json;
 }
 
 function findFulltext(name) {
@@ -253,7 +301,7 @@ function findFulltext(name) {
 
 	var res = index.search(name);
 
-	var found = res.map(function(d) {
+	var found = res.map(function (d) {
 		return {
 			feature: poiData.features[d.ref],
 			info: poiData.features[d.ref].name
@@ -273,13 +321,12 @@ function findByAddress(adr) {
 			setBusy(false);
 
 			if (error) {
-				var message = JSON.parse(error.target.response).errorMessage;			
+				var message = JSON.parse(error.target.response).errorMessage;
 				alert(message);
 				return;
 			}
 
-			if(response.results.length === 0)
-			{
+			if (response.results.length === 0) {
 				alert('nothing found!');
 				return;
 			}
@@ -358,12 +405,12 @@ function findByIso(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
-			
+
 			if (error) {
-				var message = JSON.parse(error.target.response).errorMessage;			
+				var message = JSON.parse(error.target.response).errorMessage;
 				alert(message);
 				return;
-			}	
+			}
 
 			response = JSON.parse(response.responseText);
 			var x = isoToPoly(response.isochrones[0].polys.wkt);
@@ -396,10 +443,10 @@ function findByIso(latlng, hor) {
 			isoFeature.addTo(map);
 
 			var pointsInPolygon = poiData.features
-				.filter(function(d) {
+				.filter(function (d) {
 					return leafletPip.pointInLayer(d.geometry.coordinates, isoFeature).length > 0;
 				})
-				.map(function(d) {
+				.map(function (d) {
 					return {
 						feature: d,
 						info: d.name
@@ -417,23 +464,23 @@ function filterByAirline(latlng, hor) {
 	var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */ ;
 
 	return poiData.features.map(function (d) {
-		var poiLocation = d.geometry.coordinates;
-		var p = L.latLng(poiLocation[1], poiLocation[0]);
-		var distance = latlng.distanceTo(p);
-			
-		return {
-			feature: d,
-			distance: distance
-		};
-	})
-	.filter(function (d) {
-		return d.distance < range;
-	});
+			var poiLocation = d.geometry.coordinates;
+			var p = L.latLng(poiLocation[1], poiLocation[0]);
+			var distance = latlng.distanceTo(p);
+
+			return {
+				feature: d,
+				distance: distance
+			};
+		})
+		.filter(function (d) {
+			return d.distance < range;
+		});
 }
 
 function findByAirline(latlng, hor) {
 	var found = filterByAirline(latlng, hor)
-		.map(function(d) {
+		.map(function (d) {
 			return {
 				feature: d.feature,
 				info: Math.round(d.distance) + 'm'
@@ -504,25 +551,25 @@ function findByReachableObjects(latlng, hor) {
 		token,
 		function (error, response) {
 			setBusy(false);
-			
+
 			if (error) {
-				var message = JSON.parse(error.target.response).errorMessage;			
+				var message = JSON.parse(error.target.response).errorMessage;
 				alert(message);
 				return;
-			}	
+			}
 
 			response = JSON.parse(response.responseText);
 
-			var found = candidates.map(function(d, i) {
+			var found = candidates.map(function (d, i) {
 				return {
 					feature: d.feature,
 					reachInfo: response.reachInfo[i]
 				};
-			}).filter(function(d) {
+			}).filter(function (d) {
 				return d.reachInfo.reachable;
-			}).map(function(d) {
+			}).map(function (d) {
 				return {
-					feature: d.feature, 
+					feature: d.feature,
 					info: d.reachInfo.routeInfo.distance + ' m'
 				};
 			});
@@ -588,11 +635,11 @@ function drawSpiderLine(feature, additionalInfo) {
 }
 
 function highlightPois(featureInfo, spiderLine) {
-	if(spiderLine)
-		for(var i = 0; i < featureInfo.length; i++)
+	if (spiderLine)
+		for (var i = 0; i < featureInfo.length; i++)
 			drawSpiderLine(featureInfo[i].feature, featureInfo[i].info);
 
-	for(var i = 0; i < featureInfo.length; i++)
+	for (var i = 0; i < featureInfo.length; i++)
 		highlightPoi(featureInfo[i].feature, featureInfo[i].info);
 }
 

@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>leaflet-marker-booster demo</title>
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD"
+        crossorigin="anonymous">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+
+        #myForm>div {
+            margin-bottom: 4px;
+        }
+
+        .info {
+            padding: 6px 8px;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        div.controlPanel {
+            padding: 10px;
+            background: rgb(255, 255, 255);
+            max-height: 50em;
+            overflow-y: auto;
+            display: inline-block;
+            color: rgb(75, 74, 77);
+            /* PTV solid silver I */
+            text-decoration: none;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.65);
+            border-radius: 5px;
+        }
+
+        .lll {
+            width: 180px;
+            overflow-y: auto;
+            display: inline-block;
+            color: rgb(75, 74, 77);
+            text-decoration: none;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.65);
+            border-radius: 5px;
+            text-align: left;
+            line-height: 19px;
+        }
+
+        .lll i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 3px;
+            opacity: 1;
+            border-style: solid;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="panel-control" class="controlPanel" style="width:240px">
+        <form class="pure-form">
+            <fieldset id="myFieldSet">
+                <b>Set marker boost options</b>
+                <div style="padding-top:6px">boost mode</div>
+                <div class="pure-g">
+                    <div class="pure-u-1-4"><input type="radio" name="boostType" onclick="setBoostType(0);">none</div>
+                    <div class="pure-u-1-4"><input type="radio" name="boostType" onclick="setBoostType(1);">circle</div>
+                    <div class="pure-u-1-4"><input type="radio" name="boostType" checked="true" onclick="setBoostType(2);">ball</div>
+                    <div class="pure-u-1-4"><input type="radio" name="boostType" onclick="setBoostType(3);">balloon</div>
+                </div>
+                <div style="padding-top:6px">scale log</div>
+                <div class="pure-g">
+                    <div class="pure-u-1-4"><input type="radio" name="scaleMode" onclick="setScaleMode(0);" >0</div>
+                    <div class="pure-u-1-4"><input type="radio" name="scaleMode" checked="true" onclick="setScaleMode(1);">0.125</div>
+                    <div class="pure-u-1-4"><input type="radio" name="scaleMode" onclick="setScaleMode(2);">0.25</div>
+                    <div class="pure-u-1-4"><input type="radio" name="scaleMode" onclick="setScaleMode(3);">0.325</div>
+                </div>
+        <label for="type">type</label>
+        <select id="type" onchange="filterPois()">
+            <option>---</option>
+            <option>DIY</option>
+            <option>RET</option>
+            <option>DRG</option>
+            <option>FRN</option>
+            <option>FIN</option>
+            <option>COM</option>
+            <option>EAT</option>
+            <option>PHA</option>
+            <option>KFZ</option>
+            <option>CLO</option>
+            <option>FOD</option>
+            <option>LEH</option>
+            <option>TVL</option>
+            <option>LSR</option>
+            <option>GAS</option>
+        </select> 
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/d3@4.8.0/build/d3.min.js"></script>
+    <script src="../leaflet-marker-booster.js"></script>
+    <script src="../../../token.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>

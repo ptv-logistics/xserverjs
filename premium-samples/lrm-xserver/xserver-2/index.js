@@ -92,7 +92,7 @@ var getXMapBaseLayers = function (style) {
 			subdomains: '1234'
 		});
 
-	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels{vl1}{vl2}{vl3}&contentType=JSON' +
+	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}&contentType=JSON' +
 		'&xtok={token}', {
 			profile: style,
 			token: token,
@@ -204,8 +204,8 @@ var baseLayers = {
 	'PTV silkysand': getXMapBaseLayers('silkysand').addTo(map)
 };
 
-var truckAttributesLayer = L.virtualLayer(',PTV_TruckAttributes', 'vl1');
-var restrictionZonesLayer = L.virtualLayer(',PTV_RestrictionZones', 'vl2');
+var truckAttributesLayer = L.virtualLayer('PTV_TruckAttributes,', 'vl1');
+var restrictionZonesLayer = L.virtualLayer('PTV_RestrictionZones,', 'vl2');
 
 if (enableTruckAttributes)
 	map.addLayer(truckAttributesLayer);
