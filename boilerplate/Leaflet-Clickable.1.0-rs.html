@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -26,18 +26,31 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-xserver@1.0.4/dist/leaflet-xserver.js"></script>
     <script src="../token.js"></script>
     <script>
         var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
         var interactiveTileLayer = L.tileLayer.xserver(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
-            '?storedProfile={profile}&layers=background,transport,labels,PTV_TruckAttributes&contentType=JSON&xtok={token}',
+            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rs/XMap/renderMap',
             {
-                profile: 'silkysand',
-                token: window.token,
+                requestExtension: {
+                    "storedProfile": "gravelpit",
+                    "requestProfile": {
+                        "featureLayerProfile": {
+                            "themes": [{
+                                "enabled": true,
+                                "id": "PTV_TruckAttributes"
+                            }]
+                        }
+                    },
+                    "resultFields": {
+                        "featureThemeIds": ["PTV_TruckAttributes"]
+                    }
+                },
+                username: 'xtok',
+                password: window.token,
                 attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
