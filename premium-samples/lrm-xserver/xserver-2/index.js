@@ -83,22 +83,38 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function (style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=background,transport' +
-		'&xtok={token}', {
+	var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=background,transport'
+		+ '&userLanguage={userLanguage}'
+		+ '&timeConsideration={timeConsideration}' 
+		+ '&referenceTime={referenceTime}&timeSpan={timeSpan}'
+		+ '&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
 			profile: style,
 			token: token,
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
+            timeConsideration: 'SNAPSHOT',
+            referenceTime: "2018-01-09T15%3A00%3A00%2B01%3A00",
+            timeSpan: 172800,
+            showOnlyRelevantByTime: 'false',
+			userLanguage: 'de',
 			maxZoom: 22,
 			subdomains: '1234'
 		});
 
-	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}&contentType=JSON' +
-		'&xtok={token}', {
+	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}&contentType=JSON'
+		+ '&userLanguage={userLanguage}'
+		+ '&timeConsideration={timeConsideration}' 
+		+ '&referenceTime={referenceTime}&timeSpan={timeSpan}'
+		+ '&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
 			profile: style,
 			token: token,
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234',
+            timeConsideration: 'SNAPSHOT',
+            referenceTime: '2018-01-09T15%3A00%3A00%2B01%3A00',
+            timeSpan: 172800,
+            showOnlyRelevantByTime: 'false',
+			userLanguage: 'de',
 			pane: 'tileOverlayPane',
 			zIndex: 1,
 			isVirtualHost: true,
@@ -110,6 +126,7 @@ var getXMapBaseLayers = function (style) {
 	return L.layerGroup([bg, fg]);
 }
 
+var initializeRoutingControl = function () {
 routingControl = L.Routing.control({
 	plan: L.Routing.plan(getPlan(), {
 		routeWhileDragging: false,
@@ -155,14 +172,23 @@ routingControl = L.Routing.control({
 		token: token,
 		supportsHeadings: true,
 		beforeSend: function (request) {
+			var blub = $('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val();
 			request.storedProfile = routingProfile;
+			request.routeOptions = {
+				'timeConsideration': {
+					'$type': 'ExactTimeConsiderationAtStart',
+					'referenceTime': $('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val()
+				}
+			}
 			request.requestProfile = {
 				'featureLayerProfile': {
 					'themes': [{
 						'enabled': enableTruckAttributes,
 						'id': 'PTV_TruckAttributes'
 					}, {
-
+						'enabled': enableTrafficIncidents,
+						'id': 'PTV_TrafficIncidents'
+					}, {	
 						'enabled': enableRestrictionZones,
 						'id': 'PTV_RestrictionZones'
 					}]
@@ -182,14 +208,14 @@ routingControl = L.Routing.control({
 routingControl.on('routingerror', function (e) {});
 
 L.Routing.errorControl(routingControl).addTo(map);
-//	routingControl.hide();
-//map.setView([49, 8.4], 16);
+};
 
 // update ui
 $('#scenarioSelect').val(scenario);
 $('#routingProfile').val(routingProfile);
 $('#enableRestrictionZones').prop('checked', enableRestrictionZones);
 $('#enableTruckAttributes').prop('checked', enableTruckAttributes);
+$('#enableTrafficIncidents').prop('checked', enableTrafficIncidents);
 
 // add side bar
 var sidebar = L.control.sidebar('sidebar').addTo(map);
@@ -206,15 +232,19 @@ var baseLayers = {
 
 var truckAttributesLayer = L.virtualLayer('PTV_TruckAttributes,', 'vl1');
 var restrictionZonesLayer = L.virtualLayer('PTV_RestrictionZones,', 'vl2');
+var trafficIncidentsLayer = L.virtualLayer('PTV_TrafficIncidents,', 'vl3');
 
 if (enableTruckAttributes)
 	map.addLayer(truckAttributesLayer);
+if (enableTrafficIncidents)
+	map.addLayer(trafficIncidentsLayer);
 if (enableRestrictionZones)
 	map.addLayer(restrictionZonesLayer);
 
 L.control.layers(baseLayers, {
 	'Truck Attributes': truckAttributesLayer,
-	'Restriction Zones': restrictionZonesLayer
+	'Restriction Zones': restrictionZonesLayer,
+	'Traffic Incidents': trafficIncidentsLayer
 }, {
 	position: 'bottomleft',
 	autoZIndex: false
@@ -229,12 +259,16 @@ var _onLayerAdd = function (e) {
 	if (e.layer === truckAttributesLayer) {
 		enableTruckAttributes = true;
 		$('#enableTruckAttributes').prop('checked', enableTruckAttributes);
+	} else if (e.layer === trafficIncidentsLayer) {
+		enableTrafficIncidents = true;
+		$('#enableTrafficIncidents').prop('checked', enableTrafficIncidents);
 	} else if (e.layer === restrictionZonesLayer) {
 		enableRestrictionZones = true;
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
 	} else return;
 
-	routingControl.route();
+	if(routingControl)
+		routingControl.route();	
 };
 
 var _onLayerRemove = function (e) {
@@ -245,15 +279,28 @@ var _onLayerRemove = function (e) {
 		enableTruckAttributes = false;
 		$('#enableTruckAttributes').prop('checked', enableTruckAttributes);
 	} else if (e.layer === restrictionZonesLayer) {
+		enableTrafficIncidents = false;
+		$('#enableTrafficIncidents').prop('checked', enableTrafficIncidents);
+	} else if (e.layer === restrictionZonesLayer) {
 		enableRestrictionZones = false;
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
 	} else return;
 
-	routingControl.route();
+	if(routingControl)
+		routingControl.route();
 };
 
-map.on('layeradd', _onLayerAdd, this)
-map.on('layerremove', _onLayerRemove, this)
+var _onMapLoad = function (e) {
+	new L.Control.ReferenceTimeControl().onAdd(map);
+	initializeRoutingControl();
+};
+	
+map.on('layeradd', _onLayerAdd, this);
+map.on('layerremove', _onLayerRemove, this);
+
+map.on('load', _onMapLoad, this);
+map.setView([0,0], 1);
+
 
 // update the map scenario
 var updateScenario = function () {
@@ -267,7 +314,8 @@ var updateParams = function (updateWayPoints) {
 
 	enableRestrictionZones = $('#enableRestrictionZones').is(':checked');
 	enableTruckAttributes = $('#enableTruckAttributes').is(':checked');
-
+	enableTrafficIncidents = $('#enableTrafficIncidents').is(':checked');
+	
 	// sync panel->layers
 	indSelf = true;
 
@@ -276,6 +324,11 @@ var updateParams = function (updateWayPoints) {
 	else
 		map.removeLayer(truckAttributesLayer);
 
+	if (enableTrafficIncidents)
+		map.addLayer(trafficIncidentsLayer);
+	else
+		map.removeLayer(trafficIncidentsLayer);
+	
 	if (enableRestrictionZones)
 		map.addLayer(restrictionZonesLayer);
 	else
@@ -288,3 +341,4 @@ var updateParams = function (updateWayPoints) {
 	routingControl._router.options.numberOfAlternatives = 0;
 	routingControl.route();
 };
+
