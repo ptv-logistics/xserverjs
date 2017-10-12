@@ -224,9 +224,9 @@ sidebar.open('home');
 L.control.scale().addTo(map);
 
 var baseLayers = {
-	'PTV gravelpit': getXMapBaseLayers('gravelpit'),
+	'PTV gravelpit': getXMapBaseLayers('gravelpit').addTo(map),
 	'PTV sandbox': getXMapBaseLayers('sandbox'),
-	'PTV silkysand': getXMapBaseLayers('silkysand').addTo(map)
+	'PTV silkysand': getXMapBaseLayers('silkysand')
 };
 
 var truckAttributesLayer = L.virtualLayer('PTV_TruckAttributes,', 'vl1');
@@ -256,6 +256,8 @@ L.control.layers(baseLayers, {
 var indSelf = false;
 
 var _onLayerAdd = function (e) {
+	return; // only one-way sync
+
 	if (indSelf) // event was triggered by panel
 		return;
 
@@ -278,6 +280,8 @@ var _onLayerAdd = function (e) {
 };
 
 var _onLayerRemove = function (e) {
+	return; // only one-way sync
+
 	if (indSelf) // event was triggered by panel
 		return;
 
