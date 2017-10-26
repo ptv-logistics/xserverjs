@@ -30,7 +30,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 
     // on-premise
     // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
-    // var xMapTileUrl = 'localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+    // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
 
     var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, HERE';
 
