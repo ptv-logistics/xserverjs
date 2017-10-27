@@ -1,11 +1,13 @@
 ### Basic Setups for Map Widgets
 
-This section contains templates to add an xMap-1 basemap to JavaScript widgets. For advanced samples with additional xMap-1 content, you can also check these external projects:
+This section contains templates to add an xMap-1 basemap to JavaScript widgets. 
+
+**Note:** For advanced samples with additional xMap-1 content, you can also check these external projects:
 
 * https://github.com/ptv-logistics/Leaflet.PtvLayer (Pois, TILoader-Layer, RoadEditor-Layer)
 * https://github.com/ptv-logistics/fl-labs (Feature Layers)
 
-#### Leaflet Basic Setup (for 0.7 and 1.0)
+#### Leaflet Basic Map Setup (for 0.7 and 1.0)
 
 [Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
@@ -16,7 +18,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 ```javascript
 <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.nontiledlayer@1.0.6/dist/NonTiledLayer.js"></script>
-<script src="./token.js"></script>
+<script src="./token.js"></script> // when using xserver-internet
 <script>
     // initialize leaflet
     var map = new L.Map('map', {});
