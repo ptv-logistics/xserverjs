@@ -27,7 +27,8 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 				handleSuccess(data);
 			},
 
-			error: function (xhr, status, error) {
+			error: function (xhr, status, error) {				
+				alert(url);
 				handleError(xhr);
 			}
 		});
