@@ -3,6 +3,8 @@ This project shows how to use http://www.liedman.net/leaflet-routing-machine/ wi
 
 [Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/lrm-xserver/xserver-1/)
 
+**Note:** You can also look [here](https://github.com/ptv-logistics/fl-labs/) for an extended sample including PTV Feature Layers.
+
 Required services:
 
 * PTV xMapServer-1
