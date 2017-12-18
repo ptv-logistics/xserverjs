@@ -18,17 +18,19 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			type: 'POST',
 			data: JSON.stringify(request),
 
-			headers: {
-				'Authorization': 'Basic ' + btoa('xtok:' + token),
-				'Content-Type': 'application/json'
-			},
+			headers: function () {
+				var h = {
+					'Content-Type': 'application/json'
+				};
+				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				return h;
+			}(),
 
 			success: function (data, status, xhr) {
 				handleSuccess(data);
 			},
 
-			error: function (xhr, status, error) {				
-				alert(url);
+			error: function (xhr, status, error) {
 				handleError(xhr);
 			}
 		});

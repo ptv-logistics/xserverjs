@@ -22,10 +22,13 @@ function replaceAll(find, replace, str) {
 // given the url endpoint, the token and the callback to be called
 // upon completion. 
 function runRequest(url, request, token, handleSuccess) {
-	d3.request(url)
+	var r = d3.request(url)
 		.header('Authorization', 'Basic ' + btoa('xtok:' + token))
-		.header('Content-Type', 'application/json')
-		.post(JSON.stringify(request), handleSuccess);
+
+	if(token)
+		r.header('Content-Type', 'application/json')
+
+	r.post(JSON.stringify(request), handleSuccess);
 }
 
 function lngFormatter(num) {
