@@ -85,20 +85,20 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function (style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=background,transport'
-			+ '&xtok={token}', {
-				profile: style,
-				token: token,
-				attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
-				maxZoom: 22,
-				subdomains: '1234'
-			});
+	var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=background,transport' +
+		'&xtok={token}', {
+			profile: style,
+			token: token,
+			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
+			maxZoom: 22,
+			subdomains: '1234'
+		});
 
-	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON'
-		+ '&userLanguage={userLanguage}'
-		+ '&timeConsideration={timeConsideration}' 
-		+ '&referenceTime={referenceTime}&timeSpan={timeSpan}'
-		+ '&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
+	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
+		'&userLanguage={userLanguage}' +
+		'&timeConsideration={timeConsideration}' +
+		'&referenceTime={referenceTime}&timeSpan={timeSpan}' +
+		'&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
 			profile: style,
 			token: token,
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
@@ -114,7 +114,7 @@ var getXMapBaseLayers = function (style) {
 			isVirtualHost: true,
 			vl1: '',
 			vl2: '',
-			vl3: '', 
+			vl3: '',
 			vl4: ''
 		});
 
@@ -123,85 +123,85 @@ var getXMapBaseLayers = function (style) {
 
 var initializeRoutingControl = function () {
 	routingControl = L.Routing.control({
-	plan: L.Routing.plan(getPlan(), {
+		plan: L.Routing.plan(getPlan(), {
+			routeWhileDragging: false,
+			routeDragInterval: 3000,
+			createMarker: function (i, wp) {
+				return L.marker(wp.latLng, {
+					draggable: true,
+					icon: L.icon.glyph({
+						glyph: String.fromCharCode(65 + i)
+					})
+				});
+			},
+			geocoder: L.Control.Geocoder.ptv({
+				serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+				token: token
+			}),
+			reverseWaypoints: true
+		}),
+		lineOptions: {
+			styles: [
+				// Shadow
+				{
+					color: 'grey',
+					opacity: 0.8,
+					weight: 15
+				},
+				// Outline
+				{
+					color: 'white',
+					opacity: 1,
+					weight: 9
+				},
+				// Center
+				{
+					color: 'lightblue',
+					opacity: 1,
+					weight: 6
+				}
+			]
+		},
+		router: L.Routing.ptv({
+			serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
+			token: token,
+			supportsHeadings: true,
+			beforeSend: function (request) {
+				var blub = $('#reference-date').val() + 'T' + $('#reference-time').val() + $('#time-zone').val();
+				request.storedProfile = routingProfile;
+				request.routeOptions = {
+					'timeConsideration': {
+						'$type': 'SnapshotTimeConsideration',
+						'referenceTime': $('#reference-date').val() + 'T' + $('#reference-time').val() + $('#time-zone').val()
+					}
+				}
+				request.requestProfile = {
+					'featureLayerProfile': {
+						'themes': [{
+							'enabled': enableTruckAttributes,
+							'id': 'PTV_TruckAttributes'
+						}, {
+							'enabled': enableSpeedPatterns,
+							'id': 'PTV_SpeedPatterns'
+						}, {
+							'enabled': enableTrafficIncidents,
+							'id': 'PTV_TrafficIncidents'
+						}, {
+							'enabled': enableRestrictionZones,
+							'id': 'PTV_RestrictionZones'
+						}]
+					}
+				};
+				return request;
+			}
+		}),
+		collapsible: true,
 		routeWhileDragging: false,
 		routeDragInterval: 3000,
-		createMarker: function (i, wp) {
-			return L.marker(wp.latLng, {
-				draggable: true,
-				icon: L.icon.glyph({
-					glyph: String.fromCharCode(65 + i)
-				})
-			});
-		},
-		geocoder: L.Control.Geocoder.ptv({
-			serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/',
-			token: token
-		}),
-		reverseWaypoints: true
-	}),
-	lineOptions: {
-		styles: [
-			// Shadow
-			{
-				color: 'grey',
-				opacity: 0.8,
-				weight: 15
-			},
-			// Outline
-			{
-				color: 'white',
-				opacity: 1,
-				weight: 9
-			},
-			// Center
-			{
-				color: 'lightblue',
-				opacity: 1,
-				weight: 6
-			}
-		]
-	},
-	router: L.Routing.ptv({
-		serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
-		token: token,
-		supportsHeadings: true,
-		beforeSend: function (request) {
-			var blub = $('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val();
-			request.storedProfile = routingProfile;
-			request.routeOptions = {
-				'timeConsideration': {
-					'$type': 'SnapshotTimeConsideration',
-					'referenceTime': $('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val()
-				}
-			}
-			request.requestProfile = {
-				'featureLayerProfile': {
-					'themes': [{
-						'enabled': enableTruckAttributes,
-						'id': 'PTV_TruckAttributes'
-					}, {
-						'enabled': enableSpeedPatterns,
-						'id': 'PTV_SpeedPatterns'
-					}, {
-						'enabled': enableTrafficIncidents,
-						'id': 'PTV_TrafficIncidents'
-					}, {	
-						'enabled': enableRestrictionZones,
-						'id': 'PTV_RestrictionZones'
-					}]
-				}
-			};
-			return request;
-		}
-	}),
-	collapsible: true,
-	routeWhileDragging: false,
-	routeDragInterval: 3000,
-	formatter: new L.Routing.Formatter({
-		roundingSensitivity: 1000
-	})
-}).addTo(map);
+		formatter: new L.Routing.Formatter({
+			roundingSensitivity: 1000
+		})
+	}).addTo(map);
 
 	routingControl.on('routingerror', function (e) {});
 
@@ -258,7 +258,7 @@ L.control.layers(baseLayers, {
 var indSelf = false;
 
 var _onLayerAdd = function (e) {
-	return; // only one-way sync
+//	return; // only one-way sync
 
 	if (indSelf) // event was triggered by panel
 		return;
@@ -277,12 +277,12 @@ var _onLayerAdd = function (e) {
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
 	} else return;
 
-	if(routingControl)
-		routingControl.route();	
+	if (routingControl)
+		routingControl.route();
 };
 
 var _onLayerRemove = function (e) {
-	return; // only one-way sync
+//	return; // only one-way sync
 
 	if (indSelf) // event was triggered by panel
 		return;
@@ -301,7 +301,7 @@ var _onLayerRemove = function (e) {
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
 	} else return;
 
-	if(routingControl)
+	if (routingControl)
 		routingControl.route();
 };
 
@@ -309,12 +309,12 @@ var _onMapLoad = function (e) {
 	new L.Control.ReferenceTimeControl().onAdd(map);
 	initializeRoutingControl();
 };
-	
+
 map.on('layeradd', _onLayerAdd, this);
 map.on('layerremove', _onLayerRemove, this);
 
 map.on('load', _onMapLoad, this);
-map.setView([0,0], 1);
+map.setView([0, 0], 1);
 
 
 // update the map scenario
@@ -331,7 +331,7 @@ var updateParams = function (updateWayPoints) {
 	enableTruckAttributes = $('#enableTruckAttributes').is(':checked');
 	enableTrafficIncidents = $('#enableTrafficIncidents').is(':checked');
 	enableSpeedPatterns = $('#enableSpeedPatterns').is(':checked');
-	
+
 	// sync panel->layers
 	indSelf = true;
 
@@ -344,12 +344,12 @@ var updateParams = function (updateWayPoints) {
 		map.addLayer(trafficIncidentsLayer);
 	else
 		map.removeLayer(trafficIncidentsLayer);
-	
+
 	if (enableSpeedPatterns)
 		map.addLayer(speedPatternsLayer);
 	else
 		map.removeLayer(speedPatternsLayer);
-	
+
 	if (enableRestrictionZones)
 		map.addLayer(restrictionZonesLayer);
 	else
@@ -362,4 +362,3 @@ var updateParams = function (updateWayPoints) {
 	routingControl._router.options.numberOfAlternatives = 0;
 	routingControl.route();
 };
-

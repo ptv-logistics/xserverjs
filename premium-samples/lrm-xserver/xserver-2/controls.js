@@ -188,6 +188,7 @@ L.Control.TimeConsiderationControl = L.Control.extend({
 L.Control.ReferenceTimeControl = L.Control.extend({
     // Leaflet callback, used when control is added to the provided map object.
     onAdd: function(map) {
+        map.on('layeradd', this._onLayerAdd, this);
         this._container = document.getElementById('reference-time-control');
 
         if (L.DomEvent) {
@@ -226,6 +227,13 @@ L.Control.ReferenceTimeControl = L.Control.extend({
         }
         
         return this._container;
+    },
+
+    _onLayerAdd: function (e) {
+        if(e.layer.options.isVirtualHost) {
+            e.layer.options.showOnlyRelevantByTime = $('input[id=ShowOnlyRelevantByTime]').is(':checked') ? "true" : "false";
+            e.layer.options.referenceTime = encodeURIComponent($('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val());           
+        }
     },
     
     setTimeZone: function(value) {
