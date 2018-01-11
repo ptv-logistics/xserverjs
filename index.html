@@ -193,7 +193,7 @@
       }).setView([50, 8], 6);
 
       L.tileLayer(
-        'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=sandbox&layers=background,transport&xtok=' +
+        'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=silica&layers=background,transport&xtok=' +
         token, {
           subdomains: '1234'
         }).addTo(map);
@@ -202,14 +202,14 @@
         handler.disable();
       })
 
-      var filter = "grayscale(80%) brightness(110%) contrast(90%) blur(5px)";
+      var filter = "blur(5px)";
       map.getPanes().tilePane.style.webkitFilter = filter;
       map.getPanes().tilePane.style.filter = filter;
 
       var positions = [
-        [49.01405, 8.4044, 17, 50], // KA
-        [48.856667, 2.351667, 14, 50], // Paris
-        [51.50939, -0.11832, 14, 50], // Lonodn
+        [49.01405, 8.4044, 17, 150], // KA
+        [48.856667, 2.351667, 14, 150], // Paris
+        [51.50939, -0.11832, 14, 150], // Lonodn
         // [40.712778, -74.005833, 15, 25], // NY
         // [-35.3075, 149.124417, 14, 35] // Canberra
       ];
