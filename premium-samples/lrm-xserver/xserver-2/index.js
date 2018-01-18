@@ -8,6 +8,9 @@ var enableSpeedPatterns = false;
 var baseLayers;
 var routingControl;
 
+// Required for IE9
+$.support.cors = true;
+
 // initialize the map
 var map = L.map('map', {
 	fullscreenControl: true,

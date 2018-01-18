@@ -19,7 +19,7 @@ L.VirtualLayer = L.Layer.extend({
 		}, this);
 	},
 
-	_onLayerAdd(e) {
+	_onLayerAdd: function (e) {
 		if (e.layer.options.isVirtualHost) {
 			var layerTag = this.visible ? this.name : '';
 			if (e.layer.options[this.tag] !== layerTag) {
