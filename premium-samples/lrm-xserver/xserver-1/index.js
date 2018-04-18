@@ -61,7 +61,7 @@ var getPlan = function () {
 function getXMapBaseLayers(style, token, labelPane) {
 	var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE';
 
-	var background = L.tileLayer('https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + 'bg/{x}/{y}/{z}.png', {
+	var background = L.tileLayer('https://xmap-eu-n-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + 'bg/{x}/{y}/{z}.png', {
 		minZoom: 0,
 		maxZoom: 19,
 		opacity: 1.0,
@@ -69,7 +69,7 @@ function getXMapBaseLayers(style, token, labelPane) {
 		subdomains: '1234'
 	});
 
-	var foreground = L.nonTiledLayer.wms('https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token, {
+	var foreground = L.nonTiledLayer.wms('https://xmap-eu-n-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token, {
 		minZoom: 0,
 		maxZoom: 19,
 		opacity: 1.0,
@@ -110,7 +110,7 @@ routingControl = L.Routing.control({
 			});
 		},
 		geocoder: L.Control.Geocoder.ptv({
-			serviceUrl: 'https://api-test.cloud.ptvgroup.com/xlocate/rs/XLocate/',
+			serviceUrl: 'https://xlocate-eu-n-test.cloud.ptvgroup.com/xlocate/rs/XLocate/',
 			token: token
 		}),
 		reverseWaypoints: true
@@ -157,7 +157,7 @@ routingControl = L.Routing.control({
 	},
 	showAlternatives: true,
 	router: L.Routing.ptv({
-		serviceUrl: 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
+		serviceUrl: 'https://xroute-eu-n-test.cloud.ptvgroup.com/xroute/rs/XRoute/',
 		token: token,
 		numberOfAlternatives: alternativeRoutes,
 		beforeSend: function (request) {

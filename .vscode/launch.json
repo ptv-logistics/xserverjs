@@ -4,8 +4,11 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-1/index.html",
+            "name": "Launch Chrome against local file",
+            "runtimeArgs": [
+                "--allow-file-access-from-files"
+            ],
+            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
             "sourceMaps": false
           }    
     ]
