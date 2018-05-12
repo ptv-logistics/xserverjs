@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +7,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />
     <style>
         body {
             padding: 0;
@@ -24,8 +23,7 @@
 </head>
 <body>
     <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet@0.7.7/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
     <script src="../token.js"></script>
     <script>
         var map = L.map('map').setView([51.505, -0.09], 13);
@@ -43,7 +41,9 @@
 		var baseLayers = {
 			"PTV sandbox": getLayer("sandbox"),
 			"PTV silkysand": getLayer("silkysand").addTo(map),
-			"PTV gravelpit": getLayer("gravelpit")
+			"PTV gravelpit": getLayer("gravelpit"),
+			"PTV silica": getLayer("silica"),
+			"PTV blackmarble": getLayer("blackmarble")			
 		};
 		
 		L.control.layers(baseLayers, {}).addTo(map);
