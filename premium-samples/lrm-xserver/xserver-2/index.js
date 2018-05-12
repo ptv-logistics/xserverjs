@@ -230,6 +230,7 @@ var baseLayers = {
 	'PTV gravelpit': getXMapBaseLayers('gravelpit'),
 	'PTV sandbox': getXMapBaseLayers('sandbox'),
 	'PTV silkysand': getXMapBaseLayers('silkysand'),
+	'PTV classic': getXMapBaseLayers('classic'),
 	'PTV blackmarble': getXMapBaseLayers('blackmarble'),
 	'PTV silica': getXMapBaseLayers('silica').addTo(map)
 };

@@ -50,7 +50,7 @@ var map = new L.Map('map', {
 	preferCanvas: true
 }).setView(mapLocation, 12);
 
-// insert xMap back- and forground layers with sandbox-style
+// insert xMap back- and forground layers with silica-style
 L.tileLayer(xMapTileUrl, {
 	token: window.token,
 	profile: 'silica',
