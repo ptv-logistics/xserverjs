@@ -5,7 +5,7 @@ Administrative regions are polygons defined by the borders of administrative uni
 
 * Visualize administrative borders
 * Aggregate your location data based on adminsitrative regions
-* Create thematic (Choropleth) maps. These visualize quntitative data, like population density, purchasing power or individual sales per region.
+* Create thematic (Choropleth) maps. These visualize quantitative data, like population density, purchasing power or individual sales per region.
 * Define custom regions by merging underlyig admin regions.
 
 Our partner [digital data services gmbh](http://www.ddsgeo.de/) provides both geography and the corresponding socio-economic data in various formats. The most popular format is [GeoJSON](http://geojson.org/). GeoJSON can be processed directly in JavaScript and Leaflet, and also [directly displayed on GitHub](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/admin-regions/data/municipalities.json),
