@@ -1,1 +1,1 @@
-var token = ''; // insert your token here
+var token = '9E1010AB-FC72-4B76-93D9-16663CA654DE'; // insert your token here
