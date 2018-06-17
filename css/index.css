@@ -349,7 +349,7 @@ a.pure-button-primary {
         text-align: left;
     }
     .home-menu ul {
-        float: right;
+        float: left;
     }
     
     /* We increase the height of the splash-container */

@@ -6,14 +6,13 @@
     <title>xServer-2 routing demo</title>
     <meta name='apple-mobile-web-app-capable' content='yes' />
     <meta name='mobile-web-app-capable' content='yes'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.0/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <meta rel="stylesheet" name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.4.3/Control.FullScreen.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.5/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.8/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/sidebar-v2@0.4.0/css/leaflet-sidebar.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-contextmenu@1.4.0/dist/leaflet.contextmenu.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./index.css" />
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <style>
@@ -70,7 +69,7 @@ div.controlPanel {
                     Drag and drop the blue waypoint markers, or grab the orange route line and drag a new via waypoint. You can also enter an
                     address in the address text fields on the right side.
                 </p>
-                <div id="scenario-control" class="controlPanel" style="width:306px">
+                <div id="scenario-control" class="controlPanel" style="width:204px">
                     <table>
                         <th colspan="2" style="height:30px;width:190px"><span style="font-size:16px; font-weight:bold">Sample Route</span>
                         </th>
@@ -88,7 +87,7 @@ div.controlPanel {
                     </table>
                 </div>
                 <!-- Control for setting the themes -->
-                <div id="theme-control" class="controlPanel" style="width:306px">
+                <div id="theme-control" class="controlPanel" style="width:204px">
                     <table>
                         <tr>
                             <th colspan="2" style="height:30px;width:190px"><span style="font-size:16px; font-weight:bold">Feature Layers</span>
@@ -119,7 +118,7 @@ div.controlPanel {
                     </tr>
                 </table>
                 </div>
-                <div id="vehicle-control" class="controlPanel" style="width:306px">
+                <div id="vehicle-control" class="controlPanel" style="width:204px">
                     <table>
                         <th colspan="2" style="height:30px;width:190px"><span style="font-size:16px; font-weight:bold">Vehicle</span>
                         </th>
@@ -137,22 +136,24 @@ div.controlPanel {
                         </tr>
                     </table>
                 </div>
-                <div id="reference-time-control" class="controlPanel" style="width:306px">
+                <div id="reference-time-control" class="controlPanel" style="width:204px">
                     <table>
                         <tr><th colspan="2" style="height:30px;"><span style="font-size:16px; font-weight:bold">Reference time</span></th></tr>
                         <tr>
-                            <td height="20px" style="text-align:right"><input type="date" class="form-control" id="reference-date"/></td>
-                            <td height="20px" style="text-align:right"><input type="time" class="form-control" id="reference-time"/></td>
+                            <td height="20px"><input width="100px" type="date" class="form-control" style="width:162px" id="reference-date"/></td>
+                        </tr>
+                        <tr>
+                            <td height="20px"><input type="time" class="form-control" style="width:162px" id="reference-time"/></td>
                         </tr>
                             
                         <tr>
-                        <td height="20px" style="text-align:right">Time zone (UTC):</td>
+                        <!-- <td height="20px" style="text-align:right">Time zone (UTC):</td> -->
                             <td height="20px" style="text-align:right">
-                                <div class="input-group spinner">
-                                    <input type="text" class="form-control" id="time-zone" value="+00:00" style="pointer-events: none; ">
-                                    <div class="input-group-btn-vertical">
-                                      <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                      <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                <div class="spinner" style="width:162px">
+                                    <input type="text" class="form-control" style="width:162px" id="time-zone" value="+00:00" style="pointer-events: none; ">
+                                    <div>
+                                      <button  class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                      <button  class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
                                     </div>
                                 </div>
                             </td>
@@ -171,11 +172,11 @@ div.controlPanel {
     </div>
 
     <script src="https://unpkg.com/jquery@3.2.1/dist/jquery.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.3.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-xserver@1.0.4/dist/leaflet-xserver.js"></script>
     <script src="https://unpkg.com/leaflet.fullscreen@1.4.3/Control.FullScreen.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.5/dist/leaflet-routing-machine.min.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder@1.5.5/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.8/dist/leaflet-routing-machine.min.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder@1.5.8/dist/Control.Geocoder.js"></script>
     <script src="https://unpkg.com/sidebar-v2@0.4.0/js/leaflet-sidebar.min.js"></script>
     <script src="https://unpkg.com/leaflet-contextmenu@1.4.0/dist/leaflet.contextmenu.min.js"></script>
     <script src="https://unpkg.com/leaflet.icon.glyph@0.2.0/Leaflet.Icon.Glyph.js"></script>

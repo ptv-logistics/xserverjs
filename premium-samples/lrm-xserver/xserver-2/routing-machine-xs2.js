@@ -62,7 +62,7 @@ L.Routing.Ptv = L.Class.extend({
 
 		var coordinates = this._buildLinestring(response.polyline.plain.polyline);
 		alts.push({
-			name: 'Route ' + (i + 1),
+			name: 'Route',
 			coordinates: coordinates,
 			summary: this._convertSummary(response),
 			inputWaypoints: inputWaypoints,
