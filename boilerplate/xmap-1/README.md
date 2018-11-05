@@ -17,7 +17,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 
 ```javascript
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.nontiledlayer@1.0.6/dist/NonTiledLayer.js"></script>
+<script src="https://unpkg.com/leaflet.nontiledlayer@1.0.7/dist/NonTiledLayer.js"></script>
 <script src="./token.js"></script> // when using xserver-internet
 <script>
     // initialize leaflet
