@@ -7,7 +7,8 @@
 
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="https://unpkg.com/openlayers@4.6.4/dist/ol.css" />
+    <link rel="stylesheet" href="https://unpkg.com/openlayers@4.6.5/dist/ol.css" />
+    <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.0.0/src/ol-layerswitcher.css" />
 
     <style>
         body {
@@ -26,26 +27,49 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://unpkg.com/openlayers@4.6.4/dist/ol.js"></script>
+    <script src="https://unpkg.com/openlayers@4.6.5/dist/ol.js"></script>
+    <script src="https://unpkg.com/ol-layerswitcher@3.0.0/dist/ol-layerswitcher.js"></script>
     <script src="../token.js"></script>
     <script>
-        var raster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                urls: [
-                    'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-                    'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-                    'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-                    'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token
-                ],
-                layer: 'xmap', maxZoom: 22
+       var getTileUri = function(shard, cluster, profile, token)
+        {
+            return 'https://' + shard + '-' + cluster 
+                + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=' 
+                + profile +'&xtok=' + token;
+        }
+
+        var getLayer = function(profile, cluster, token)
+        {
+            return new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    urls: [
+                        getTileUri('s01', cluster, profile, token),
+                        getTileUri('s02', cluster, profile, token),
+                        getTileUri('s03', cluster, profile, token),
+                        getTileUri('s04', cluster, profile, token)
+                    ],
+                    attributions: ['PTV', 'HERE', 'AND'],
+                    layer: profile, maxZoom: 22,
+                }),
+                title: profile,
+                type: 'base'
             })
-        });
+        };
 
         // ka
         var center = ol.proj.transform([8.4, 49], 'EPSG:4326', 'EPSG:3857');
 
         var map = new ol.Map({
-            layers: [raster],
+            layers:             new ol.layer.Group({
+                'title': 'Base maps',
+                layers: [
+                getLayer('silkysand', 'xserver2-europe-eu-test' ,token),
+                getLayer('sandbox', 'xserver2-europe-eu-test' ,token),
+                getLayer('gravelpit', 'xserver2-europe-eu-test' ,token),
+                getLayer('classic', 'xserver2-europe-eu-test' ,token),
+                getLayer('silica', 'xserver2-europe-eu-test' ,token),
+                getLayer('blackmarble', 'xserver2-europe-eu-test' ,token),
+            ]}),
             renderer: 'canvas',
             target: 'map',
             view: new ol.View({
@@ -53,6 +77,11 @@
                 zoom: 10
             })
         });
+
+            var layerSwitcher = new ol.control.LayerSwitcher({
+       });
+        map.addControl(layerSwitcher);
+
 
         var addstuff = function () {
             var count = 20000;

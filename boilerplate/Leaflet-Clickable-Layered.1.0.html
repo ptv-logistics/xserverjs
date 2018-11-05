@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />    <style>
         body {
             padding: 0;
@@ -26,7 +26,7 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://unpkg.com/leaflet-xserver@1.0.4/dist/leaflet-xserver.js"></script>
     <script src="../token.js"></script>
@@ -60,7 +60,7 @@
         map.getPane('clickableTiles').style.zIndex = 500;
 
         var truckAttributesLayer = L.tileLayer.xserver(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
             '?storedProfile={profile}&layers=PTV_TruckAttributes&contentType=JSON&xtok={token}',
             {
                 profile: 'silkysand',

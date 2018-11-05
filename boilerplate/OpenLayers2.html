@@ -48,19 +48,34 @@
         map.addControl(new OpenLayers.Control.OverviewMap());
         map.addControl(new OpenLayers.Control.LayerSwitcher());
 
-        // add tile layer
-        var raster = new OpenLayers.Layer.XYZ(
-            'BaseMap', [
-                'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-                'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-                'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-                'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
-            ], {
-                sphericalMercator: true
-            }
-        );
+        var getTileUri = function(shard, cluster, profile, token)
+        {
+            return 'https://' + shard + '-' + cluster 
+                + '.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?storedProfile=' 
+                + profile +'&xtok=' + token;
+        }
 
-        map.addLayer(raster);
+        var getLayer = function(profile, cluster, token)
+        {
+            return new OpenLayers.Layer.XYZ(
+                profile, [
+                    getTileUri('s01', cluster, profile, token),
+                    getTileUri('s02', cluster, profile, token),
+                    getTileUri('s03', cluster, profile, token),
+                    getTileUri('s04', cluster, profile, token)
+                ],
+                {
+                sphericalMercator: true
+                }
+            ); 
+        }
+
+        map.addLayer(getLayer('silkysand', 'xserver2-europe-eu-test' ,token));
+        map.addLayer(getLayer('sandbox', 'xserver2-europe-eu-test' ,token));
+        map.addLayer(getLayer('gravelpit', 'xserver2-europe-eu-test' ,token));
+        map.addLayer(getLayer('classic', 'xserver2-europe-eu-test' ,token));
+        map.addLayer(getLayer('blackmarble', 'xserver2-europe-eu-test' ,token));
+        map.addLayer(getLayer('silica', 'xserver2-europe-eu-test' ,token));
 
         // let's go to Karlsruhe
         var center = new OpenLayers.LonLat(8.4043, 49.014);
