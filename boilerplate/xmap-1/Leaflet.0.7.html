@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <html>
+
 <head>
     <title>Leaflet NonTiledLayer Example</title>
     <meta content="yes" name="apple-mobile-web-app-capable">
@@ -24,24 +25,27 @@
     <div id="map" />
     <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.nontiledlayer@1.0.7/dist/NonTiledLayer.js"></script>
-	<script src="../../token.js"></script>
+    <script src="../../token.js"></script>
     <script>
         // initialize leaflet
         var map = new L.Map('map', {
             worldCopyJump: true
         });
-        
+
         // center Karlsruhe - setting fractional zoom
         map.setView(new L.LatLng(49.01, 8.4), 16);
 
-        // using the xserver-internet WMS adapter. Map is xServer-1 World City Map
-        var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token;
-        var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
-        var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, HERE';
+        var profile = 'silkysand';
+
+        // using the xServer WMS adapter
+        var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + window.token;
+        var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
 
         // on-premise
         // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
-        // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+        // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
+
+        var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, HERE';
 
         // add (tiled) background layer
         var background = L.tileLayer(xMapTileUrl, {
@@ -49,24 +53,27 @@
             minZoom: 0,
             opacity: 1.0,
             noWrap: false,
+            profile: 'silkysand',
             attribution: xMapAttribution,
-            subdomains: '1234'
-        });
+            subdomains: '1234' // for xserver-internet
+        }).addTo(map);
 
         // add (non-tiled) label layer. Insert at tile pane
         var labels = L.nonTiledLayer.wms(xMapWmsUrl, {
             maxZoom: 19,
             minZoom: 0,
             opacity: 1.0,
-            layers: 'xmap-silkysand-fg',
+            layers: 'xmap-' + profile + '-fg',
             format: 'image/png',
             transparent: true,
             attribution: xMapAttribution,
+            zIndex: 3,
             pane: map.getPanes().tilePane // default is overlayPane
-        });
+        }).addTo(map);
 
         // create a LayerGroup for the two xMap layers
         var xMapServerLayer = L.layerGroup([background, labels]).addTo(map);
     </script>
 </body>
+
 </html>

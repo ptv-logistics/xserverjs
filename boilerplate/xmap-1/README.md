@@ -25,14 +25,16 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 
     // center Karlsruhe
     map.setView(new L.LatLng(49.01, 8.4), 16);
+    
+    var profile = 'silkysand';
 
     // using the xServer WMS adapter
-    var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok=' + token;
-    var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+    var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok={token}';
+    var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
 
     // on-premise
     // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
-    // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-silkysand-bg/{x}/{y}/{z}.png';
+    // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
 
     var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, HERE';
 
@@ -42,8 +44,9 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         minZoom: 0,
         opacity: 1.0,
         noWrap: false,
+        profile: 'silkysand',
         attribution: xMapAttribution,
-        subdomains: '1234'
+        subdomains: '1234' // for xserver-internet
     }).addTo(map);
 
     // add (non-tiled) label layer. Insert at tile pane
@@ -51,12 +54,13 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         maxZoom: 19,
         minZoom: 0,
         opacity: 1.0,
-        layers: 'xmap-silkysand-fg',
+        layers: 'xmap-' + profile + '-fg',
         format: 'image/png',
         transparent: true,
         attribution: xMapAttribution,
-        pane: 'tilePane'
-        zIndex:3
+        pane: 'tilePane',
+        zIndex:3,
+        token: token // for xserver-internet
     }).addTo(map);
 </script>
 ```
