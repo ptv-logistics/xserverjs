@@ -8,7 +8,7 @@
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
+            "file": "${workspaceRoot}/boilerplate/cesium.html",
             "sourceMaps": false
           }    
     ]

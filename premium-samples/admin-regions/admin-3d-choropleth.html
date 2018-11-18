@@ -55,7 +55,7 @@
                 creationFunction: function () {
                     return new Cesium.UrlTemplateImageryProvider({
                         url: 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=' +
-                        profile + '&xtok=' + token,
+                            profile + '&xtok=' + token,
                         credit: 'PTV, HERE',
                         subdomains: ['1', '2', '3', '4'],
                         maximumLevel: 22
@@ -73,7 +73,7 @@
         imageryViewModels.push(getXMapViewModel('classic'));
         imageryViewModels.push(getXMapViewModel('blackmarble'));
         imageryViewModels.push(getXMapViewModel('silica'));
-        
+
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
             imageryProviderViewModels: imageryViewModels,
@@ -81,10 +81,13 @@
         });
 
         viewer.scene.fog.enabled = false;
+        viewer.baseLayerPicker.viewModel.selectedImagery = imageryViewModels[5];
 
         // var promise = Cesium.GeoJsonDataSource.load('./data/districts-de-topo.json');
-        var promise = Cesium.GeoJsonDataSource.load('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/districts-de-topo.json');
-        promise.then(function(dataSource) {
+        var promise = Cesium.GeoJsonDataSource.load(
+            'https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/districts-de-topo.json'
+        );
+        promise.then(function (dataSource) {
             viewer.dataSources.add(dataSource);
 
             //Get the array of entities
@@ -96,7 +99,8 @@
                 //hash so that we use the same color for the entire state.
                 var entity = entities[i];
 
-                var color = Cesium.Color.fromHsl(0.4 - 0.4 * Math.pow(entity.properties.popdens / 4000.0, 0.25), 1.0, 0.5);
+                var color = Cesium.Color.fromHsl(0.4 - 0.4 * Math.pow(entity.properties.popdens / 4000.0, 0.25),
+                    1.0, 0.5);
 
                 //Set the polygon material to our color.
                 entity.polygon.material = color;
@@ -117,7 +121,8 @@
 
         function terrainChanged(element) {
             var idx = element.checked ? 1 : 0;
-            viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[idx];
+            viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[
+                idx];
         }
 
         function lightningChanged(element) {

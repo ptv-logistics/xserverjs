@@ -34,20 +34,19 @@
 
 <body>
     <div id="viewerContainer">
-
         <div style="position:absolute; z-Index: 1; margin:0.4em; text-shadow:0 0 2px #000000">
-    <div>
-        <input type="checkbox" onchange="terrainChanged(this)">Terrain</input>
+            <div>
+                <input type="checkbox" onchange="terrainChanged(this)">Terrain</input>
+            </div>
+            <div>
+                <input type="checkbox" onchange="lightningChanged(this)">Lightning</input>
+            </div>
+            <div>
+                <input type="checkbox" onchange="fogChanged(this)">Fog</input>
+            </div>
+        </div>
     </div>
-        <div>
-    <input type="checkbox" onchange="lightningChanged(this)">Lightning</input>
-    </div>
-    <div>
-        <input type="checkbox" onchange="fogChanged(this)">Fog</input>
-    </div>
-   </div>
-    </div>
-<script>
+    <script>
         // set europe as default rectangle
         var west = -20.0;
         var south = 20.0;
@@ -67,7 +66,7 @@
                 creationFunction: function () {
                     return new Cesium.UrlTemplateImageryProvider({
                         url: 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=' +
-                        profile + '&xtok=' + token,
+                            profile + '&xtok=' + token,
                         credit: 'PTV, HERE',
                         subdomains: ['1', '2', '3', '4'],
                         maximumLevel: 22
@@ -84,7 +83,7 @@
         imageryViewModels.push(getXMapViewModel('classic'));
         imageryViewModels.push(getXMapViewModel('blackmarble'));
         imageryViewModels.push(getXMapViewModel('silica'));
-        
+
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
             imageryProviderViewModels: imageryViewModels,
@@ -92,19 +91,21 @@
         });
 
         viewer.scene.fog.enabled = false;
+        viewer.baseLayerPicker.viewModel.selectedImagery = imageryViewModels[3];
+        
+        function terrainChanged(element) {
+            var idx = element.checked ? 1 : 0;
+            viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[
+                idx];
+        }
 
-    function terrainChanged(element){
-        var idx = element.checked? 1 : 0;
-        viewer.baseLayerPicker.viewModel.selectedTerrain = viewer.baseLayerPicker.viewModel.terrainProviderViewModels[idx];   
-    }   
+        function lightningChanged(element) {
+            viewer.scene.globe.enableLighting = element.checked;
+        }
 
-    function lightningChanged(element){
-        viewer.scene.globe.enableLighting = element.checked;
-    }
-
-    function fogChanged(element){
-        viewer.scene.fog.enabled =  element.checked;
-    }
+        function fogChanged(element) {
+            viewer.scene.fog.enabled = element.checked;
+        }
     </script>
 </body>
 
