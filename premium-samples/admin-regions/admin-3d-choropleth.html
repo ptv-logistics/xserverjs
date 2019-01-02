@@ -11,9 +11,9 @@
     <!-- This single-page Cesium application demonstrates the ability to request CZML from the server. -->
     <title>Example page for xMap2 @Cesium</title>
 
-    <script src="https://cesiumjs.org/releases/1.51/Build/Cesium/Cesium.js"></script>
+    <script src="https://cesiumjs.org/releases/1.52/Build/Cesium/Cesium.js"></script>
     <script src="../../token.js"></script>
-    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.51/Build/Cesium/Widgets/widgets.css" />
+    <link rel="stylesheet" href="https://cesiumjs.org/releases/1.52/Build/Cesium/Widgets/widgets.css" />
     <style>
         body,
         #viewerContainer {
@@ -67,12 +67,12 @@
 
         //Create the list of available providers we would like the user to select from.
         var imageryViewModels = [];
+        imageryViewModels.push(getXMapViewModel('classic'));
+        imageryViewModels.push(getXMapViewModel('silica'));
+        imageryViewModels.push(getXMapViewModel('blackmarble'));
         imageryViewModels.push(getXMapViewModel('silkysand'));
         imageryViewModels.push(getXMapViewModel('sandbox'));
         imageryViewModels.push(getXMapViewModel('gravelpit'));
-        imageryViewModels.push(getXMapViewModel('classic'));
-        imageryViewModels.push(getXMapViewModel('blackmarble'));
-        imageryViewModels.push(getXMapViewModel('silica'));
 
         // The following line creates the Cesium viewer with all the default widgets on it.
         var viewer = window.viewer = new Cesium.Viewer('viewerContainer', {
@@ -100,23 +100,28 @@
                 var entity = entities[i];
 
                 var color = Cesium.Color.fromHsl(0.4 - 0.4 * Math.pow(entity.properties.popdens / 4000.0, 0.25),
-                    1.0, 0.5);
+                    1.0, 0.5).withAlpha(0.8);
 
                 //Set the polygon material to our color.
                 entity.polygon.material = color;
-                //Remove the outlines.
-                entity.polygon.outline = false;
 
-                entity.polygon.opacity = 0.2;
+                        //Remove the outlines.
+                entity.polygon.closeTop = true;
+                entity.polygon.closeBottom = false;
 
-                //Extrude the polygon based on the state's population.  Each entity
+                entity.polygon.outline = true;
+                entity.polygon.outlineColor = Cesium.Color.BLACK; //.withAlpha(0.5);
+                entity.polygon.outlineWidth = 1.0; // not supported on win https://github.com/AnalyticalGraphicsInc/cesium/issues/4223
+
+                entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
+
+                //Extrude the polygon based on the state's population density.  Each entity
                 //stores the properties for the GeoJSON feature it was created from
-                //Since the population is a huge number, we divide by 50.
-                entity.polygon.extrudedHeight = Math.sqrt(entity.properties.pop * 1000.0);
+                entity.polygon.extrudedHeight = Math.sqrt(entity.properties.popdens * 80000.0);
             }
         });
         //Set the camera to a US centered tilted view and switch back to moving in world coordinates.
-        viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(10.0, 50.0), new Cesium.Cartesian3(0.0, -479000.0, 393000.0));
+        viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(10.0, 49.0), new Cesium.Cartesian3(0.0, -600000.0, 400000.0));
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 
         function terrainChanged(element) {
