@@ -240,7 +240,7 @@
       window.setTimeout(function () {
         var p = positions[i];
         map.flyTo([p[0], p[1]], 15, {
-          duration: 24
+          duration: 40
         });
 
         map.on('moveend', function (e) {
@@ -248,7 +248,7 @@
           p = positions[i];
 
           map.flyTo([p[0], p[1]], 15, {
-            duration: 24
+            duration: 40
           });
         }, this);
       }, 4000);
