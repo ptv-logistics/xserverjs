@@ -7,9 +7,9 @@ This section contains templates to add an xMap-1 basemap to JavaScript widgets.
 * https://github.com/ptv-logistics/Leaflet.PtvLayer (Pois, TILoader-Layer, RoadEditor-Layer)
 * https://github.com/ptv-logistics/fl-labs (Feature Layers)
 
-#### Leaflet Basic Map Setup (for 0.7 and 1.0)
+#### Leaflet Basic Map Setup (for 0.7.x and 1.x)
 
-[Demo Leaflet 1.0](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
+[Demo Leaflet 1.x](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.1.0.html)
 
 [Demo Leaflet 0.7](https://ptv-logistics.github.io/xserverjs/boilerplate/xmap-1/Leaflet.0.7.html)
 
