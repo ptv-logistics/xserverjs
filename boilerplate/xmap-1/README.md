@@ -26,15 +26,15 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
     // center Karlsruhe
     map.setView(new L.LatLng(49.01, 8.4), 16);
     
-    var profile = 'silkysand';
+    var baseProfile = 'silkysand';
 
     // using the xServer WMS adapter
     var xMapWmsUrl = 'https://api-test.cloud.ptvgroup.com/WMS/WMS?xtok={token}';
-    var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
+    var xMapTileUrl = 'https://api{s}-test.cloud.ptvgroup.com/WMS/GetTile/{profile}/{x}/{y}/{z}.png';
 
     // on-premise
     // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
-    // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/xmap-{profile}-bg/{x}/{y}/{z}.png';
+    // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/{profile}-bg/{x}/{y}/{z}.png';
 
     var xMapAttribution = '<a href="http://www.ptvgroup.com">PTV<\/a>, HERE';
 
@@ -44,7 +44,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         minZoom: 0,
         opacity: 1.0,
         noWrap: false,
-        profile: 'silkysand',
+        profile: 'xmap-' + baseProfile '-bg',
         attribution: xMapAttribution,
         subdomains: '1234' // for xserver-internet
     }).addTo(map);
@@ -54,7 +54,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         maxZoom: 19,
         minZoom: 0,
         opacity: 1.0,
-        layers: 'xmap-' + profile + '-fg',
+        layers: 'xmap-' + baseProfile + '-fg',
         format: 'image/png',
         transparent: true,
         attribution: xMapAttribution,
