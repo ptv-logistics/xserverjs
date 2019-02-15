@@ -138,7 +138,7 @@ var initializeRoutingControl = function () {
 				});
 			},
 			geocoder: L.Control.Geocoder.ptv({
-				serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+				serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services',
 				token: token
 			}),
 			reverseWaypoints: true

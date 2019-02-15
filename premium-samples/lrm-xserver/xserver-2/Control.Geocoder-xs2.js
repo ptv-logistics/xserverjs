@@ -1,7 +1,7 @@
 L.Control.Geocoder.Ptv = L.Class.extend({
 	options: {
 		// xLocate url
-		serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+		serviceUrl: '',
 		// token for xServer internet
 		token: ''
 	},
@@ -10,7 +10,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 		L.Util.setOptions(this, options);
 	},
 
-	runRequest: function (url, request, token, handleSuccess, handleError) {
+	runGetRequest: function (url, request, token, handleSuccess, handleError) {
 		$.ajax({
 			url: url + encodeURIComponent(request.address) + '?xtok=' + token,
 			type: 'GET',
@@ -25,75 +25,86 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 		});
 	},
 
+	runPostRequest: function (url, request, token, handleSuccess, handleError) {
+		$.ajax({
+			url: url,			
+			type: 'POST',
+			data: JSON.stringify(request),
 
-	// Creates the address string to show in the result list.
-	_buildAddressString: function (loc) {
-		if (loc.formattedAddress) {
-			return loc.formattedAddress;
-		}
+			headers: function () {
+				var h = {
+					'Content-Type': 'application/json'
+				};
+				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				return h;
+			}(),
 
-		// if no formatted address is available, build our own
-		var address = loc.address;
+			success: function (data, status, xhr) {
+				handleSuccess(data);
+			},
 
-		var street = '';
-		if (address.street) {
-			street = address.street;
-		}
-		if (address.houseNumber) {
-			street = (street + ' ' + address.houseNumber).trim();
-		}
-
-		var city = '';
-		if (address.city && address.city.name) {
-			city = address.city.name;
-		}
-		if (address.postalCode) {
-			city = (address.postalCode + ' ' + city).trim();
-		}
-
-		if (address.state) {
-			city = (address.state + ' ' + city).trim();
-		}
-
-		if (address.countryName) {
-			city = (address.countryName + ' ' + city).trim();
-		}
-
-		if (address.region && address.region.name) {
-			city = (city + ' (' + address.region.name + ')').trim();
-		}
-
-
-		if (!street) {
-			return city;
-		} else if (!city) {
-			return street;
-		} else {
-			return street + ', ' + city;
-		}
+			error: function (xhr, status, error) {
+				handleError(xhr);
+			}
+		});
 	},
 
-
 	geocode: function (query, cb, context) {
-		var url = this.options.serviceUrl;
+		var url = this.options.serviceUrl + '/rest/XLocate/locations/';
 
 		var request = {
 			address: query
 		};
 
-		this.runRequest(url, request, this.options.token,
+		this.runGetRequest(url, request, this.options.token,
 			L.bind(function (response) {
 				var results = [];
+				if (!response.results || response.results.length === 0)
+					return;
 				for (var i = response.results.length - 1; i >= 0; i--) {
 					var resultAddress = response.results[i];
 					var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);
 					results[i] = {
-						name: this._buildAddressString(resultAddress.location),
+						name: resultAddress.location.formattedAddress,
 						center: loc,
 						bbox: L.latLngBounds(loc, loc)
 					};
 				}
 				cb.call(context, results);
+			}, this),
+
+			function (xhr) {
+				console.log(xhr);
+			}
+		);
+	},
+
+	reverse: function (location, scale, cb, context) {
+		var url = this.options.serviceUrl + '/rs/XLocate/experimental/searchLocations';
+
+		var request = {
+			'$type': 'SearchByPositionRequest',
+			coordinate: {
+				x: location.lng,
+				y: location.lat
+			},
+			requestProfile: {
+				mapLanguage: 'x-ptv-DFT'
+			}
+		};
+
+		this.runPostRequest(url, request, this.options.token,
+			L.bind(function (response) {
+				if (!response.results || response.results.length === 0)
+					return;
+
+				var resultAddress = response.results[0];
+				var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);
+				cb.call(context, [{
+					name: resultAddress.location.formattedAddress,
+					center: loc,
+					bounds: L.latLngBounds(loc, loc)
+				}]);
 			}, this),
 
 			function (xhr) {

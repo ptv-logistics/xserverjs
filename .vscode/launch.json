@@ -3,12 +3,12 @@
     "configurations": [
         {
             "type": "chrome",
-            "request": "launch",
+            "request": "launch",-
             "name": "Launch Chrome against local file",
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "file": "${workspaceRoot}/boilerplate/cesium.html",
+            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
             "sourceMaps": false
           }    
     ]
