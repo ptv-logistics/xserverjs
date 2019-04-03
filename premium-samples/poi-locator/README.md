@@ -1,7 +1,7 @@
 PoiLocator
 ==========
 
-A  tutorial on building mobile-friendly Web Apps to search on user-POIs by proximity or full text, using only plain JavaScript and PTV xServer. 
+A tutorial on building mobile-friendly Web Apps to search on user-POIs by proximity or full text, using only plain JavaScript and PTV xServer. 
 
 [Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/poi-locator)
 
@@ -21,7 +21,7 @@ The JavaScript libraries used:
 Note: The sample loads the POI data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
 
 ## Set-up the base map
-First, you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. The initial setup that displays the basemap around Hamburg:
+First you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. The initial setup that displays the basemap around Hamburg:
 
 ```js
 // set up the map
