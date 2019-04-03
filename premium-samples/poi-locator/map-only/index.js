@@ -35,7 +35,7 @@ var map = new L.Map('map', {
 
 // insert xMap layers with gravelpit-style
 var baseMapLayer = L.tileLayer(
-	'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' + 
+	'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' + 
 	'?storedProfile={profile}&xtok={token}', {
 		token: window.token,
 		profile: 'gravelpit',

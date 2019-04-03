@@ -37,7 +37,7 @@
         var map = L.map('map', {fullscreenControl: true}).setView(coordinate, 14);
 
         var basemapLayer = L.tileLayer(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?storedProfile={profile}&xtok={token}',
             {
                 profile: 'silkysand',
@@ -60,7 +60,7 @@
         map.getPane('clickableTiles').style.zIndex = 500;
 
         var truckAttributesLayer = L.tileLayer.xserver(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
             '?storedProfile={profile}&layers=PTV_TruckAttributes&contentType=JSON&xtok={token}',
             {
                 profile: 'silkysand',

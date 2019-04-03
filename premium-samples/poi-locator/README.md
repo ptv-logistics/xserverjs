@@ -31,7 +31,7 @@ var mapLocation = new L.LatLng(53.550556, 9.993333); // HH
 var map = new L.Map('map').setView(mapLocation, 14);
 
 // initialize xServer-internet basemap with silkysand-style
-var xMapTileUrl = 'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}?xtok={token}';
+var xMapTileUrl = 'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}/{profile}?xtok={token}';
 L.tileLayer(xMapTileUrl, {
     profile: 'silkysand',
     token: window.token,
@@ -103,7 +103,7 @@ function onMapClick(e) {
 ### Set the search location by geocoding
 If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which das a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
-var findAddressUrl = 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
+var findAddressUrl = 'https://xserver2-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
 function findByAddress(adr) {
     setBusy(true);

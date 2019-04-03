@@ -100,7 +100,7 @@
 
         // create a basemap layer using the xMap Tile api
         var background = L.tileLayer(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?layers=background,transport&xtok=' + token,
             {
                 token: token,
@@ -111,7 +111,7 @@
             }).addTo(map);
 
         var foreground = L.tileLayer(
-            'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?layers=labels&xtok=' + token,
             {
                 token: token,

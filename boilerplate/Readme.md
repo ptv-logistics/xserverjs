@@ -12,7 +12,7 @@ This section contains templates to initialize a basic xMapServer-2 base map. Rea
 var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 
 var baseMapLayer = L.tileLayer(
-    'https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
+    'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
     '&xtok={token}', {
         token: window.token,
         profile: 'silkysand',
@@ -44,10 +44,10 @@ var baseMapLayer = L.tileLayer(
 ```javascript
 var raster = new OpenLayers.Layer.XYZ(
     'BaseMap', [
-            'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
-            'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
+            'https://s01-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s02-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token,
+            'https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/${z}/${x}/${y}?xtok=' + token
         ], {
             sphericalMercator: true
         }
@@ -76,10 +76,10 @@ var raster = new OpenLayers.Layer.XYZ(
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
         urls: [
-            'https://s01-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s02-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s03-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s04-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token
+            'https://s01-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
+            'https://s02-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
+            'https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
+            'https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token
         ],
         layer: 'xmap', maxZoom: 22
     })
@@ -113,7 +113,7 @@ function createMap() {
         zoom: 10,
         layers: [{
             type: 'tile',
-            urlTemplate: 'https://s0#= subdomain #-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/' +
+            urlTemplate: 'https://s0#= subdomain #-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/' +
             '#= zoom #/#= x #/#= y #?xtok=' + token,
             subdomains: ['1', '2', '3', '4'],
             attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE'
