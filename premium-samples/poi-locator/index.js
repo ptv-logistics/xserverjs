@@ -464,15 +464,15 @@ function filterByAirline(latlng, hor) {
 	var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */ ;
 
 	return poiData.features.map(function (d) {
-			var poiLocation = d.geometry.coordinates;
-			var p = L.latLng(poiLocation[1], poiLocation[0]);
-			var distance = latlng.distanceTo(p);
+		var poiLocation = d.geometry.coordinates;
+		var p = L.latLng(poiLocation[1], poiLocation[0]);
+		var distance = latlng.distanceTo(p);
 
-			return {
-				feature: d,
-				distance: distance
-			};
-		})
+		return {
+			feature: d,
+			distance: distance
+		};
+	})
 		.filter(function (d) {
 			return d.distance < range;
 		});
