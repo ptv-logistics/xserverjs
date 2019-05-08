@@ -1,3 +1,4 @@
+var clusterName = 'xserver2-test';
 var scenario = 'm';
 var routingProfile = 'truck40t.xml';
 var enableRestrictionZones = true;
@@ -89,16 +90,17 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 var getXMapBaseLayers = function (style) {
-	var bg = L.tileLayer('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
+	var bg = L.tileLayer('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
 		'&xtok={token}', {
 			profile: style,
 			token: token,
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
-			subdomains: '1234'
+			subdomains: '1234',
+			clusterName: clusterName
 		});
 
-	var fg = L.tileLayer.xserver('https://s0{s}-xserver2-europe-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
+	var fg = L.tileLayer.xserver('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
 		'&userLanguage={userLanguage}' +
 		'&timeConsideration={timeConsideration}' +
 		'&referenceTime={referenceTime}&timeSpan={timeSpan}' +
@@ -108,6 +110,7 @@ var getXMapBaseLayers = function (style) {
 			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234',
+			clusterName: clusterName,
 			timeConsideration: 'SNAPSHOT',
 			referenceTime: '2018-01-09T15%3A00%3A00%2B01%3A00',
 			timeSpan: 172800,
@@ -139,7 +142,7 @@ var initializeRoutingControl = function () {
 				});
 			},
 			geocoder: L.Control.Geocoder.ptv({
-				serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services',
+				serviceUrl: 'https://' + clusterName + '.cloud.ptvgroup.com/services',
 				token: token
 			}),
 			reverseWaypoints: true
@@ -167,7 +170,7 @@ var initializeRoutingControl = function () {
 			]
 		},
 		router: L.Routing.ptv({
-			serviceUrl: 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/',
+			serviceUrl: 'https://' + clusterName + '.cloud.ptvgroup.com/services/rs/XRoute/',
 			token: token,
 			supportsHeadings: true,
 			beforeSend: function (request) {
