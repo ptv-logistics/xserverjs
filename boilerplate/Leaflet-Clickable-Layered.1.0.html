@@ -61,14 +61,16 @@
 
         var truckAttributesLayer = L.tileLayer.xserver(
             'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
-            '?storedProfile={profile}&layers=PTV_TruckAttributes&contentType=JSON&xtok={token}',
+            '?storedProfile={profile}&layers=PTV_TrafficIncidents&contentType=JSON&xtok={token}' +
+            '&userLanguage=en&timeConsideration=SNAPSHOT&referenceTime={referenceTime}',
             {
                 profile: 'silkysand',
                 token: window.token,
                 attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
-                pane: 'clickableTiles'
+                pane: 'clickableTiles',
+                referenceTime: new Date().toISOString()
             }).addTo(map);
 
         var layers = {

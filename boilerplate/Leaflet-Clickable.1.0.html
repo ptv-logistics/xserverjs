@@ -30,18 +30,20 @@
     <script src="https://unpkg.com/leaflet-xserver@1.0.4/dist/leaflet-xserver.js"></script>
     <script src="../token.js"></script>
     <script>
-        var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
+        var map = L.map('map').setView(new L.LatLng(40.712777777778, -74.005833333333), 13);
 
         var interactiveTileLayer = L.tileLayer.xserver(
             'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
-            '?storedProfile={profile}&layers=background,transport,labels,PTV_TruckAttributes&contentType=JSON&xtok={token}',
+            '?storedProfile={profile}&layers=background,transport,labels,PTV_TrafficIncidents&contentType=JSON&xtok={token}' +
+            '&userLanguage=en&timeConsideration=SNAPSHOT&referenceTime={referenceTime}',
             {
                 profile: 'silkysand',
                 token: window.token,
                 attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
-                pane: 'tilePane'
+                pane: 'tilePane',
+                referenceTime: new Date().toISOString()
             }).addTo(map);
     </script>
 </body>
