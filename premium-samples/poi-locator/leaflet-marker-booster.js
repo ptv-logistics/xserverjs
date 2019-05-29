@@ -84,7 +84,7 @@
 
 	xproto._containsPoint = function (p) {
 		if (this instanceof L.Circle)
-			return prev.call(this, layer);
+			return xprev.call(this, p);
 
 		var r = this._radius;
 		
@@ -98,9 +98,9 @@
 		if(options.boostType === 'balloon')
 			p = new L.Point(p.x, p.y + 2 * r);
 
-		// clickTolerance olny for mobile!
-		return p.distanceTo(this._point) <= r + this._clickTolerance();
-//		return p.distanceTo(this._point) <= r + ((L.Browser.touch && L.Browser.mobile) ? 10 : 0);
+		return p.distanceTo(this._point) <= r + this._clickTolerance();		
+		// clickTolerance only for mobile! (seems to be fixed with LL1.4)
+		// return p.distanceTo(this._point) <= r + ((L.Browser.touch && L.Browser.mobile) ? 10 : 0);
 	};
 
 	var cproto = L.Layer.prototype;
