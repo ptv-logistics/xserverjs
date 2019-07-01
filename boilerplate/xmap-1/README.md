@@ -18,7 +18,6 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
 ```javascript
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.nontiledlayer@1.0.7/dist/NonTiledLayer.js"></script>
-<script src="./token.js"></script> // when using xserver-internet
 <script>
     // initialize leaflet
     var map = new L.Map('map', {});
@@ -60,7 +59,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         attribution: xMapAttribution,
         pane: 'tilePane',
         zIndex:3,
-        token: token // for xserver-internet
+        token: '<your xserver-inernet token>'
     }).addTo(map);
 </script>
 ```
