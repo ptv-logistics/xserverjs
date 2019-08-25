@@ -27,7 +27,7 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-xserver@1.0.4/dist/leaflet-xserver.js"></script>
+    <script src="https://unpkg.com/leaflet-xserver@1.0.6/dist/leaflet-xserver.js"></script>
     <script src="../token.js"></script>
     <script>
         var coordinate = L.latLng(49.01405, 8.4044); // KA
@@ -41,7 +41,6 @@
             {
                 profile: 'silkysand',
                 token: window.token,
-                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
                 pane: map.getPanes().tilePane
@@ -60,7 +59,6 @@
             {
                 profile: 'silkysand',
                 token: window.token,
-                attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
                 subdomains: '1234',
                 maxZoom: 22,
                 pane: map.getPanes().shadowPane

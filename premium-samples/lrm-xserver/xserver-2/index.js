@@ -94,20 +94,18 @@ var getXMapBaseLayers = function (style) {
 		'&xtok={token}', {
 			profile: style,
 			token: token,
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234',
 			clusterName: clusterName
 		});
 
-	var fg = L.tileLayer.xserver('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
+	var fg = L.tileLayer.xserver('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
 		'&userLanguage={userLanguage}' +
 		'&timeConsideration={timeConsideration}' +
 		'&referenceTime={referenceTime}&timeSpan={timeSpan}' +
 		'&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
 			profile: style,
 			token: token,
-			attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 			maxZoom: 22,
 			subdomains: '1234',
 			clusterName: clusterName,
