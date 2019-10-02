@@ -3,7 +3,7 @@
 ![xServer compatible!](https://img.shields.io/badge/xServer-1.18%2B%2F2.2-blue.svg?style=flat)
 ![Leaflet compatible!](https://img.shields.io/badge/Leaflet-0.7.7%2F1.1.0-blue.svg?style=flat)
 
-JavaScript APIs for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
+JavaScript amples for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
 Go to https://ptv-logistics.github.io/xserverjs/ 
 
@@ -20,7 +20,9 @@ Go to https://ptv-logistics.github.io/xserverjs/
   * [Basic map integration for xMap-1](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/)
   * [leaflet-xserver](https://github.com/ptv-logistics/leaflet-xserver)
 * Premium Samples
-  * [premium sample lrm-xserver](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/lrm-xserver/)
+  * xServer Routing Machine
+    * [xServer-1](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/lrm-xserver/xserver-1)
+    * [xServer-2](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/lrm-xserver/xserver-2)
   * [premium sample poi-locator](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/poi-locator/)
   * [premium sample admin-regions](https://github.com/ptv-logistics/xserverjs/tree/master/premium-samples/admin-regions/)
 
