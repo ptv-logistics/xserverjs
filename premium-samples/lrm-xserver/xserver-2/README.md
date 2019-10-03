@@ -27,3 +27,9 @@ Supported options:
 * *supportsHeadings* - indicates the back-end is an xServer that supports heading informations. Default: true
 * *numberOfAlternatives* - Number of alternatives to calculate. Default: 0
 * *beforeSend* - A delegate to manipulate the sent request. Default: null
+
+## leaflet-xserver
+
+https://www.npmjs.com/package/leaflet-xserver
+
+Support for automatic Leaflat attribution and clickable FeatureLayers.
