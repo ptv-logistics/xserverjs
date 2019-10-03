@@ -32,4 +32,4 @@ Supported options:
 
 https://www.npmjs.com/package/leaflet-xserver
 
-Support for automatic Leaflat attribution and clickable FeatureLayers.
+Support for automatic Leaflet attribution and clickable FeatureLayers.
