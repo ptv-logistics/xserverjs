@@ -3,7 +3,7 @@
 ![xServer compatible!](https://img.shields.io/badge/xServer-1.18%2B%2F2.2-blue.svg?style=flat)
 ![Leaflet compatible!](https://img.shields.io/badge/Leaflet-0.7.7%2F1.1.0-blue.svg?style=flat)
 
-JavaScript amples for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
+JavaScript samples for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
 Go to https://ptv-logistics.github.io/xserverjs/ 
 
