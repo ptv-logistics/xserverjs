@@ -37,7 +37,7 @@ var baseMapLayer = L.tileLayer(
 
 #### Aerial/Road Hybrid Maps
 
-A hybrid map with HERE aerial imagery and PTV overlay can be achieved using a mesh-up of multiple layers. A Leaflet TileLayer with a HERE tile-URI and one or more PTV TileLayers (excluding the background) can be inserted to the same Map instance. The PTV layert PTV_TruckAttributes and PTV_TrafficIncidents can also be made clickable (using L.TileLayer.XServer).
+A hybrid map with HERE aerial imagery and PTV overlay can be achieved by creating a mesh-up of multiple tile layers. A Leaflet TileLayer with a HERE tile-URI and one or more PTV TileLayers (excluding the background) can be inserted to the same Leaflet Map instance. The PTV layer *PTV_TruckAttributes* and *PTV_TrafficIncidents* can also be made clickable (using L.TileLayer.XServer).
 
 [Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/Leaflet-Satellite.html)
 [Source Code with Click-Interaction](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/Leaflet-Satellite-Clickable.html)
