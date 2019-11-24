@@ -269,6 +269,10 @@ var _onLayerAdd = function (e) {
 	if (indSelf) // event was triggered by panel
 		return;
 
+	// fix for https://github.com/Leaflet/Leaflet/issues/6101
+	if(e.layer && e.layer.options && e.layer.options.profile) 
+		this.map._container.style.background = e.layer.options.profile === 'blackmarble'? '#000' : '';
+
 	if (e.layer === truckAttributesLayer) {
 		enableTruckAttributes = true;
 		$('#enableTruckAttributes').prop('checked', enableTruckAttributes);
