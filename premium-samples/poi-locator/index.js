@@ -20,21 +20,21 @@ var filter;
 var poiLayer;
 
 var colors = {
-	'DIY': '#114477',
-	'RET': '#4477AA',
-	'DRG': '#77AADD',
-	'FRN': '#117755',
-	'FIN': '#44AA88',
-	'COM': '#99CCBB',
-	'EAT': '#777711',
-	'PHA': '#AAAA44',
-	'KFZ': '#DDDD77',
-	'CLO': '#771111',
-	'FOD': '#AA4444',
-	'LEH': '#DD7777',
-	'TVL': '#771144',
-	'LSR': '#AA4477',
-	'GAS': '#DD77AA'
+	'DIY': '#00bf59',
+	'RET': '#f1b2ff',
+	'DRG': '#e0d400',
+	'FRN': '#7fa9da',
+	'FIN': '#ffa53f',
+	'COM': '#15b4d5',
+	'EAT': '#a2ad2e',
+	'PHA': '#b19fbb',
+	'KFZ': '#5fba3d',
+	'CLO': '#ffb3c4',
+	'FOD': '#a0ff8c',
+	'LEH': '#c7f2ff',
+	'TVL': '#ffc58f',
+	'LSR': '#71ffd7',
+	'GAS': '#d5ffd0'
 };
 
 if (!token)
@@ -53,11 +53,13 @@ var map = new L.Map('map', {
 // insert xMap back- and forground layers with silica-style
 L.tileLayer(xMapTileUrl, {
 	token: window.token,
-	profile: 'silica',
+	profile: 'blackmarble',
 	attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
 	maxZoom: 22,
 	subdomains: '1234'
 }).addTo(map);
+
+map._container.style.background = '#000';
 
 // shim: implement missing startsWith();
 fixOldIE();
