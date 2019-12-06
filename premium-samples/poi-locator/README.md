@@ -43,9 +43,11 @@ L.tileLayer(xMapTileUrl, {
 
 ## Prepare your data
 
-Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). We have some old location data stored in a Microsoft Access database (.mdb). Here is [a tool which reads the .mdb and writes it to a text-file as GeoJson](https://github.com/ptv-logistics/PoiLocator/tree/master/tools/mdbtojson). You need Visual Studio or [C# Express for Desktop](http://www.microsoft.com/en-us/download/details.aspx?id=40787) to run the tool. The same practice should also apply to Excel, .csv or "real" databases.
+Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). This samples includes about [10.000 point of sales](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/data/inobas.json) for germany. In theory GitHub can display GeonJSON directly inside the browser, but 10k are too many. This sample uses a [specific Leaflet plugin](https://github.com/oliverheilig/leaflet-marker-booster), which improves the rendering performance. 
 
-GeoJson needs the coordinates as [WGS84](http://de.wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
+An alternative to GeoJSON is to load a [.csv](https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas.csv) directly into the browser and convert it to GeoJSON on-the-fly, using [d3](https://github.com/d3/d3-dsv).
+
+Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
 
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
 2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. Before saving the point, you can convert it to Wgs84 with the Trans() function.
@@ -56,7 +58,7 @@ A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/
 ## Add your data to the map 
 In our web application we could load the JSON using jQuery. But for static data it is easier to embed it as JavaScript source. We just take the json.txt output of our tool, add a ```var poiData =``` at the beginning and a ```;``` at the end, so it looks like this. 
 
-Now we can insert the data with the L.geoJson layer, using a custom poi-style that uses a grey push-pin and binds the description as popup.
+Then we can insert the data with the L.geoJson layer, using a custom poi-style set a color by category and binds the description as popup.
 ```js
 // add our POIs
 $.getJSON('./inobas.json', initialize);
@@ -73,12 +75,11 @@ function initialize(pd) {
 
 function poiStyle(feature, latlng) {
     var style = L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-        fillColor: '#aaa',
-        fillOpacity: 1,
-        stroke: true,
-        color: '#000',
-        weight: 2,
-        onSteroids: true
+		fillColor: colors[feature.properties.category],
+		fillOpacity: 1,
+		stroke: true,
+		color: '#000',
+        weight: 2
     }).setRadius(6);
     style.bindPopup(feature.properties.description);
     return style;
