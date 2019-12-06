@@ -56,9 +56,7 @@ Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/w
  
 A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/).
 ## Add your data to the map 
-In our web application we could load the JSON using jQuery. But for static data it is easier to embed it as JavaScript source. We just take the json.txt output of our tool, add a ```var poiData =``` at the beginning and a ```;``` at the end, so it looks like this. 
-
-Then we can insert the data with the L.geoJson layer, using a custom poi-style set a color by category and binds the description as popup.
+In our web application we could load the JSON using jQuery. Then we can insert the data with the L.geoJson layer, using a custom poi-style set a color by category and binds the description as popup.
 ```js
 // add our POIs
 $.getJSON('./inobas.json', initialize);
@@ -75,10 +73,10 @@ function initialize(pd) {
 
 function poiStyle(feature, latlng) {
     var style = L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-		fillColor: colors[feature.properties.category],
-		fillOpacity: 1,
-		stroke: true,
-		color: '#000',
+	fillColor: colors[feature.properties.category],
+	fillOpacity: 1,
+	stroke: true,
+	color: '#000',
         weight: 2
     }).setRadius(6);
     style.bindPopup(feature.properties.description);
