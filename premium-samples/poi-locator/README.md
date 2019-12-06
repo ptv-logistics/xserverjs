@@ -56,7 +56,7 @@ Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/w
  
 A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/).
 ## Add your data to the map 
-In our web application we could load the JSON using jQuery. Then we can insert the data with the L.geoJson layer, using a custom poi-style set a color by category and binds the description as popup.
+In our web application we could load the JSON using jQuery and insert the data with the L.geoJson layer, using a custom poi-style that sets a color by category and binds the description as a popup.
 ```js
 // add our POIs
 $.getJSON('./inobas.json', initialize);
