@@ -48,7 +48,7 @@ Now we want to display our locations on the map. The easiest way for Leaflet is 
 GeoJson needs the coordinates as [WGS84](http://de.wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
 
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
-2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. You can also try it online [here](http://jsil.org/try/#7029947). Before saving the point, you can convert it to Wgs84 with the Trans() function.
+2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. Before saving the point, you can convert it to Wgs84 with the Trans() function.
 3. **If you have coordinates in other spatial reference systems** - Then you should try to find out what kind of coordinates these are and use some 3rd-party tools to transform into WGS84. Or just jump to point 4.
 4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is part of your xServer internet subscription. [You find a tutorial how to use xServer in C# here](http://xserver.ptvgroup.com/en-uk/cookbook/c/accessing-ptv-xserver-internet-in-net-applications/).
  
