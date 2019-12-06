@@ -13,10 +13,10 @@ Required services:
 
 The JavaScript libraries used:
 
-* [d3](https://jquery.com/) - a library we use to load and transform our data
-* [Leaflet](http://leafletjs.com/) - a JavaScript library for mobile-friendly interactive maps 
+* [d3](https://d3js.org/) - a library we use to load and transform our data
+* [Leaflet](https://leafletjs.com/) - a JavaScript library for mobile-friendly interactive maps 
 * [Leaflet-pip](https://github.com/mapbox/leaflet-pip) - a simple point-in-polygon function in JavaScript to find all POIs within an isochrone 
-* [lunr.js](http://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.
+* [lunr.js](https://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.
 
 Note: The sample loads the POI data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
 
@@ -144,7 +144,7 @@ function filterByAirline(latlng, hor) {
 }
 ```
 ### Find by Routing
-Of course this is not realistic, because you cannot walk as the crow flies. A more exact calculation is the distance calculation using the PTV xRouteServer. xRouteServer has a method called ```calculateReachableObjects```. For a given set of candidates, it calculates if there's a route with a smaller distance, and also returns the routed distance. The candidates for our reachable objects are the locations we filtered by airline. The xRoute gets the source, the candidates, the horizon and the profile for pedestrian routing. Like for xLocate, we invoke the xRoute with our ```runRequest``` helper method. 
+Of course this is not realistic, because you cannot walk as the crow flies. A more exact calculation is the distance calculation using the PTV xRouteServer. xRouteServer has a method called ```calculateReachableObjects```. For a given set of candidates it calculates if there's a route with a smaller distance, and also returns the routed distance. The candidates for our reachable objects are the locations we filtered by airline. The xRoute gets the source, the candidates, the horizon and the profile for pedestrian routing. Like for xLocate, we invoke the xRoute with our ```runRequest``` helper method. 
 ```js
 var searchForReachableObjectsUrl = 'https://xroute-eu-n-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
 
