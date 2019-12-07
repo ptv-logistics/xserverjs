@@ -100,7 +100,7 @@ function onMapClick(e) {
 ```
 
 ### Set the search location by geocoding
-If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which das a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
+If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which does a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
 var findAddressUrl = 'https://xserver2-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
@@ -124,7 +124,7 @@ function findByAddress(adr) {
 ```
 
 ### Find by Airline distance
-Now we want to get all Locations within a range "as the crow flies". For a horizon (defined in seconds) we calculate the range a pedestrian can move in meters, assuming he moves with a speed of 6 km/h. Now we calcalute the distance (with the Leaflet function ```latlng.distanceTo()```) for each POI from our source and return all POIs those distances are within the range.
+Now we want to get all Locations within a range "as the crow flies". For a horizon (defined in seconds) we calculate the range a car can drive in meters, assuming it drives with a speed of 120 km/h. Then we calcalute the distance (with the Leaflet function ```latlng.distanceTo()```) for each POI from our source and return all POIs whose distances are within the range.
 ```js
 function filterByAirline(latlng, hor) {
     var result = new Array();
