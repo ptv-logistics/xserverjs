@@ -18,7 +18,7 @@ The JavaScript libraries used:
 * [Leaflet-pip](https://github.com/mapbox/leaflet-pip) - a simple point-in-polygon function in JavaScript to find all POIs within an isochrone 
 * [lunr.js](https://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.
 
-Note: The sample loads the POI data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
+Note: The sample loads the POI data from the folder containing the web-page, which is blocked on most browsers. You must run this application from a web server if you want to load your own data.
 
 ## Set-up the base map
 First you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. The initial setup that displays the basemap around Hamburg:
@@ -43,7 +43,7 @@ L.tileLayer(xMapTileUrl, {
 
 ## Prepare your data
 
-Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). This sample includes about [10.000 point of sales](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/data/inobas.json) for germany. In theory GitHub can display GeonJSON directly inside the browser, but 10k are too many. This sample uses a [specific Leaflet plugin](https://github.com/oliverheilig/leaflet-marker-booster), which improves the rendering performance. 
+Next we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). This sample includes about [10.000 point of sales](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/data/inobas.json) for germany. In theory GitHub can display GeonJSON directly inside the browser, but 10k are too many. This sample uses a [specific Leaflet plugin](https://github.com/oliverheilig/leaflet-marker-booster), which improves the rendering performance for our app. 
 
 An alternative to GeoJSON is to load a [.csv](https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas.csv) directly into the browser and convert it to GeoJSON on-the-fly, using [d3](https://github.com/d3/d3-dsv).
 
