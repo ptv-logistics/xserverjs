@@ -422,7 +422,7 @@ function findByIso(latlng, hor) {
 				'properties': {
 					'style': {
 						weight: 4,
-						color: '#222',
+						color: '#aaa',
 						opacity: 1,
 						fillColor: '#fff',
 						fillOpacity: 0.5
