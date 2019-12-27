@@ -18,7 +18,7 @@ The JavaScript libraries used:
 * [Leaflet-pip](https://github.com/mapbox/leaflet-pip) - a simple point-in-polygon function in JavaScript to find all POIs within an isochrone 
 * [lunr.js](https://lunrjs.com/) - a full text search engine in JavaScript to find all POIs matching a text.
 
-Note: The sample loads the POI data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
+Note: The sample loads the POI data from the folder containing the web-page, which is blocked on most browsers. You must run this application from a web server if you want to load your own data.
 
 ## Set-up the base map
 First you need to set-up your html to include a Leaflet map. This quick-start-guide shows the required steps http://leafletjs.com/examples/quick-start.html. The initial setup that displays the basemap around Hamburg:
@@ -43,7 +43,7 @@ L.tileLayer(xMapTileUrl, {
 
 ## Prepare your data
 
-Now we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). This samples includes about [10.000 point of sales](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/data/inobas.json) for germany. In theory GitHub can display GeonJSON directly inside the browser, but 10k are too many. This sample uses a [specific Leaflet plugin](https://github.com/oliverheilig/leaflet-marker-booster), which improves the rendering performance. 
+Next we want to display our locations on the map. The easiest way for Leaflet is to provide the data as [GeoJson](http://geojson.org/). This sample includes about [10.000 point of sales](https://github.com/ptv-logistics/xserverjs/blob/master/premium-samples/poi-locator/data/inobas.json) for germany. In theory GitHub can display GeonJSON directly inside the browser, but 10k are too many. This sample uses a [specific Leaflet plugin](https://github.com/oliverheilig/leaflet-marker-booster), which improves the rendering performance for our app. 
 
 An alternative to GeoJSON is to load a [.csv](https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas.csv) directly into the browser and convert it to GeoJSON on-the-fly, using [d3](https://github.com/d3/d3-dsv).
 
@@ -52,13 +52,11 @@ Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/w
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
 2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. Before saving the point, you can convert it to Wgs84 with the Trans() function.
 3. **If you have coordinates in other spatial reference systems** - Then you should try to find out what kind of coordinates these are and use some 3rd-party tools to transform into WGS84. Or just jump to point 4.
-4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is part of your xServer internet subscription. [You find a tutorial how to use xServer in C# here](http://xserver.ptvgroup.com/en-uk/cookbook/c/accessing-ptv-xserver-internet-in-net-applications/).
+4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is [part of your xServer internet subscription](https://xserver2-test.cloud.ptvgroup.com/dashboard/Default.htm#Samples/Geocoding/Basic/index.htm).
  
 A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/).
 ## Add your data to the map 
-In our web application we could load the JSON using jQuery. But for static data it is easier to embed it as JavaScript source. We just take the json.txt output of our tool, add a ```var poiData =``` at the beginning and a ```;``` at the end, so it looks like this. 
-
-Then we can insert the data with the L.geoJson layer, using a custom poi-style set a color by category and binds the description as popup.
+In our web application we could load the JSON using jQuery and insert the data with the L.geoJson layer, using a custom poi-style that sets a color by category and binds the description as a popup.
 ```js
 // add our POIs
 $.getJSON('./inobas.json', initialize);
@@ -75,10 +73,10 @@ function initialize(pd) {
 
 function poiStyle(feature, latlng) {
     var style = L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], {
-		fillColor: colors[feature.properties.category],
-		fillOpacity: 1,
-		stroke: true,
-		color: '#000',
+	fillColor: colors[feature.properties.category],
+	fillOpacity: 1,
+	stroke: true,
+	color: '#000',
         weight: 2
     }).setRadius(6);
     style.bindPopup(feature.properties.description);
@@ -102,7 +100,7 @@ function onMapClick(e) {
 ```
 
 ### Set the search location by geocoding
-If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which das a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
+If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which does a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
 var findAddressUrl = 'https://xserver2-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
@@ -126,7 +124,7 @@ function findByAddress(adr) {
 ```
 
 ### Find by Airline distance
-Now we want to get all Locations within a range "as the crow flies". For a horizon (defined in seconds) we calculate the range a pedestrian can move in meters, assuming he moves with a speed of 6 km/h. Now we calcalute the distance (with the Leaflet function ```latlng.distanceTo()```) for each POI from our source and return all POIs those distances are within the range.
+Now we want to get all Locations within a range "as the crow flies". For a horizon (defined in seconds) we calculate the range a car can drive in meters, assuming it drives with a speed of 120 km/h. Then we calcalute the distance (with the Leaflet function ```latlng.distanceTo()```) for each POI from our source and return all POIs whose distances are within the range.
 ```js
 function filterByAirline(latlng, hor) {
     var result = new Array();
