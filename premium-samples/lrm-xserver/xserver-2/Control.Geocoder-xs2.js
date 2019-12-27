@@ -37,7 +37,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 				var h = {
 					'Content-Type': 'application/json'
 				};
-				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				if (token) {h['Authorization'] = 'Basic ' + btoa('xtok:' + token);}
 				return h;
 			}(),
 
@@ -62,7 +62,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			L.bind(function (response) {
 				var results = [];
 				if (!response.results || response.results.length === 0)
-					return;
+				{return;}
 				for (var i = response.results.length - 1; i >= 0; i--) {
 					var resultAddress = response.results[i];
 					var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);
@@ -98,7 +98,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 		this.runPostRequest(url, request, this.options.token,
 			L.bind(function (response) {
 				if (!response.results || response.results.length === 0)
-					return;
+				{return;}
 
 				var resultAddress = response.results[0];
 				var loc = L.latLng(resultAddress.location.referenceCoordinate.y, resultAddress.location.referenceCoordinate.x);

@@ -22,7 +22,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 				var h = {
 					'Content-Type': 'application/json'
 				};
-				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				if (token) {h['Authorization'] = 'Basic ' + btoa('xtok:' + token);}
 				return h;
 			}(),
 
@@ -64,13 +64,13 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			additionalFields: [],
 			callerContext: {
 				properties: [{
-						key: 'CoordFormat',
-						value: 'OG_GEODECIMAL'
-					},
-					{
-						key: 'Profile',
-						value: 'default'
-					}
+					key: 'CoordFormat',
+					value: 'OG_GEODECIMAL'
+				},
+				{
+					key: 'Profile',
+					value: 'default'
+				}
 				]
 			}
 		};
@@ -113,13 +113,13 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 			additionalFields: [],
 			callerContext: {
 				properties: [{
-						key: 'CoordFormat',
-						value: 'OG_GEODECIMAL'
-					},
-					{
-						key: 'Profile',
-						value: 'default'
-					}
+					key: 'CoordFormat',
+					value: 'OG_GEODECIMAL'
+				},
+				{
+					key: 'Profile',
+					value: 'default'
+				}
 				]
 			}
 		};

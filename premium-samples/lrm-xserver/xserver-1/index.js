@@ -139,20 +139,20 @@ routingControl = L.Routing.control({
 	},
 	altLineOptions: {
 		styles: [{
-				color: 'grey',
-				opacity: 0.8,
-				weight: 11
-			},
-			{
-				color: '#aaa',
-				opacity: 0.8,
-				weight: 8
-			},
-			{
-				color: 'white',
-				opacity: 1,
-				weight: 4
-			}
+			color: 'grey',
+			opacity: 0.8,
+			weight: 11
+		},
+		{
+			color: '#aaa',
+			opacity: 0.8,
+			weight: 8
+		},
+		{
+			color: 'white',
+			opacity: 1,
+			weight: 4
+		}
 		],
 	},
 	showAlternatives: true,
@@ -208,7 +208,7 @@ var updateParams = function (updateWayPoints) {
 	alternativeRoutes = $('#alternativeRoutes option:selected').val();
 
 	if (updateWayPoints)
-		routingControl.setWaypoints(getPlan());
+	{routingControl.setWaypoints(getPlan());}
 	routingControl._router.options.numberOfAlternatives = alternativeRoutes;
 	routingControl.route();
 };

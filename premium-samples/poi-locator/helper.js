@@ -26,7 +26,7 @@ function runRequest(url, request, token, handleSuccess) {
 		.header('Authorization', 'Basic ' + btoa('xtok:' + token))
 
 	if(token)
-		r.header('Content-Type', 'application/json')
+	{r.header('Content-Type', 'application/json')}
 
 	r.post(JSON.stringify(request), handleSuccess);
 }

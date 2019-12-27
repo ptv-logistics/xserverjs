@@ -27,7 +27,7 @@ L.Routing.Ptv = L.Class.extend({
 				var h = {
 					'Content-Type': 'application/json'
 				};
-				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				if (token) {h['Authorization'] = 'Basic ' + btoa('xtok:' + token);}
 				return h;
 			}(),
 
@@ -116,42 +116,42 @@ L.Routing.Ptv = L.Class.extend({
 
 		switch (manoeuvre.manoeuvreType) 
 		{
-			case 'UTURN':
-				return 'TurnAround';
-			case 'ENTER_RA':
-			case 'STAY_RA':
-			case 'EXIT_RA':
-			case 'EXIT_RA_ENTER':
-			case 'EXIT_RA_ENTER_FERRY':
-				return 'Roundabout';
-			case 'FURTHER':
-			case 'KEEP':
-			case 'CHANGE':
-			case 'ENTER':
-			case 'EXIT':
-			case 'ENTER_FERRY':
-			case 'EXIT_FERRY':
-				switch (manoeuvre.turnOrient) {
-					case 'LEFT':
-						return 'SlightLeft';
-					case 'RIGHT':
-						return 'SlightRight';
-					default:
-						return 'Straight';
-				}
-				break;
-			case 'TURN':
-				switch (manoeuvre.turnOrient) {
-					case 'LEFT':
-						return (manoeuvre.turnWeight === 'HALF') ? 'SlightLeft' : (manoeuvre.turnWeight === 'STRONG') ? 'SharpLeft' : 'Left';
-					case 'RIGHT':
-						return (manoeuvre.turnWeight === 'HALF') ? 'SlightRight' : (manoeuvre.turnWeight === 'STRONG') ? 'SharpRight' : 'Right';
-					default:
-						return 'Roundabout';
-				}
-				break;
+		case 'UTURN':
+			return 'TurnAround';
+		case 'ENTER_RA':
+		case 'STAY_RA':
+		case 'EXIT_RA':
+		case 'EXIT_RA_ENTER':
+		case 'EXIT_RA_ENTER_FERRY':
+			return 'Roundabout';
+		case 'FURTHER':
+		case 'KEEP':
+		case 'CHANGE':
+		case 'ENTER':
+		case 'EXIT':
+		case 'ENTER_FERRY':
+		case 'EXIT_FERRY':
+			switch (manoeuvre.turnOrient) {
+			case 'LEFT':
+				return 'SlightLeft';
+			case 'RIGHT':
+				return 'SlightRight';
 			default:
 				return 'Straight';
+			}
+			break;
+		case 'TURN':
+			switch (manoeuvre.turnOrient) {
+			case 'LEFT':
+				return (manoeuvre.turnWeight === 'HALF') ? 'SlightLeft' : (manoeuvre.turnWeight === 'STRONG') ? 'SharpLeft' : 'Left';
+			case 'RIGHT':
+				return (manoeuvre.turnWeight === 'HALF') ? 'SlightRight' : (manoeuvre.turnWeight === 'STRONG') ? 'SharpRight' : 'Right';
+			default:
+				return 'Roundabout';
+			}
+			break;
+		default:
+			return 'Straight';
 		}
 	},
 

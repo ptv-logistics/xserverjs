@@ -38,7 +38,7 @@ var colors = {
 };
 
 if (!token)
-	alert('you need to configure your xServer internet token in token.js!')
+{alert('you need to configure your xServer internet token in token.js!')}
 
 // set up the map
 var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE';
@@ -114,7 +114,7 @@ legend.onAdd = function (map) {
 			str +=
 				'<div class="pure-u-1-3"><i style="background:' + colors[key] + '"></i> ' + key + '</div>';
 			if ((i + 1) % 3 === 0 && i > 0 && i < Object.keys(colors).length - 1)
-				str += '</div><div class="pure-g">';
+			{str += '</div><div class="pure-g">';}
 			i++;
 		}
 	}
@@ -129,7 +129,7 @@ legend.addTo(map);
 
 setBusy(true);
 
-//d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initializeMap);
+// d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initializeMap);
 ssv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initializeMap);
 
 function initializeMap(rows) {
@@ -179,16 +179,16 @@ function setMarker(radius) {
 
 function findNearestObjects() {
 	if (!searchLocation)
-		return;
+	{return;}
 
 	cleanupMarkers();
 
 	if (searchMethod == 0)
-		findByAirline(searchLocation, horizon);
+	{findByAirline(searchLocation, horizon);}
 	else if (searchMethod == 1)
-		findByReachableObjects(searchLocation, horizon);
+	{findByReachableObjects(searchLocation, horizon);}
 	else
-		findByIso(searchLocation, horizon);
+	{findByIso(searchLocation, horizon);}
 }
 
 function setSearchMethod(method) {
@@ -203,7 +203,7 @@ function setHorizon(hor) {
 
 function onMapClick(e) {
 	if (isBusy)
-		return;
+	{return;}
 
 	searchLocation = e.latlng || e._latlng;
 	setMarker();
@@ -214,9 +214,9 @@ function filterPois() {
 	var e = document.getElementById('type');
 	var value = e.options[e.selectedIndex].value;
 	if (value === '---')
-		filter = null;
+	{filter = null;}
 	else
-		filter = value;
+	{filter = value;}
 
 	poiData = createJsonFromRows(csvRows);
 
@@ -232,7 +232,7 @@ function filterPois() {
 	});
 
 	if (poiLayer)
-		map.removeLayer(poiLayer);
+	{map.removeLayer(poiLayer);}
 
 	poiLayer = L.geoJson(poiData, {
 		attribution: 'DDS, Inobas',
@@ -463,7 +463,7 @@ function findByIso(latlng, hor) {
 }
 
 function filterByAirline(latlng, hor) {
-	var range = hor /*=s*/ * 120 /* km/h */ / 3.6 /*=m/s */ ;
+	var range = hor /* =s*/ * 120 /* km/h */ / 3.6 /* =m/s */ ;
 
 	return poiData.features.map(function (d) {
 		var poiLocation = d.geometry.coordinates;
@@ -588,7 +588,7 @@ function setBounds(features, center) {
 		arr.push(features[i]._latlng);
 	}
 	if (center)
-		arr.push(center);
+	{arr.push(center);}
 
 	if (arr.length) {
 		var bounds = new L.LatLngBounds(arr);
@@ -626,7 +626,7 @@ function drawSpiderLine(feature, additionalInfo) {
 
 	var popUp = feature.properties.description;
 	if (additionalInfo)
-		popUp = popUp + '<br>' + additionalInfo;
+	{popUp = popUp + '<br>' + additionalInfo;}
 
 	var spidlerLineline = L.polyline([searchLocation, latlon], {
 		color: 'green',
@@ -638,11 +638,11 @@ function drawSpiderLine(feature, additionalInfo) {
 
 function highlightPois(featureInfo, spiderLine) {
 	if (spiderLine)
-		for (var i = 0; i < featureInfo.length; i++)
-			drawSpiderLine(featureInfo[i].feature, featureInfo[i].info);
+	{for (var i = 0; i < featureInfo.length; i++)
+	{drawSpiderLine(featureInfo[i].feature, featureInfo[i].info);}}
 
 	for (var i = 0; i < featureInfo.length; i++)
-		highlightPoi(featureInfo[i].feature, featureInfo[i].info);
+	{highlightPoi(featureInfo[i].feature, featureInfo[i].info);}
 }
 
 function highlightPoi(feature, additionalInfo) {
@@ -650,7 +650,7 @@ function highlightPoi(feature, additionalInfo) {
 
 	var popUp = feature.properties.description;
 	if (additionalInfo)
-		popUp = popUp + '<br>' + additionalInfo;
+	{popUp = popUp + '<br>' + additionalInfo;}
 
 	var highlightedPoi = L.circleMarker(latlon, {
 		fillColor: 'yellow',
@@ -683,7 +683,7 @@ function poiStyle(feature, latlng) {
 	if (feature.properties.www) {
 		var hRef = feature.properties.www;
 		if (!hRef.startsWith('http'))
-			hRef = 'http://' + hRef;
+		{hRef = 'http://' + hRef;}
 		html = html + '<br><a target="_blank" href="' + hRef + '">' + feature.properties.www + '</a>';
 	}
 	style.bindPopup(html);

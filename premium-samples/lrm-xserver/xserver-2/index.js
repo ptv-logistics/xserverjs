@@ -49,41 +49,41 @@ map.getPane('tileOverlayPane').style.pointerEvents = 'none';
 // get the start and end coordinates for a scenario
 var getPlan = function () {
 	switch (scenario) {
-		case 'm':
-			{
-				return [
-					L.latLng(48.10032397915225, 11.547317504882812),
-					L.latLng(48.167001359708934, 11.602249145507814)
-				];
-			}
-		case 'hh':
-			{
-				return [
-					L.latLng(53.55145062603612, 9.934816360473632),
-					L.latLng(53.52796226132062, 9.84975814819336)
-				];
-			}
-		case 'na':
-			{
-				return [
-					L.latLng(40.71454, -74.00711),
-					L.latLng(42.35867, -71.05672)
-				];
-			}
-		case 'au':
-			{
-				return [
-					L.latLng(-33.86959, 151.20694),
-					L.latLng(-35.3065, 149.12659)
-				];
-			}
-		default:
-			{ // 'eu'	
-				return [
-					L.latLng(48.8588, 2.3469),
-					L.latLng(52.3546, 4.9039)
-				];
-			}
+	case 'm':
+	{
+		return [
+			L.latLng(48.10032397915225, 11.547317504882812),
+			L.latLng(48.167001359708934, 11.602249145507814)
+		];
+	}
+	case 'hh':
+	{
+		return [
+			L.latLng(53.55145062603612, 9.934816360473632),
+			L.latLng(53.52796226132062, 9.84975814819336)
+		];
+	}
+	case 'na':
+	{
+		return [
+			L.latLng(40.71454, -74.00711),
+			L.latLng(42.35867, -71.05672)
+		];
+	}
+	case 'au':
+	{
+		return [
+			L.latLng(-33.86959, 151.20694),
+			L.latLng(-35.3065, 149.12659)
+		];
+	}
+	default:
+	{ // 'eu'	
+		return [
+			L.latLng(48.8588, 2.3469),
+			L.latLng(52.3546, 4.9039)
+		];
+	}
 	}
 };
 
@@ -92,36 +92,36 @@ var getPlan = function () {
 var getXMapBaseLayers = function (style) {
 	var bg = L.tileLayer('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
 		'&xtok={token}', {
-			profile: style,
-			token: token,
-			maxZoom: 22,
-			subdomains: '1234',
-			clusterName: clusterName
-		});
+		profile: style,
+		token: token,
+		maxZoom: 22,
+		subdomains: '1234',
+		clusterName: clusterName
+	});
 
 	var fg = L.tileLayer.xserver('https://s0{s}-{clusterName}.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON' +
 		'&userLanguage={userLanguage}' +
 		'&timeConsideration={timeConsideration}' +
 		'&referenceTime={referenceTime}&timeSpan={timeSpan}' +
 		'&showOnlyRelevantByTime={showOnlyRelevantByTime}&xtok={token}', {
-			profile: style,
-			token: token,
-			maxZoom: 22,
-			subdomains: '1234',
-			clusterName: clusterName,
-			timeConsideration: 'SNAPSHOT',
-			referenceTime: '2018-01-09T15%3A00%3A00%2B01%3A00',
-			timeSpan: 172800,
-			showOnlyRelevantByTime: 'false',
-			userLanguage: 'de',
-			pane: 'tileOverlayPane',
-			zIndex: 1,
-			isVirtualHost: true,
-			vl1: '',
-			vl2: '',
-			vl3: '',
-			vl4: ''
-		});
+		profile: style,
+		token: token,
+		maxZoom: 22,
+		subdomains: '1234',
+		clusterName: clusterName,
+		timeConsideration: 'SNAPSHOT',
+		referenceTime: '2018-01-09T15%3A00%3A00%2B01%3A00',
+		timeSpan: 172800,
+		showOnlyRelevantByTime: 'false',
+		userLanguage: 'de',
+		pane: 'tileOverlayPane',
+		zIndex: 1,
+		isVirtualHost: true,
+		vl1: '',
+		vl2: '',
+		vl3: '',
+		vl4: ''
+	});
 
 	return L.layerGroup([bg, fg]);
 }
@@ -243,13 +243,13 @@ var trafficIncidentsLayer = L.virtualLayer('PTV_TrafficIncidents,', 'vl3');
 var speedPatternsLayer = L.virtualLayer('PTV_SpeedPatterns,', 'vl4');
 
 if (enableTruckAttributes)
-	map.addLayer(truckAttributesLayer);
+{map.addLayer(truckAttributesLayer);}
 if (enableTrafficIncidents)
-	map.addLayer(trafficIncidentsLayer);
+{map.addLayer(trafficIncidentsLayer);}
 if (enableRestrictionZones)
-	map.addLayer(restrictionZonesLayer);
+{map.addLayer(restrictionZonesLayer);}
 if (enableSpeedPatterns)
-	map.addLayer(speedPatternsLayer);
+{map.addLayer(speedPatternsLayer);}
 
 L.control.layers(baseLayers, {
 	'Truck Attributes': truckAttributesLayer,
@@ -267,11 +267,11 @@ var _onLayerAdd = function (e) {
 //	return; // only one-way sync
 
 	if (indSelf) // event was triggered by panel
-		return;
+	{return;}
 
 	// fix for https://github.com/Leaflet/Leaflet/issues/6101
 	if(e.layer && e.layer.options && e.layer.options.profile) 
-		this.map._container.style.background = e.layer.options.profile === 'blackmarble'? '#000' : '';
+	{this.map._container.style.background = e.layer.options.profile === 'blackmarble'? '#000' : '';}
 
 	if (e.layer === truckAttributesLayer) {
 		enableTruckAttributes = true;
@@ -285,17 +285,17 @@ var _onLayerAdd = function (e) {
 	} else if (e.layer === restrictionZonesLayer) {
 		enableRestrictionZones = true;
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
-	} else return;
+	} else {return;}
 
 	if (routingControl)
-		routingControl.route();
+	{routingControl.route();}
 };
 
 var _onLayerRemove = function (e) {
 //	return; // only one-way sync
 
 	if (indSelf) // event was triggered by panel
-		return;
+	{return;}
 
 	if (e.layer === truckAttributesLayer) {
 		enableTruckAttributes = false;
@@ -309,10 +309,10 @@ var _onLayerRemove = function (e) {
 	} else if (e.layer === restrictionZonesLayer) {
 		enableRestrictionZones = false;
 		$('#enableRestrictionZones').prop('checked', enableRestrictionZones);
-	} else return;
+	} else {return;}
 
 	if (routingControl)
-		routingControl.route();
+	{routingControl.route();}
 };
 
 var _onMapLoad = function (e) {
@@ -346,29 +346,29 @@ var updateParams = function (updateWayPoints) {
 	indSelf = true;
 
 	if (enableTruckAttributes)
-		map.addLayer(truckAttributesLayer);
+	{map.addLayer(truckAttributesLayer);}
 	else
-		map.removeLayer(truckAttributesLayer);
+	{map.removeLayer(truckAttributesLayer);}
 
 	if (enableTrafficIncidents)
-		map.addLayer(trafficIncidentsLayer);
+	{map.addLayer(trafficIncidentsLayer);}
 	else
-		map.removeLayer(trafficIncidentsLayer);
+	{map.removeLayer(trafficIncidentsLayer);}
 
 	if (enableSpeedPatterns)
-		map.addLayer(speedPatternsLayer);
+	{map.addLayer(speedPatternsLayer);}
 	else
-		map.removeLayer(speedPatternsLayer);
+	{map.removeLayer(speedPatternsLayer);}
 
 	if (enableRestrictionZones)
-		map.addLayer(restrictionZonesLayer);
+	{map.addLayer(restrictionZonesLayer);}
 	else
-		map.removeLayer(restrictionZonesLayer);
+	{map.removeLayer(restrictionZonesLayer);}
 
 	indSelf = false;
 
 	if (updateWayPoints)
-		routingControl.setWaypoints(getPlan());
+	{routingControl.setWaypoints(getPlan());}
 	routingControl._router.options.numberOfAlternatives = 0;
 	routingControl.route();
 };

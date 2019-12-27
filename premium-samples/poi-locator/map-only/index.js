@@ -77,7 +77,7 @@ legend.onAdd = function (map) {
 			str +=
 				'<div class="pure-u-1-3"><i style="background:' + colors[key] + '"></i> ' + key + '</div>';
 			if ((i + 1) % 3 === 0 && i > 0 && i < Object.keys(colors).length - 1)
-				str += '</div><div class="pure-g">';
+			{str += '</div><div class="pure-g">';}
 			i++;
 		}
 	}
@@ -100,16 +100,16 @@ if (!String.prototype.startsWith) {
 
 // IE8
 if (!Array.prototype.filter) {
-	Array.prototype.filter = function (fun /*, thisp */ ) {
+	Array.prototype.filter = function (fun /* , thisp */ ) {
 		"use strict";
 
 		if (this === void 0 || this === null)
-			throw new TypeError();
+		{throw new TypeError();}
 
 		var t = Object(this);
 		var len = t.length >>> 0;
 		if (typeof fun !== "function")
-			throw new TypeError();
+		{throw new TypeError();}
 
 		var res = [];
 		var thisp = arguments[1];
@@ -117,7 +117,7 @@ if (!Array.prototype.filter) {
 			if (i in t) {
 				var val = t[i]; // in case fun mutates this
 				if (fun.call(thisp, val, i, t))
-					res.push(val);
+				{res.push(val);}
 			}
 		}
 
@@ -146,7 +146,7 @@ function initialize(rows) {
 
 function resetPoiLayer() {
 	if (poiLayer)
-		map.removeLayer(poiLayer);
+	{map.removeLayer(poiLayer);}
 
 	poiLayer = L.geoJson(poiData, {
 		attribution: 'DDS, Inobas',
@@ -171,7 +171,7 @@ function poiStyle(feature, latlng) {
 	if (feature.properties.www) {
 		var hRef = feature.properties.www;
 		if (!hRef.startsWith('http'))
-			hRef = 'http://' + hRef;
+		{hRef = 'http://' + hRef;}
 		html = html + '<br><a target="_blank" href="' + hRef + '">' + feature.properties.www + '</a>';
 	}
 	style.bindPopup(html);
@@ -180,17 +180,17 @@ function poiStyle(feature, latlng) {
 
 function setBoostType(method) {
 	switch (method) {
-		case 1:
-			boostType = 'circle';
-			break;
-		case 2:
-			boostType = 'ball';
-			break;
-		case 3:
-			boostType = 'balloon';
-			break;
-		default:
-			boostType = undefined;
+	case 1:
+		boostType = 'circle';
+		break;
+	case 2:
+		boostType = 'ball';
+		break;
+	case 3:
+		boostType = 'balloon';
+		break;
+	default:
+		boostType = undefined;
 	}
 
 	resetPoiLayer();
@@ -198,21 +198,21 @@ function setBoostType(method) {
 
 function setScaleMode(method) {
 	switch (method) {
-		case 0:
-			boostScale = 1;
-			boostExp = 0;
-			break;
-		case 1:
-			boostScale = 1.5;
-			boostExp = 0.125;
-			break;
-		case 2:
-			boostScale = 3;
-			boostExp = 0.25;
-			break;
-		default:
-			boostScale = 6;
-			boostExp = 0.325;
+	case 0:
+		boostScale = 1;
+		boostExp = 0;
+		break;
+	case 1:
+		boostScale = 1.5;
+		boostExp = 0.125;
+		break;
+	case 2:
+		boostScale = 3;
+		boostExp = 0.25;
+		break;
+	default:
+		boostScale = 6;
+		boostExp = 0.325;
 	}
 
 	resetPoiLayer();
@@ -222,9 +222,9 @@ function filterPois() {
 	var e = document.getElementById('type');
 	var value = e.options[e.selectedIndex].value;
 	if (value === '---')
-		filter = null;
+	{filter = null;}
 	else
-		filter = value;
+	{filter = value;}
 
 	initialize(csvRows);
 }

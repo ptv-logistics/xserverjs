@@ -22,7 +22,7 @@ L.Routing.Ptv = L.Class.extend({
 				var h = {
 					'Content-Type': 'application/json'
 				};
-				if (token) h['Authorization'] = 'Basic ' + btoa('xtok:' + token);
+				if (token) {h['Authorization'] = 'Basic ' + btoa('xtok:' + token);}
 				return h;
 			}(),
 
