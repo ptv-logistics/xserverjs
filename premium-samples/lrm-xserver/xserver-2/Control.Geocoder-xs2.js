@@ -51,6 +51,11 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 		});
 	},
 
+	// using standard xLocate geocoding as suggest/autocompletion
+	suggest: function(query, cb, context) {
+		return this.geocode(query, cb, context);
+	},
+	
 	geocode: function (query, cb, context) {
 		var url = this.options.serviceUrl + '/rest/XLocate/locations/';
 
