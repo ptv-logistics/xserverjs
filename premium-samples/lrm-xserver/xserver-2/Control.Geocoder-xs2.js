@@ -1,4 +1,4 @@
-
+if(!L.Control.Geocoder) {L.Control.Geocoder = {};}
 
 L.Control.Geocoder.Ptv = L.Class.extend({
 	options: {
