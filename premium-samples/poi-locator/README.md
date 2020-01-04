@@ -52,7 +52,7 @@ Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/w
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
 2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. Before saving the point, you can convert it to Wgs84 with the Trans() function.
 3. **If you have coordinates in other spatial reference systems** - Then you should try to find out what kind of coordinates these are and use some 3rd-party tools to transform into WGS84. Or just jump to point 4.
-4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is [part of your xServer internet subscription](https://xserver2-test.cloud.ptvgroup.com/dashboard/Default.htm#Samples/Geocoding/Basic/index.htm).
+4. **If your data isn't geocoded (that means you only have addresses without coordinates)** - Then you can use PTV xLocate which is [part of your xServer internet subscription](https://xserver2-test.cloud.ptvgroup.com/dashboard/Default.htm#Showcases/Geocoding/Basic/index.htm).
  
 A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/).
 ## Add your data to the map 
