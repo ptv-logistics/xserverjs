@@ -141,7 +141,7 @@
 
         // load the municipalties json and create the layer
 //        $.getJSON("./data/municipalities-topo.json", function (data) {
-        $.getJSON("https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/municipalities-topo.json", function (data) {
+        $.getJSON("https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/municipalities-topo.json", function (data) {
             municipalitiesLayer = L.topoJson(data, {
                 attribution: ddsAttribution,
                 style: municipalityStyle
@@ -189,7 +189,7 @@
 
         // load the postcode json and create the layer
 //        $.getJSON("./data/postcode-topo.json", function (data) {
-        $.getJSON("https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/postcode-topo.json", function (data) {
+        $.getJSON("https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/admin-regions/data/postcode-topo.json", function (data) {
             postcodeLayer = L.topoJson(data, {
                 style: postCodeStyle,
                 onEachFeature: onEachPostCode

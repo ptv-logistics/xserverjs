@@ -64,7 +64,7 @@ var legend = L.control({
 	position: 'bottomright'
 });
 
-ssv('https://rawgit.com/oliverheilig/leaflet-marker-booster/master/data/inobas-slim.csv', initialize);
+ssv('https://raw.githubusercontent.com/oliverheilig/leaflet-marker-booster/master/data/inobas-slim.csv', initialize);
 
 legend.onAdd = function (map) {
 	var div = L.DomUtil.create('div', 'info lll');

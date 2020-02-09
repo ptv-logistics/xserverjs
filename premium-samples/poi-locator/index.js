@@ -130,7 +130,7 @@ legend.addTo(map);
 setBusy(true);
 
 // d3.json('https://cdn.rawgit.com/ptv-logistics/xserverjs/98a9f370/premium-samples/poi-locator/inobas.json', initializeMap);
-ssv('https://rawgit.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initializeMap);
+ssv('https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas-slim.csv', initializeMap);
 
 function initializeMap(rows) {
 	setBusy(false);
