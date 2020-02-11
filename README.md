@@ -12,7 +12,7 @@ Go to https://ptv-logistics.github.io/xserverjs/
 * Clone the repository or download the zip file
 * Add your xserver-internet token at token.js
 * To use samples with your on-premise xServer, replace the urls in the corresponding index.html file for your xServer url.
-* **Note:** Some samples need to access local files via ajax. If you wand to load your own data, they have to be hosted inside a web server.
+* **Note:** Some samples need to access local files via ajax. If you want to load your own data, they have to be hosted inside a web server.
 
 ## Direct Links to the Documentation
 * Templates
