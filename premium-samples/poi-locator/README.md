@@ -56,7 +56,7 @@ Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/w
  
 A good resource for testing your output is [GeoJsonLint](http://geojsonlint.com/).
 ## Add your data to the map 
-In our web application we could load the JSON using jQuery and insert the data with the L.geoJson layer, using a custom poi-style that sets a color by category and binds the description as a popup.
+In our web application we now can load the JSON using d3 and insert the data with the L.geoJson layer, using a custom poi-style that sets a color by category and binds the description as a popup.
 ```js
 // add our POIs
 $.getJSON('./inobas.json', initialize);
@@ -100,13 +100,11 @@ function onMapClick(e) {
 ```
 
 ### Set the search location by geocoding
-If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which does a GET call using jQuery. We just take the first result address (the best match) and set it as our ```searchLocation```. 
+If you don't know the location on the map, but have an address, you can geocode the address to return a geographic Location. PTV xLocateServer returns a list of coorindates for an input text. To invoke the request in JavaScript, there is a tool function ```runGetRequest``` in the helper.js file which does a GET call using d3. We just take the first result address (the best match) and set it as our ```searchLocation```. 
 ```js
 var findAddressUrl = 'https://xserver2-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
 
 function findByAddress(adr) {
-    setBusy(true);
-
     runGetRequest(
         findAddressUrl,
         "D " + adr,  // use Germany as fixed country
@@ -118,7 +116,6 @@ function findByAddress(adr) {
         },
         function (xhr) {
             alert(xhr.responseJSON.errorMessage);
-            setBusy(false);
         });
 }
 ```

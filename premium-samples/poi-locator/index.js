@@ -253,6 +253,7 @@ function filterPois() {
 		});
 	}
 
+	// initiate search
 	findNearestObjects();
 }
 
@@ -271,7 +272,10 @@ function ssv(url, callback) {
 		.get(callback);
 }
 
-
+/**
+ * Creates a GeoJson from our row collection
+ * @param {} rows
+ */
 function createJsonFromRows(rows) {
 	var json = {
 		type: 'FeatureCollection'
@@ -349,11 +353,8 @@ function findByGeolocation(adr) {
 }
 
 map.on('locationfound', function (e) {
-	// correct accuracy for mercator projection
-	var circleRadius = e.accuracy / Math.cos(e.latlng.lat / 180 * Math.PI);
-
 	searchLocation = e.latlng;
-	setMarker(circleRadius);
+	setMarker(e.accuracy);
 
 	findNearestObjects();
 });
@@ -583,20 +584,15 @@ function findByReachableObjects(latlng, hor) {
 }
 
 function setBounds(features, center) {
-	var arr = [];
-	for (var i = 0; i < features.length; i++) {
-		arr.push(features[i]._latlng);
-	}
+	var coords = features.map(function (d) {
+		return d._latlng;
+	});
 	if (center)
-	{arr.push(center);}
+	{coords.push(center);}
 
-	if (arr.length) {
-		var bounds = new L.LatLngBounds(arr);
-
-		map.fitBounds(bounds);
-	} else {
-		alert('nothing found!')
-	}
+	if (coords.length) {
+		map.fitBounds(new L.LatLngBounds(coords), {maxZoom: 16});
+	} 
 }
 
 function cleanupMarkers(cleanupCirlcle) {

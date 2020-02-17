@@ -23,10 +23,11 @@ function replaceAll(find, replace, str) {
 // upon completion. 
 function runRequest(url, request, token, handleSuccess) {
 	var r = d3.request(url)
-		.header('Authorization', 'Basic ' + btoa('xtok:' + token))
+		.header('Content-Type', 'application/json')
 
-	if(token)
-	{r.header('Content-Type', 'application/json')}
+	if(token) {
+		r.header('Authorization', 'Basic ' + btoa('xtok:' + token))
+	}
 
 	r.post(JSON.stringify(request), handleSuccess);
 }
