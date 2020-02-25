@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
-    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" />
     <style>
         body {
             padding: 0;
@@ -75,11 +74,11 @@
                 <legend>Click on map, drag the red pin or search an address</legend>
                 <div class="pure-g">
                     <div class="pure-u-2-3"><input type="text" id="f1" value="Karlsruhe, Haid-und-Neu-Straße 15"></div>
-                    <div class="pure-u-1-3"><input type="button" id="b1" class="pre-button" value="Geocode" onClick="findByAddress(document.getElementById('f1').value);"></div>
+                    <div class="pure-u-1-3"><input type="button" id="b1" class="pure-button" value="Geocode" onClick="findByAddress(document.getElementById('f1').value);"></div>
                 </div>
                 <div class="pure-g" style="padding-top:6px">
                     <div class="pure-u-2-3">Or find by geo-location</div>
-                    <div class="pure-u-1-3"><input type="button" class="pre-button" value="Geolocate" onClick="findByGeolocation();"></div>
+                    <div class="pure-u-1-3"><input type="button" class="pure-button" value="Geolocate" onClick="findByGeolocation();"></div>
                 </div>
                 <div class="pure-g" style="padding-top:6px">
                         <div class="pure-u-2-3"><label for="type">Additionally filter by location type</label></div>
@@ -119,16 +118,15 @@
                 <div style="padding-top:6px">Or find stores by name</div>
                 <div class="pure-g">
                     <div class="pure-u-2-3"><input type="text" id="f2" value="OBI"></div>
-                    <div class="pure-u-1-3"><input type="button" id="b2" class="pre-button " value="Find" onClick="findFulltext(document.getElementById('f2').value);"></div>
+                    <div class="pure-u-1-3"><input type="button" id="b2" class="pure-button " value="Find" onClick="findFulltext(document.getElementById('f2').value);"></div>
                 </div>
             </fieldset>
-    </div>
-    </form>
+        </form>
     </div>
     <div id="map"></div>
+    <script src="https://unpkg.com/d3@4.8.0/build/d3.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
-    <script src="https://unpkg.com/d3@4.8.0/build/d3.min.js"></script>
     <script src="https://unpkg.com/leaflet-pip@1.1.0/leaflet-pip.min.js"></script>
     <script src="https://unpkg.com/lunr@1.0.0/lunr.min.js"></script>
     <script src="./leaflet-marker-booster.js"></script>
