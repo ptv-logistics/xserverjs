@@ -87,7 +87,7 @@ L.Control.Geocoder.Ptv = L.Class.extend({
 	},
 
 	reverse: function (location, scale, cb, context) {
-		var url = this.options.serviceUrl + '/rs/XLocate/experimental/searchLocations';
+		var url = this.options.serviceUrl + '/rs/XLocate/searchLocations';
 
 		var request = {
 			'$type': 'SearchByPositionRequest',

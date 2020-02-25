@@ -33,7 +33,7 @@
         var map = L.map('map').setView(new L.LatLng(40.712777777778, -74.005833333333), 13);
 
         var interactiveTileLayer = L.tileLayer.xserver(
-            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}' +
+            'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?storedProfile={profile}&layers=background,transport,labels,PTV_TrafficIncidents&contentType=JSON&xtok={token}' +
             '&userLanguage=en&timeConsideration=SNAPSHOT&referenceTime={referenceTime}',
             {
