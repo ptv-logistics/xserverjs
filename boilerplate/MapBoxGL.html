@@ -16,6 +16,8 @@
 <div id='map'></div>
 <script>
 
+var mapLocation = [8.4, 49];
+
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: {
@@ -29,7 +31,8 @@ var map = new mapboxgl.Map({
                     "https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=" + window.token,
                     "https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=" + window.token
                 ],
-                "tileSize": 256
+                "tileSize": 256,
+                "attribution": "PTV, HERE"
             }
         },
         "layers": [{
@@ -40,11 +43,22 @@ var map = new mapboxgl.Map({
             "maxzoom": 22
         }]
     },
-    center: [8.4, 49], // starting position
-    zoom: 2 // starting zoom
+    center: mapLocation, // starting position
+    zoom: 12 // starting zoom
 });
 
-map.addControl(new mapboxgl.Navigation());
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+
+var marker = new mapboxgl.Marker()
+    .setLngLat(mapLocation)
+    .addTo(map);
+
+var popup = new mapboxgl.Popup({ offset: 25 })
+    .setLngLat(mapLocation)
+    .setHTML("<b>Hello world!</b><br />I am a popup.")
+    .addTo(map);
+
 </script>
 
 </body>
