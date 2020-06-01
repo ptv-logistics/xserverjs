@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.4.3/Control.FullScreen.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.8/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/sidebar-v2@0.4.0/css/leaflet-sidebar.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-contextmenu@1.4.0/dist/leaflet.contextmenu.min.css">
     <link rel="stylesheet" href="./index.css" />
@@ -49,6 +49,10 @@
         div.inputForm select {
             margin: 4px;
             display: table-cell;
+        }
+
+        div.leaflet-routing-geocoders input {
+            width: calc(100% - 6px); /* fixes wrong line-break in chrome */
         }
     </style>
 </head>

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.4.3/Control.FullScreen.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.8/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/sidebar-v2@0.4.0/css/leaflet-sidebar.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-contextmenu@1.4.0/dist/leaflet.contextmenu.min.css">
     <link rel="stylesheet" href="./index.css" />
@@ -34,19 +34,22 @@
             text-align: left;
         }
 
+        div.leaflet-routing-geocoders input {
+            width: calc(100% - 6px); /* fixes wrong line-break in chrome */
+        }
 
-div.controlPanel {
-    font: 14px Arial,sans-serif;          
-    padding: 10px;
-    background: rgb(255,255,255);               
-    max-height: 50em;
-    overflow-y: auto;
-    display: inline-block;
-    color: rgb(75, 74, 77); /* PTV solid silver I */
-    text-decoration: none;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.65);
-    border-radius: 5px; 
-}   
+        div.controlPanel {
+            font: 14px Arial,sans-serif;          
+            padding: 10px;
+            background: rgb(255,255,255);               
+            max-height: 50em;
+            overflow-y: auto;
+            display: inline-block;
+            color: rgb(75, 74, 77); /* PTV solid silver I */
+            text-decoration: none;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.65);
+            border-radius: 5px; 
+        }   
     </style>
 </head>
 
