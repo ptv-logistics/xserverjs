@@ -47,7 +47,7 @@ Next we want to display our locations on the map. The easiest way for Leaflet is
 
 An alternative to GeoJSON is to load a [.csv](https://raw.githubusercontent.com/ptv-logistics/xserverjs/master/premium-samples/poi-locator/data/inobas.csv) directly into the browser and convert it to GeoJSON on-the-fly, using [d3](https://github.com/d3/d3-dsv).
 
-Leaflet and GeoJson require the coordinates as [WGS84](http://de.wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
+Leaflet and GeoJson require the coordinates as [WGS84](http://wikipedia.org/wiki/World_Geodetic_System_1984) values, which is some kind of de-facto standard for web maps.
 
 1. **If your source table has a Longitude- and Latitude-field (or Lon,Lat or WGS_x,WGS_y or similar)** - Then you're fine. This is what Leaflet expects.
 2. **If your data uses PTV coordinate formats (PTV_GEODECIMAL, PTV_MERCATOR, ...)** - Then you can use these code snippets, for [Java](http://rextester.com/QEY56375) and [.NET](http://rextester.com/WGC52360) which does the conversion for the various PTV formats. Before saving the point, you can convert it to Wgs84 with the Trans() function.
