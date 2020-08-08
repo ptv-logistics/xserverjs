@@ -3,8 +3,9 @@ var scenario = 'm';
 var routingProfile = 'truck40t.xml';
 var enableRestrictionZones = true;
 var enableTruckAttributes = true;
-var enableTrafficIncidents = false;
+var enableTrafficIncidents = true;
 var enableSpeedPatterns = false;
+var useImperial = false;
 
 var baseLayers;
 var routingControl;
@@ -336,6 +337,7 @@ var updateScenario = function () {
 // update the routing params
 var updateParams = function (updateWayPoints) {
 	routingProfile = $('#vehicleType').val();
+	useImperial = $('#useImperial').is(':checked');
 
 	enableRestrictionZones = $('#enableRestrictionZones').is(':checked');
 	enableTruckAttributes = $('#enableTruckAttributes').is(':checked');
@@ -370,5 +372,6 @@ var updateParams = function (updateWayPoints) {
 	if (updateWayPoints)
 	{routingControl.setWaypoints(getPlan());}
 	routingControl._router.options.numberOfAlternatives = 0;
+	routingControl._formatter.options.units = useImperial ? 'imperial' : 'metric';
 	routingControl.route();
 };
