@@ -233,6 +233,7 @@ L.Control.ReferenceTimeControl = L.Control.extend({
 		if(e.layer.options.isVirtualHost) {
 			e.layer.options.showOnlyRelevantByTime = $('input[id=ShowOnlyRelevantByTime]').is(':checked') ? "true" : "false";
 			e.layer.options.referenceTime = encodeURIComponent($('#reference-date').val() + 'T' + $('#reference-time').val() +  $('#time-zone').val());           
+			e.layer.redraw();
 		}
 	},
     
