@@ -16,8 +16,8 @@ Go to https://ptv-logistics.github.io/xserverjs/
 
 ## Direct Links to the Documentation
 * Templates
-  * [Basic map integration for xMap-2](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/)
   * [Basic map integration for xMap-1](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/xmap-1/)
+  * [Basic map integration for xMap-2](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/)
   * [leaflet-xserver](https://github.com/ptv-logistics/leaflet-xserver)
 * Premium Samples
   * xServer Routing Machine
