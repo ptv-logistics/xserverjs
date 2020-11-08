@@ -5,7 +5,7 @@
 
 JavaScript samples for [PTV xServer](http://xserver.ptvgroup.com/home/ptv-xserver-en/)
 
-Go to https://ptv-logistics.github.io/xserverjs/ 
+Live demo https://ptv-logistics.github.io/xserverjs/ 
 
 ## Usage
 
