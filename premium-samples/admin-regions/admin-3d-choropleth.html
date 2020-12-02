@@ -94,18 +94,16 @@
             var entities = dataSource.entities.values;
 
             for (var i = 0; i < entities.length; i++) {
-                //For each entity, create a random color based on the state name.
-                //Some states have multiple entities, so we store the color in a
-                //hash so that we use the same color for the entire state.
                 var entity = entities[i];
 
+                //Set color based on population density
                 var color = Cesium.Color.fromHsl(0.4 - 0.4 * Math.pow(entity.properties.popdens / 4000.0, 0.25),
                     1.0, 0.5).withAlpha(0.8);
 
                 //Set the polygon material to our color.
                 entity.polygon.material = color;
 
-                        //Remove the outlines.
+                //Set the outlines.
                 entity.polygon.closeTop = true;
                 entity.polygon.closeBottom = false;
 
@@ -115,12 +113,12 @@
 
                 entity.polygon.shadows = Cesium.ShadowMode.ENABLED;
 
-                //Extrude the polygon based on the state's population density.  Each entity
-                //stores the properties for the GeoJSON feature it was created from
-                entity.polygon.extrudedHeight = Math.sqrt(entity.properties.popdens * 80000.0);
+                //Extrude the polygon based on the state's population density.  
+                entity.polygon.extrudedHeight = entity.properties.popdens * 10;
+                entity.polygon.extrudedHeightReference = Cesium.HeightReference.RELATIVE_TO_GROUND;
             }
         });
-        //Set the camera to a US centered tilted view and switch back to moving in world coordinates.
+        //Set the camera to a DE centered tilted view and switch back to moving in world coordinates.
         viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(10.0, 49.0), new Cesium.Cartesian3(0.0, -600000.0, 400000.0));
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 
