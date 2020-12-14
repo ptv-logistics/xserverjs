@@ -91,12 +91,7 @@ var raster = new OpenLayers.Layer.XYZ(
 ```javascript
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
-        urls: [
-            'https://s01-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s02-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
-            'https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token
-        ],
+        url: 'https://s0{1-4}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?xtok=' + token,
         layer: 'xmap', maxZoom: 22
     })
 });
