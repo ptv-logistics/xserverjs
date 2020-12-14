@@ -102,9 +102,7 @@ var raster = new ol.layer.Tile({
 ```javascript
 var raster = new ol.layer.Tile({
     source: new ol.source.XYZ({
-        urls: [
-            'http:127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}'
-        ],
+        url: 'http:127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}',
         layer: 'xmap', maxZoom: 22
     })
 });
