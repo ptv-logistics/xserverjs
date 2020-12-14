@@ -7,7 +7,7 @@
 
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="https://unpkg.com/openlayers@4.6.4/dist/ol.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css">
 
     <style>
         body {
@@ -26,7 +26,7 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://unpkg.com/openlayers@4.6.4/dist/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
     <script src="../../token.js"></script>
     <script>
         var style = 'silkysand';
@@ -44,11 +44,7 @@
         });        // create a background tile layer, use domain-sarding for xServer internet
         var backgroundLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                urls: [
-                    'https://api1-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
-                    'https://api2-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
-                    'https://api3-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
-                    'https://api4-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png'],
+                url: 'https://api{1-4}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
                 layer: 'xmap', maxZoom: 19
             })
         });

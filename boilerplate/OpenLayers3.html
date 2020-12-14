@@ -7,8 +7,8 @@
 
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="https://unpkg.com/openlayers@4.6.5/dist/ol.css" />
-    <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.0.0/src/ol-layerswitcher.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-layerswitcher@3.8.2/dist/ol-layerswitcher.css" />
 
     <style>
         body {
@@ -27,27 +27,16 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://unpkg.com/openlayers@4.6.5/dist/ol.js"></script>
-    <script src="https://unpkg.com/ol-layerswitcher@3.0.0/dist/ol-layerswitcher.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol-layerswitcher@3.8.2/dist/ol-layerswitcher.js"></script>
     <script src="../token.js"></script>
     <script>
-       var getTileUri = function(shard, cluster, profile, token)
-        {
-            return 'https://' + shard + '-' + cluster 
-                + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=' 
-                + profile +'&xtok=' + token;
-        }
-
         var getLayer = function(profile, cluster, token)
         {
             return new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    urls: [
-                        getTileUri('s01', cluster, profile, token),
-                        getTileUri('s02', cluster, profile, token),
-                        getTileUri('s03', cluster, profile, token),
-                        getTileUri('s04', cluster, profile, token)
-                    ],
+                    url: 'https://s0{1-4}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?profile=' + profile +
+                         '&xtok=' + token,
                     attributions: ['PTV', 'HERE', 'AND'],
                     layer: profile, maxZoom: 22,
                 }),
@@ -63,12 +52,12 @@
             layers:             new ol.layer.Group({
                 'title': 'Base maps',
                 layers: [
-                getLayer('silkysand', 'xserver2-test' ,token),
-                getLayer('sandbox', 'xserver2-test' ,token),
-                getLayer('gravelpit', 'xserver2-test' ,token),
-                getLayer('classic', 'xserver2-test' ,token),
-                getLayer('blackmarble', 'xserver2-test' ,token),
-                getLayer('silica', 'xserver2-test' ,token),
+                getLayer('silkysand'),
+                getLayer('sandbox'),
+                getLayer('gravelpit'),
+                getLayer('classic'),
+                getLayer('blackmarble'),
+                getLayer('silica'),
             ]}),
             renderer: 'canvas',
             target: 'map',
