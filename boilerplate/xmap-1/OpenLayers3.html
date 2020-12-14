@@ -39,13 +39,15 @@
                     'LAYERS': 'xmap-' + style + "-fg",
                     'VERSION': '1.1.1',
                     'xtok': token
-                }
+                },
+                attributions: ['PTV', 'HERE', 'AND']
             })
         });        // create a background tile layer, use domain-sarding for xServer internet
         var backgroundLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 url: 'https://api{1-4}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
-                layer: 'xmap', maxZoom: 19
+                layer: 'xmap', maxZoom: 19,
+                attributions: ['PTV', 'HERE', 'AND']
             })
         });
 
@@ -55,6 +57,9 @@
         var center = ol.proj.transform([8.4, 49], 'EPSG:4326', 'EPSG:3857');
 
         var map = new ol.Map({
+            controls: ol.control.defaults().extend([
+                new ol.control.FullScreen()
+            ]),
             layers: [backgroundLayer,labelLayer],
             renderer: 'canvas',
             target: 'map',

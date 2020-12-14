@@ -35,7 +35,7 @@
         {
             return new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    url: 'https://s0{1-4}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?profile=' + profile +
+                    url: 'https://s0{1-4}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=' + profile +
                          '&xtok=' + token,
                     attributions: ['PTV', 'HERE', 'AND'],
                     layer: profile, maxZoom: 22,
@@ -49,7 +49,10 @@
         var center = ol.proj.transform([8.4, 49], 'EPSG:4326', 'EPSG:3857');
 
         var map = new ol.Map({
-            layers:             new ol.layer.Group({
+            controls: ol.control.defaults().extend([
+                new ol.control.FullScreen()
+            ]),
+            layers: new ol.layer.Group({
                 'title': 'Base maps',
                 layers: [
                 getLayer('silkysand'),
