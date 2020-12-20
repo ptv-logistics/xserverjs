@@ -42,7 +42,9 @@
                 },
                 attributions: ['PTV', 'HERE', 'AND']
             })
-        });        // create a background tile layer, use domain-sarding for xServer internet
+        });        
+        
+        // create a background tile layer, use domain-sarding for xServer internet
         var backgroundLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 url: 'https://api{1-4}-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + '-bg/{x}/{y}/{z}.png',
@@ -50,8 +52,6 @@
                 attributions: ['PTV', 'HERE', 'AND']
             })
         });
-
-        backgroundLayer.buffer = 0;
 
         // ka
         var center = ol.proj.transform([8.4, 49], 'EPSG:4326', 'EPSG:3857');
