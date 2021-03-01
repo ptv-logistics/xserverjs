@@ -12,9 +12,9 @@ Our partner [digital data services gmbh](http://www.ddsgeo.de/) provides both ge
 
 While the samples included here can be implemented only with pure JavaScript, there are scenarios which require more complex data. This data usually cannot be handled by the browser directly and has to be "pre rendered" by a middle-ware. There are many samples in the web for this practice and we provide some tutorials for C# on GitHub:
 
-https://github.com/ptv-logistics/SharpMap.Widgets
-
 https://github.com/ptv-logistics/SpatialTutorial/wiki
+
+https://github.com/ptv-logistics/SharpMap.Widgets
 
 
 ### Add admininstrative regions as GeoJSON to the map
