@@ -56,7 +56,7 @@ To load the data in leaflet, we have to include the topojson.js and an extension
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/2.2.0/topojson.min.js"></script>
 <script src="./L.TopoJSON.js"></script>
 
-$.getJSON("./data/municipalities.json", function (data) {
+$.getJSON("./data/municipalities-topo.json", function (data) {
     municipalitiesLayer = L.topoJson(data).addTo(map);
 });
 ```
