@@ -58,7 +58,7 @@
         map.createPane('clickableTiles');
         map.getPane('clickableTiles').style.zIndex = 500;
 
-        var truckAttributesLayer = L.tileLayer.xserver(
+        var trafficIncidentsLayer = L.tileLayer.xserver(
             'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
             '?storedProfile={profile}&layers=PTV_TrafficIncidents&contentType=JSON&xtok={token}' +
             '&userLanguage=en&timeConsideration=SNAPSHOT&referenceTime={referenceTime}',
@@ -74,7 +74,7 @@
         var layers = {
             "Base Map": basemapLayer,
             "Circle": circle,
-            "Truck Attributes": truckAttributesLayer
+            "Traffic Incidents": trafficIncidentsLayer
         };
 
         L.control.layers({}, layers,
