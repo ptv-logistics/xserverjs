@@ -213,7 +213,7 @@
         handler.disable();
       })
 
-      var filter = "blur(2px)";
+      var filter = "grayscale(1) blur(3px)";
       map.getPanes().tilePane.style.webkitFilter = filter;
       map.getPanes().tilePane.style.filter = filter;
 
@@ -238,12 +238,13 @@
 
       shuffleArray(positions);
 
-      var i = 0;
+      map.setView(positions[0], 15);
 
+      var i = 1;
       window.setTimeout(function () {
         var p = positions[i];
         map.flyTo([p[0], p[1]], 15, {
-          duration: 40
+          duration: 120
         });
 
         map.on('moveend', function (e) {
@@ -251,7 +252,7 @@
           p = positions[i];
 
           map.flyTo([p[0], p[1]], 15, {
-            duration: 40
+            duration: 120
           });
         }, this);
       }, 4000);
