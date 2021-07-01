@@ -59,7 +59,7 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style, token, labelPane) {
-	var attribution = '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE';
+	var attribution = '&copy; 2021 PTV AG, HERE';
 
 	var background = L.tileLayer('https://xmap-eu-n-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + 'bg/{x}/{y}/{z}.png', {
 		minZoom: 0,
