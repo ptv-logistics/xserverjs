@@ -8,7 +8,7 @@
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "url": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
+            "url": "${workspaceRoot}/index.html",
             "sourceMaps": false
           }    
     ]
