@@ -45,11 +45,11 @@ The PTV layer *PTV_TruckAttributes* and *PTV_TrafficIncidents* can also be made 
 
 [Source Code with Click-Interaction](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/Leaflet-Satellite-Clickable.html)
 
-#### MapBox GL js
+#### MapLibre GL
 
-[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/MapBoxGL.html)
+[Source Code](https://github.com/ptv-logistics/xserverjs/blob/master/boilerplate/MapLibreGL.html)
 
-[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/MapBoxGL.html)
+[Demo](https://ptv-logistics.github.io/xserverjs/boilerplate/MapLibreGL.html)
 
 #### OpenLayers2 Basic Setup
 
