@@ -3,8 +3,8 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://unpkg.com/maplibre-gl@2.0.0-pre.1/dist/maplibre-gl.js'></script>
-    <link href='https://unpkg.com/maplibre-gl@2.0.0-pre.1/dist/maplibre-gl.css' rel='stylesheet' />
+    <script src='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css' rel='stylesheet' />
     <script src='../token.js'></script>
     <style>
         body { margin:0; padding:0; }
@@ -52,17 +52,18 @@ var map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl());
 map.addControl(new maplibregl.FullscreenControl());
     
+var popup = new maplibregl.Popup({ offset: 25 })
+    .setLngLat(mapLocation)
+    .setHTML("<b>Hello world!</b><br />I am a popup.");
+
 // Add a marker with popup
 var marker = new maplibregl.Marker()
     .setLngLat(mapLocation)
+    .setPopup(popup)
     .addTo(map);
 
-var popup = new maplibregl.Popup({ offset: 25 })
-    .setLngLat(mapLocation)
-    .setHTML("<b>Hello world!</b><br />I am a popup.")
-    .addTo(map);
-
-marker.setPopup(popup);
+// maplibre weirdly jumps to the map, when i activate the popup
+// marker.togglePopup();
 
 </script>
 
