@@ -35,7 +35,7 @@ var xMapTileUrl = 'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/
 L.tileLayer(xMapTileUrl, {
     profile: 'silkysand',
     token: window.token,
-    attribution: '&copy; 2021 PTV AG, HERE',
+    attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE',
     maxZoom: 22,
     subdomains: '1234'
 }).addTo(map);

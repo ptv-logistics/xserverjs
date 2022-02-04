@@ -41,7 +41,7 @@ if (!token)
 {alert('you need to configure your xServer internet token in token.js!')}
 
 // set up the map
-var attribution = '&copy; 2021 PTV AG, HERE';
+var attribution = '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE';
 var mapLocation = new L.LatLng(49, 8.4);
 
 // create a map in the "map" div, set the view to a given place and zoom
@@ -54,7 +54,7 @@ var map = new L.Map('map', {
 L.tileLayer(xMapTileUrl, {
 	token: window.token,
 	profile: 'blackmarble',
-	attribution: '&copy; 2021 PTV AG, HERE',
+	attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE',
 	maxZoom: 22,
 	subdomains: '1234'
 }).addTo(map);
