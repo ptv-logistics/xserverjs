@@ -31,7 +31,7 @@
     <script src="../token.js"></script>
     <script>
         var coordinate = L.latLng(49.01405, 8.4044); // KA
-        var radius = 250; // m
+        var radius = 500; // m
 
         var map = L.map('map').setView(coordinate, 14);
 
@@ -46,7 +46,7 @@
                 pane: map.getPanes().tilePane
             }).addTo(map);
 
-        var circle = L.circle(coordinate, radius / Math.cos(coordinate.lng / 2 / Math.PI), {
+        var circle = L.circle(coordinate, radius, {
             color: 'red',
             fillColor: 'orange',
             fillOpacity: 0.5,
