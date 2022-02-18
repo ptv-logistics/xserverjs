@@ -298,7 +298,7 @@ function findByIso(latlng, hor) {
 }
 ```
 ## Search by text 
-At last we add a function to search a POI by it's description text with [lunr.js](http://lunrjs.com/).
+At last we add a function to search a POI by its description text with [lunr.js](http://lunrjs.com/).
 ```js
 // create full text index
 var index = lunr(function () {
