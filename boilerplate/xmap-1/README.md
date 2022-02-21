@@ -58,7 +58,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
         transparent: true,
         attribution: xMapAttribution,
         pane: 'tilePane',
-        zIndex:3,
+        zIndex: 3,
         token: '<your xserver-inernet token>'
     }).addTo(map);
 </script>
