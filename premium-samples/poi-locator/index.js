@@ -463,8 +463,10 @@ function findByIso(latlng, hor) {
 	);
 }
 
+var kmh = 120;
+var ms = kmh / 3.6;
 function filterByAirline(latlng, hor) {
-	var range = hor /* =s*/ * 120 /* km/h */ / 3.6 /* =m/s */ ;
+	var range = hor * ms;
 
 	return poiData.features.map(function (d) {
 		var poiLocation = d.geometry.coordinates;
@@ -486,7 +488,7 @@ function findByAirline(latlng, hor) {
 		.map(function (d) {
 			return {
 				feature: d.feature,
-				info: Math.round(d.distance) + 'm'
+				info: Intl.NumberFormat().format(d.distance / ms / 60) + ' min'
 			};
 		});
 
@@ -573,7 +575,7 @@ function findByReachableObjects(latlng, hor) {
 			}).map(function (d) {
 				return {
 					feature: d.feature,
-					info: d.reachInfo.routeInfo.distance + ' m'
+					info: Intl.NumberFormat().format(d.reachInfo.routeInfo.time / 60) + ' min'
 				};
 			});
 
