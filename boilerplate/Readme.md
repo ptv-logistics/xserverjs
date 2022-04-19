@@ -16,7 +16,7 @@ var baseMapLayer = L.tileLayer(
     '&xtok={token}', {
         token: window.token,
         profile: 'silkysand',
-      	attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE',
+      	attribution: '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE',
         subdomains: '1234',
         maxZoom: 22
     }).addTo(map);  
@@ -30,7 +30,7 @@ var map = L.map('map').setView(new L.LatLng(49.01405, 8.4044), 14);
 var baseMapLayer = L.tileLayer(
     'http://127.0.0.1:50000/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}', {	
         profile: 'silkysand',
-        attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE',
+        attribution: '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE',
         maxZoom: 22
     }).addTo(map);
 ```
@@ -125,7 +125,7 @@ function createMap() {
             urlTemplate: 'https://s0#= subdomain #-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/' +
             '#= zoom #/#= x #/#= y #?xtok=' + token,
             subdomains: ['1', '2', '3', '4'],
-            attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE'
+            attribution: '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE'
         }]
     });
 }
@@ -140,7 +140,7 @@ function createMap() {
         layers: [{
             type: 'tile',
             urlTemplate: 'http://127.0.0.1:50000/services/rest/XMap/tile/#= zoom #/#= x #/#= y #',
-            attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE'
+            attribution: '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE'
         }]
     });
 }

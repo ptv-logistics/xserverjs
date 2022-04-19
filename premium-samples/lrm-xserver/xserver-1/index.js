@@ -59,7 +59,7 @@ var getPlan = function () {
 
 // returns a layer group for xmap back- and foreground layers
 function getXMapBaseLayers(style, token, labelPane) {
-	var attribution = '&copy; ' + new Date().getFullYear() + ' PTV AG, TomTom';
+	var attribution = '&copy; ' + new Date().getFullYear() + ' PTV Group, TomTom';
 
 	var background = L.tileLayer('https://api-test.cloud.ptvgroup.com/WMS/GetTile/xmap-' + style + 'bg/{x}/{y}/{z}.png', {
 		minZoom: 0,

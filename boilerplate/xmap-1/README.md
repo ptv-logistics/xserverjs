@@ -35,7 +35,7 @@ The recommended configuration for xMapServer-1 is the use of the WMS adapter. Fo
     // var xMapWmsUrl = 'http://localhost:50010/WMS/WMS;
     // var xMapTileUrl = 'http://localhost:50010/WMS/GetTile/{profile}/{x}/{y}/{z}.png';
 
-    var xMapAttribution = '&copy; ' + new Date().getFullYear() + '&copy; ' + new Date().getFullYear() + ' PTV AG, TomTom';
+    var xMapAttribution = '&copy; ' + new Date().getFullYear() + '&copy; ' + new Date().getFullYear() + ' PTV Group, TomTom';
 
     // add (tiled) background layer
     var background = L.tileLayer(xMapTileUrl, {

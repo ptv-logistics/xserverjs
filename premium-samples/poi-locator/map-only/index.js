@@ -39,7 +39,7 @@ var baseMapLayer = L.tileLayer(
 	'?storedProfile={profile}&xtok={token}', {
 		token: window.token,
 		profile: 'gravelpit',
-		attribution: '&copy; ' + new Date().getFullYear() + ' PTV AG, HERE',
+		attribution: '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE',
 		subdomains: '1234',
 		maxZoom: 22
 	}).addTo(map);
