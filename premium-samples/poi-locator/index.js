@@ -11,7 +11,7 @@ var highlightedPois = [];
 var isBusy = false;
 var marker;
 var circle;
-var horizon = 600;
+var horizon = 900;
 var searchMethod = 0;
 var index;
 var poiData;
