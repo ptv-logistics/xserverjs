@@ -1,15 +1,18 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "type": "pwa-chrome",
             "request": "launch",
-            "name": "Launch Chrome against local file",
+            "name": "Launch Chrome against localhost",
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "url": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
-            "sourceMaps": false
-          }    
+            "file": "${workspaceRoot}/premium-samples/poi-locator/index.html",
+            "sourceMaps": true
+        }
     ]
 }

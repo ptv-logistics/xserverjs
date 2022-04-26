@@ -127,7 +127,7 @@
 		if (this._map.hasLayer(this._popup) && this._popup._source === layer) {
 			this.closePopup();
 		} else {
-			this.openPopup(layer || e.target, layer._latlng);
+			this.openPopup(layer._latlng);
 			layer.on('preclick', L.DomEvent.stopPropagation);
 		}
 	};
