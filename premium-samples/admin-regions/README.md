@@ -23,7 +23,7 @@ Required services:
 
 * PTV xMapServer2
 
-Note: The sample loads the region data from the folder containing the web-page. For security reasons these are blocked on chrome an IE. You must run this application from a web-folder or use Firefox.
+Note: The sample loads the region data from a local folder. For security reasons these are blocked when opening the page locally, so you must run the page from a web-folder.
 
 [Demo](https://ptv-logistics.github.io/xserverjs/premium-samples/admin-regions/)
 
