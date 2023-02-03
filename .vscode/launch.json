@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "file": "${workspaceRoot}/premium-samples/poi-locator/index.html",
+            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
             "sourceMaps": true
         }
     ]

@@ -53,7 +53,7 @@ var getPlan = function () {
 	case 'm':
 	{
 		return [
-			L.latLng(48.10032397915225, 11.547317504882812),
+			L.latLng(48.09803112135084, 11.548004150390627),
 			L.latLng(48.167001359708934, 11.602249145507814)
 		];
 	}
@@ -168,12 +168,30 @@ var initializeRoutingControl = function () {
 				}
 			]
 		},
+		altLineOptions: {
+			styles: [{
+				color: 'grey',
+				opacity: 0.8,
+				weight: 11
+			},
+			{
+				color: '#aaa',
+				opacity: 0.8,
+				weight: 8
+			},
+			{
+				color: 'white',
+				opacity: 1,
+				weight: 4
+			}
+			],
+		},
+		showAlternatives: true,		
 		router: L.Routing.ptv({
 			serviceUrl: 'https://' + clusterName + '.cloud.ptvgroup.com/services/rs/XRoute/',
 			token: token,
 			supportsHeadings: true,
 			beforeSend: function (request) {
-				var blub = $('#reference-date').val() + 'T' + $('#reference-time').val() + $('#time-zone').val();
 				request.storedProfile = routingProfile;
 				request.routeOptions = {
 					'timeConsideration': {
@@ -208,6 +226,38 @@ var initializeRoutingControl = function () {
 			roundingSensitivity: 1000
 		})
 	}).addTo(map);
+
+	// need to override the function to handle coordinates directly
+	routingControl._createItineraryContainer =  function(r) {
+		var container = this._itineraryBuilder.createContainer(),
+			steps = this._itineraryBuilder.createStepsContainer(),
+			i,
+			instr,
+			step,
+			distance,
+			text,
+			icon;
+
+		container.appendChild(steps);
+
+		for (i = 0; i < r.instructions.length; i++) {
+			instr = r.instructions[i];
+			text = this._formatter.formatInstruction(instr, i);
+			distance = this._formatter.formatDistance(instr.distance);
+			icon = this._formatter.getIconName(instr, i);
+			step = this._itineraryBuilder.createStep(text, distance, icon, steps);
+
+			if(instr.index) {
+				this._addRowListeners(step, r.coordinates[instr.index]);
+			}
+
+			if(instr.coordinate) {
+				this._addRowListeners(step, instr.coordinate);
+			}
+		}
+
+		return container;
+	};
 
 	routingControl.on('routingerror', function (e) {});
 
