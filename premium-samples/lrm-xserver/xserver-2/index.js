@@ -223,7 +223,7 @@ var initializeRoutingControl = function () {
 		routeWhileDragging: false,
 		routeDragInterval: 3000,
 		formatter: new L.Routing.Formatter({
-			roundingSensitivity: 1000
+			roundingSensitivity: 100
 		})
 	}).addTo(map);
 
