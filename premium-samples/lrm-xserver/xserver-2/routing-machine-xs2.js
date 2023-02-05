@@ -134,8 +134,8 @@ L.Routing.Ptv = L.Class.extend({
 		for (var i = 0; i < events.length; i++) {
 			var manoeuvre = events[i];
 			var inst = {
-				distance: manoeuvre.distanceFromStart,
-				time: manoeuvre.travelTimeFromStart,
+				distance: manoeuvre.distanceFromStart - ((i===0)? 0 : events[i-1].distanceFromStart),
+				time: manoeuvre.travelTimeFromStart - ((i===0)? 0 : events[i-1].travelTimeFromStart),
 				text: manoeuvre.directionDescription,
 				coordinate: L.latLng(manoeuvre.coordinate.y, manoeuvre.coordinate.x)
 			};
