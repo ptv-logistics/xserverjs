@@ -11,7 +11,7 @@
             "runtimeArgs": [
                 "--allow-file-access-from-files"
             ],
-            "file": "${workspaceRoot}/premium-samples/lrm-xserver/xserver-2/index.html",
+            "file": "${workspaceRoot}/premium-samples/poi-locator/index.html",
             "sourceMaps": true
         }
     ]

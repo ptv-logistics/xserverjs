@@ -627,7 +627,7 @@ function drawSpiderLine(feature, additionalInfo) {
 	{popUp = popUp + '<br>' + additionalInfo;}
 
 	var spidlerLineline = L.polyline([searchLocation, latlon], {
-		color: 'green',
+		color: 'darkblue',
 		weight: 1
 	}).addTo(map)
 	highlightedPois.push(spidlerLineline);
@@ -651,7 +651,7 @@ function highlightPoi(feature, additionalInfo) {
 	{popUp = popUp + '<br>' + additionalInfo;}
 
 	var highlightedPoi = L.circleMarker(latlon, {
-		fillColor: 'yellow',
+		fillColor: colors[feature.properties.category],
 		fillOpacity: 1,
 		stroke: true,
 		color: '#000',
