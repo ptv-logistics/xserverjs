@@ -1,0 +1,172 @@
+<html>
+
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@2.1.2/dist/maplibre-gl.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js"></script>
+    <script src="https://unpkg.com/maplibre-gl@2.1.2/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/deck.gl@6.4.0/deckgl.min.js"></script>
+    <script src='../token.js'></script>
+
+    <title>Road Accidents in UK</title>
+
+    <style type="text/css">
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #control-panel {
+        position: absolute;
+        background: #fff;
+        top: 0;
+        left: 0;
+        margin: 12px;
+        padding: 20px;
+        font-size: 12px;
+        line-height: 1.5;
+        z-index: 1;
+      }
+
+      label {
+        display: inline-block;
+        width: 140px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="control-panel">
+      <div>
+        <label>Radius</label>
+        <input id="radius" type="range" min="1000" max="20000" step="1000" value="1000">
+        <span id="radius-value"></span>
+      </div>
+      <div>
+        <label>Coverage</label>
+        <input id="coverage" type="range" min="0" max="1" step="0.1" value="1">
+        <span id="coverage-value"></span>
+      </div>
+      <div>
+        <label>Upper Percentile</label>
+        <input id="upperPercentile" type="range" min="90" max="100" step="1" value="100">
+        <span id="upperPercentile-value"></span>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+    const {
+      MapboxLayer,
+      HexagonLayer
+    } = deck;
+
+    const map = new maplibregl.Map({
+    container: document.body,
+    center: [-1.4, 52.5],
+    zoom: 5,
+    pitch: 40.5,
+    bearing: -27.396674584323023,
+    style: {
+        "version": 8,
+        "sources": {
+            "background": {
+                "type": "raster",
+                "tiles": [
+                    "https://s01-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=blackmarble&layers=background,transport&xtok=" + window.token,
+                    "https://s02-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=blackmarble&layers=background,transport&xtok=" + window.token,
+                    "https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=blackmarble&layers=background,transport&xtok=" + window.token,
+                    "https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile=blackmarble&layers=background,transport&xtok=" + window.token
+                ],
+                "tileSize": 256,
+                "attribution": '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE'
+            },
+            "labels": {
+                "type": "raster",
+                "tiles": [
+                    "https://s01-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=" + window.token,
+                    "https://s02-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=" + window.token,
+                    "https://s03-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=" + window.token,
+                    "https://s04-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?layers=labels&xtok=" + window.token
+                ],
+                "tileSize": 256,
+                "attribution": '&copy; ' + new Date().getFullYear() + ' PTV Group, HERE'
+            }
+        },
+        "layers": [        {
+            "id": "background",
+            "type": "raster",
+            "source": "background",
+            "minzoom": 0,
+            "maxzoom": 23
+        }, {
+            "id": "labels",
+            "type": "raster",
+            "source": "labels",
+            "minzoom": 0,
+            "maxzoom": 23
+        }]
+    }});
+    
+    map.addControl(new maplibregl.FullscreenControl());
+    map.addControl(new maplibregl.NavigationControl());
+    
+    const DATA_URL = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv';
+    const OPTIONS = ['radius', 'coverage', 'upperPercentile'];
+    const COLOR_RANGE = [
+      [1, 152, 189],
+      [73, 227, 206],
+      [216, 254, 181],
+      [254, 237, 177],
+      [254, 173, 84],
+      [209, 55, 78]
+    ];
+    const LIGHT_SETTINGS = {
+      lightsPosition: [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
+      ambientRatio: 0.4,
+      diffuseRatio: 0.6,
+      specularRatio: 0.2,
+      lightsStrength: [0.8, 0.0, 0.8, 0.0],
+      numberOfLights: 2
+    };
+
+    let hexagonLayer;
+
+    map.on('load', () => {
+      hexagonLayer = new MapboxLayer({
+        type: HexagonLayer,
+        id: 'heatmap',
+        data: d3.csv(DATA_URL),
+        radius: 1000,
+        coverage: 1,
+        upperPercentile: 100,
+        colorRange: COLOR_RANGE,
+        elevationRange: [0, 1000],
+        elevationScale: 250,
+        extruded: true,
+        getPosition: d => [Number(d.lng), Number(d.lat)],
+        lightSettings: LIGHT_SETTINGS,
+        opacity: 1
+      });
+
+       map.addLayer(hexagonLayer, 'labels');
+    });
+
+    OPTIONS.forEach(key => {
+      document.getElementById(key).oninput = (evt) => {
+        const value = Number(evt.target.value);
+        document.getElementById(key + '-value').innerHTML = value;
+        if (hexagonLayer) {
+          hexagonLayer.setProps({
+            [key]: value
+          });
+        }
+      };
+    });
+
+  </script>
+
+</html>
