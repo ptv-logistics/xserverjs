@@ -53,8 +53,8 @@
   <style>
   .leaflet-container {
     background: #222;
+  } 
   </style>
-} 
 </head>
 
 <body>
@@ -229,7 +229,8 @@
         [48.856667, 2.351667], // Paris
         [41.01, 28.960277777778], // Istanbul
         [60.170833, 24.9375], // Helsikni
-        [55.75, 37.616667], // Moscow
+        // [55.75, 37.616667], // Moscow
+        [50.45, 30.5], // Kyiv
         [41.383333, 2.183333], // Barcelona
         [38.716667, -9.166667], // Lisbon 
         [40.712778, -74.005833], // NY
@@ -243,12 +244,12 @@
 
       shuffleArray(positions);
 
-      map.setView(positions[0], 15);
+      map.setView(positions[0], 18);
 
       var i = 1;
       window.setTimeout(function () {
         var p = positions[i];
-        map.flyTo([p[0], p[1]], 15, {
+        map.flyTo([p[0], p[1]], 18, {
           duration: 120
         });
 
@@ -275,8 +276,6 @@
         }
       }
     </script>
-    <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 
 </html>
