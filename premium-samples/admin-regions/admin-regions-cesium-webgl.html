@@ -10,10 +10,10 @@
 
     <!-- This single-page Cesium application demonstrates the ability to request CZML from the server. -->
     <title>Example page for xMap2 @Cesium</title>
-    <script src="https://cdn.jsdelivr.net/npm/cesium@1.113.0/Build/Cesium/Cesium.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cesium@1.116.0/Build/Cesium/Cesium.js"></script>
 
     <script src="../../token.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.113.0/Build/Cesium/Widgets/widgets.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.116.0/Build/Cesium/Widgets/widgets.css" />
     <style>
         body,
         #viewerContainer {
@@ -87,7 +87,7 @@
 			fill: Cesium.Color.WHITE.withAlpha(0.6),
 			strokeWidth: 3
 		}));
-	
+
         //Set the camera to a US centered tilted view and switch back to moving in world coordinates.
         viewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(6.130833, 49.611389), new Cesium.Cartesian3(0.0, -479000.0, 393000.0));
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);

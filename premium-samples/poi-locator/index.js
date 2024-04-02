@@ -2,7 +2,7 @@
 // url we're sending the request to
 var xMapTileUrl = 'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}&xtok={token}';
 var findAddressUrl = 'https://xserver2-test.cloud.ptvgroup.com/services/rest/XLocate/locations';
-var calcIsoUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateIsochrones';
+var calcIsoUrl = 'https://xserver2-europe-test.cloud.ptvgroup.com/services/rs/XRoute/experimental/calculateReachableAreas';
 var calcReachableObjectsUrl = 'https://api-test.cloud.ptvgroup.com/xroute/rs/XRoute/calculateReachableObjects';
 
 var searchLocation;
@@ -11,8 +11,8 @@ var highlightedPois = [];
 var isBusy = false;
 var marker;
 var circle;
-var horizon = 900;
-var searchMethod = 0;
+var horizon = 1800;
+var searchMethod = 2;
 var index;
 var poiData;
 var csvRows;
@@ -364,43 +364,15 @@ map.on('locationerror', function (e) {
 	setBusy(false);
 });
 
+// This is implemtantion is based on xroute2 calculateReachableAreas
 function findByIso(latlng, hor) {
 	setBusy(true);
 
-	var request = {
-		'sink': {
-			'coords': [{
-				'point': {
-					'x': latlng.lng,
-					'y': latlng.lat
-				}
-			}],
-			'linkType': 'NEXT_SEGMENT'
-		},
-		'options': [],
-		'isoOptions': {
-			'isoDetail': 'POLYS_ONLY',
-			'polygonCalculationMode': 'NODE_BASED',
-			'expansionDesc': {
-				'expansionType': 'EXP_TIME',
-				'horizons': [
-					hor
-				]
-			}
-		},
-		'callerContext': {
-			'properties': [{
-				'key': 'CoordFormat',
-				'value': 'OG_GEODECIMAL'
-			}, {
-				'key': 'ResponseGeometry',
-				'value': 'WKT'
-			}, {
-				'key': 'Profile',
-				'value': 'carfast'
-			}]
-		}
-	};
+	var request =  {
+		"storedProfile": "car.xml",
+		"waypoint":{"$type":"OffRoadWaypoint","location":{"offRoadCoordinate":{"x":latlng.lng,"y":latlng.lat}}},
+		"reachableAreasOptions":{"horizons":[{"$type":"TravelTimeBasedHorizon","travelTime":hor}],"calculationMode":"PERFORMANCE"},
+		"geometryOptions":{"responseGeometryTypes":["GEOJSON"]}};
 
 	runRequest(
 		calcIsoUrl,
@@ -416,7 +388,15 @@ function findByIso(latlng, hor) {
 			}
 
 			response = JSON.parse(response.responseText);
-			var x = isoToPoly(response.isochrones[0].polys.wkt);
+
+			var multiPoly = {
+				"type": "MultiPolygon",
+				"coordinates": []
+			};
+
+			for(var i = 0; i < response.polygons.length; i++) {
+				multiPoly.coordinates.push(JSON.parse(response.polygons[i].geoJSON).coordinates);
+			}
 
 			var feature = {
 				'type': 'Feature',
@@ -428,15 +408,11 @@ function findByIso(latlng, hor) {
 						fillColor: '#fff',
 						fillOpacity: 0.5
 					}
-				}
+				},
+				geometry: multiPoly
 			};
 
-			feature.geometry = {
-				type: 'Polygon',
-				coordinates: x
-			};
-
-			isoFeature = L.geoJson([feature], {
+			isoFeature = L.geoJson(feature, {
 				style: function (feature) {
 					return feature.properties && feature.properties.style;
 				}
@@ -463,7 +439,7 @@ function findByIso(latlng, hor) {
 	);
 }
 
-var kmh = 120;
+var kmh = 80;
 var ms = kmh / 3.6;
 function filterByAirline(latlng, hor) {
 	var range = hor * ms;
@@ -594,7 +570,7 @@ function setBounds(features, center) {
 
 	if (coords.length) {
 		map.fitBounds(new L.LatLngBounds(coords), {maxZoom: 16});
-	} 
+	}
 }
 
 function cleanupMarkers(cleanupCirlcle) {

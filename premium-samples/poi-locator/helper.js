@@ -1,26 +1,6 @@
-// convert a wkt linestring to a closed geoson polygon
-function isoToPoly(wkt) {
-	x = replaceAll('LINESTRING', '', wkt);
-	x = x.trim();
-	x = replaceAll(', ', '],[', x);
-	x = replaceAll(' ', ',', x);
-	x = replaceAll('(', '[', x);
-	x = replaceAll(')', ']', x);
-	x = '[[' + x + ']]';
-	return JSON.parse(x);
-}
-
-function escapeRegExp(string) {
-	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-}
-
-function replaceAll(find, replace, str) {
-	return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
 // runRequest executes a json request on PTV xServer internet,
 // given the url endpoint, the token and the callback to be called
-// upon completion. 
+// upon completion.
 function runRequest(url, request, token, handleSuccess) {
 	var r = d3.request(url)
 		.header('Content-Type', 'application/json')
