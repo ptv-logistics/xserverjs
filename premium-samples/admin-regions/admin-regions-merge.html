@@ -58,7 +58,7 @@
             zoomSnap: 0.25,
             zoomDelta: 0.5,
             wheelPxPerZoomLevel: 100
-        }).setView([49.611389, 6.130833], 12); // go to Luxemburg
+        }).setView([49.611389, 6.130833], 16); // go to Luxemburg
 
         map.zoomControl.setPosition('bottomright'); // move the zoom control
 
@@ -101,7 +101,7 @@
         // create a basemap layer using the xMap Tile api
         var background = L.tileLayer(
             'https://s0{s}-xserver2-test.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}' +
-            '?layers=background,transport&xtok=' + token,
+            '?storedProfile=blackmarble&layers=background,transport&xtok=' + token,
             {
                 token: token,
                 attribution: ptvAttribution,
@@ -150,7 +150,7 @@
         var postCodeStyle = {
             weight: 1,
             opacity: 1,
-            color: 'black',
+            color: 'lightgray',
             dashArray: '',
             fillColor: 'yellow',
             fillOpacity: 0.0
