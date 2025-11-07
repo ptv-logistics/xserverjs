@@ -48,14 +48,15 @@
 				profile: profile
 			});
 		};
-		
+
 		var baseLayers = {
 			"PTV sandbox": getLayer("sandbox"),
 			"PTV silkysand": getLayer("silkysand").addTo(map),
 			"PTV gravelpit": getLayer("gravelpit"),
 			"PTV classic": getLayer("classic"),
 			"PTV silica": getLayer("silica"),
-			"PTV blackmarble": getLayer("blackmarble")
+			"PTV blackmarble": getLayer("blackmarble"),
+			"PTV amber": getLayer("amber")
 		};
 
 		L.marker([51.5, -0.09]).addTo(map)
@@ -84,7 +85,7 @@
 		}
 
 		map.on('click', onMapClick);
-		
+
 
 		var debug = new L.GridLayer();
 		debug.createTile = function(coords) {
@@ -105,7 +106,7 @@
 			ctx.stroke();
 			return tile;
 		}
-			
+
 		L.control.layers(baseLayers, { "Debug": debug}).addTo(map);
 
     </script>
