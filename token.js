@@ -1,1 +1,1 @@
-var token = '3D26B6A8-DEC0-4640-AE58-C31C3E03C4D1'; // insert your token here
+var token = '5DFEE1D8-FBB2-4446-9C75-03D9C963EA3F'; // insert your token here
